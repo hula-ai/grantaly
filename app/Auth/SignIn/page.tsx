@@ -1,4 +1,5 @@
 import { LockClosedIcon } from "@heroicons/react/20/solid";
+import Link from "next/link";
 
 const SigninPage = () => {
   return (
@@ -47,7 +48,10 @@ const SigninPage = () => {
                 type="checkbox"
                 className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
-              <label htmlFor="remember-me" className="ml-2 text-xs text-gray-600">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 text-xs text-gray-600"
+              >
                 Remember me
               </label>
             </div>
@@ -79,9 +83,11 @@ const SigninPage = () => {
         </form>
         <p className="mt-3 text-center text-xs text-gray-500">
           Don't have an account?{" "}
-          <a href="/register" className="font-medium text-blue-600 hover:text-blue-500">
-            Sign up
-          </a>
+          <Link href={'/Auth/SignUp'}>
+            <p className="font-medium text-blue-600 hover:text-blue-500">
+              Sign up
+            </p>
+          </Link>
         </p>
       </div>
     </div>
