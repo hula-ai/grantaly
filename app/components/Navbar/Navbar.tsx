@@ -37,83 +37,84 @@ const Navbar = ({user}:Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     return (
-        <Disclosure as="nav" className="navbar">
-            <>
-                <div className="mx-auto max-w-7xl px-6 lg:py-4 lg:px-8">
-                    <div className="relative flex h-20 items-center justify-between">
-                        <div className="flex flex-1 items-center sm:items-stretch sm:justify-start">
+        // <Disclosure as="nav" className="navbar">
+           
+        // </Disclosure>
+         <>
+         <div style={{backgroundColor:'#FFFFFF'}} className="mx-auto max-w-7xl px-6 lg:py-4 lg:px-8">
+             <div className="relative flex h-20 items-center justify-between">
+                 <div className="flex flex-1 items-center sm:items-stretch sm:justify-start">
 
-                            {/* LOGO */}
+                     {/* LOGO */}
 
-                            <div className="flex flex-shrink-0 items-center">
-                                Grantaly
-                                {/* <img
-                                    className="block h-12 w-40 lg:hidden"
-                                    src={'/assets/logo/logo.png'}
-                                    alt="dsign-logo"
-                                /> */}
-                                {/* <img
-                                    className="hidden h-full w-full lg:block"
-                                    src={'/assets/logo/logo.png'}
-                                    alt="dsign-logo"
-                                /> */}
-                            </div>
+                     <div className="flex flex-shrink-0 items-center">
+                         Grantaly
+                         {/* <img
+                             className="block h-12 w-40 lg:hidden"
+                             src={'/assets/logo/logo.png'}
+                             alt="dsign-logo"
+                         /> */}
+                         {/* <img
+                             className="hidden h-full w-full lg:block"
+                             src={'/assets/logo/logo.png'}
+                             alt="dsign-logo"
+                         /> */}
+                     </div>
 
-                            {/* LINKS */}
+                     {/* LINKS */}
 
-                            <div className="hidden lg:block m-auto">
-                                <div className="flex space-x-4">
-                                    {navigation.map((item) => (
-                                        <Link
-                                            key={item.name}
-                                            href={item.href}
-                                            className={classNames(
-                                                item.current ? ' text-black hover:opacity-100' : 'hover:text-black hover:opacity-100',
-                                                'px-3 py-4 text-lg font-normal opacity-75 space-links'
-                                            )}
-                                            aria-current={item.href ? 'page' : undefined}
-                                        >
-                                            {item.name}
-                                        </Link>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                     <div className="hidden lg:block m-auto">
+                         <div className="flex space-x-4">
+                             {navigation.map((item) => (
+                                 <Link
+                                     key={item.name}
+                                     href={item.href}
+                                     className={classNames(
+                                         item.current ? ' text-black hover:opacity-100' : 'hover:text-black hover:opacity-100',
+                                         'px-3 py-4 text-lg font-normal opacity-75 space-links'
+                                     )}
+                                     aria-current={item.href ? 'page' : undefined}
+                                 >
+                                     {item.name}
+                                 </Link>
+                             ))}
+                         </div>
+                     </div>
+                 </div>
 
-                        {/* SIGNIN DIALOG */}
+                 {/* SIGNIN DIALOG */}
 
-                        { 
-                            !user ? 
-                                <>
-                                    <Signdialog />
-                                    <Registerdialog /> 
-                                </> :
-                            null 
-                        }
+                 { 
+                     !user ? 
+                         <>
+                             <Signdialog />
+                             <Registerdialog /> 
+                         </> :
+                     null 
+                 }
 
-                        {/* REGISTER DIALOG */}
-
-
+                 {/* REGISTER DIALOG */}
 
 
-                        {/* DRAWER FOR MOBILE VIEW */}
 
-                        {/* DRAWER ICON */}
 
-                        <div className='block lg:hidden'>
-                            <Bars3Icon className="block h-6 w-6" aria-hidden="true" onClick={() => setIsOpen(true)} />
-                        </div>
+                 {/* DRAWER FOR MOBILE VIEW */}
 
-                        {/* DRAWER LINKS DATA */}
+                 {/* DRAWER ICON */}
 
-                        <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
-                            <Drawerdata />
-                        </Drawer>
+                 <div className='block lg:hidden'>
+                     <Bars3Icon className="block h-6 w-6" aria-hidden="true" onClick={() => setIsOpen(true)} />
+                 </div>
 
-                    </div>
-                </div>
-            </>
-        </Disclosure>
+                 {/* DRAWER LINKS DATA */}
+
+                 <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
+                     <Drawerdata />
+                 </Drawer>
+
+             </div>
+         </div>
+     </>
     )
 }
 

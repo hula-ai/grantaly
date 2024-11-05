@@ -1,23 +1,36 @@
+import { useState } from "react";
+import Modal from "../Modal/Modal";
 import Image from "next/image";
 
 const Banner = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleBookMeeting = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <main>
       <div className="px-6 lg:px-8">
         <div className="flex flex-col items-center justify-center mx-auto max-w-7xl pt-16 sm:pt-20 pb-20 banner-image">
           <div className="text-center">
-            <h1 className="text-4xl font-semibold text-navyblue sm:text-5xl  lg:text-7xl md:4px lh-96">
+            <h1 className="text-4xl font-semibold text-navyblue sm:text-5xl lg:text-7xl md:4px lh-96">
               Solve problem with an <br /> integrated agency.
             </h1>
             <p className="mt-6 text-lg leading-8 text-bluegray">
               Ehya is the Instagram analytics platform teams use to stay focused
-              on the goals, track <br /> engagement for report your business .
+              on the goals, track <br /> engagement for report your business.
             </p>
           </div>
 
           <div className="text-center mt-5">
             <button
               type="button"
+              onClick={handleBookMeeting}
               className="text-15px text-white font-medium bg-blue py-5 px-9 mt-2 leafbutton"
             >
               Book a meeting
@@ -30,7 +43,6 @@ const Banner = () => {
             </button>
           </div>
 
-          {/* <Image src={'/assets/banner/dashboard.svg'} alt="banner-image" width={1200} height={598} /> */}
           <video
             className="mt-10 flex items-center justify-center"
             title="Video Title"
@@ -45,6 +57,17 @@ const Banner = () => {
           </video>
         </div>
       </div>
+
+      {/* Modal Component */}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <iframe
+          src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3ZrL5uOoxEoytWxOSE7nIJt1TvEb_Di9nOtxd5ytWM-o0_YboBUGa3xaBJSEC3ubkRePG5udsx?gv=true"
+          width="90%"
+          height="500px"
+          frameBorder="0"
+          allowFullScreen
+        />
+      </Modal>
     </main>
   );
 };
