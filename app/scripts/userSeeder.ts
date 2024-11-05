@@ -5,18 +5,26 @@ import User from '../models/User';
 
 // MongoDB connection URI from your .env file
 const MONGODB_URI = process.env.MONGODB_URI;
-
-
 const users = [
   {
+    firstname: "John",
+    lastname: "Doe 1",
+    contact: "+123456789",
     email: 'user1@example.com',
     password: 'password1', // You should hash this in the database
+    
   },
   {
+    firstname: "John",
+    lastname: "Doe 2",
+    contact: "+123456789",
     email: 'user2@example.com',
     password: 'password2', // You should hash this in the database
   },
   {
+    firstname: "John",
+    lastname: "Doe 3",
+    contact: "+123456789",
     email: 'user3@example.com',
     password: 'password3', // You should hash this in the database
   },

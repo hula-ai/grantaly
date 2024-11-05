@@ -5,11 +5,11 @@ export interface whyDataInterface {
 
 interface WhyContentInterface {
     heading: string;
-    content: string;
+    subheading: string;
 }
 export interface WhyProps { 
     heading: string;
     subHeading: string;
     subContent: string;
-    WhyContent: WhyContentInterface[];
+    whyContent: WhyContentInterface[];
 }

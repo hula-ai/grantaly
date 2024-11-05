@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
+import { usePathname } from 'next/navigation';
 
 export interface user {
   email: string;
@@ -10,29 +11,25 @@ export interface user {
 }
 interface ClientOnlyProps {
   children: React.ReactNode;
-  user: user|null;
+  user: any;
 }
 
 const ClientOnly: React.FC<ClientOnlyProps> = ({ children,user }) => {
   const [hasMounted, setHasMounted] = useState(false);
-  const [isAuthRoute, setIsAuthRoute] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
-
-    // Check if the current path starts with "Auth"
-    if (typeof window !== 'undefined') {
-      setIsAuthRoute(window.location.pathname.startsWith('/Auth'));
-    }
   }, []);
+
+  const pathname = usePathname().startsWith('/Auth');
 
   if (!hasMounted) return null;
 
   return (
     <>
-      {!isAuthRoute && <Navbar user={user} />}
+      {!pathname && <Navbar user={user} />}
       {children}
-      {!isAuthRoute && <Footer />}
+      {!pathname && <Footer />}
     </>
   );
 };

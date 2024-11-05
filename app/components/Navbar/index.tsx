@@ -35,9 +35,10 @@ const Navbarin: React.FC = () => {
         storeScroll();
     }, [])
     return (
-        <>
-            <Navbar />
-        </>
+        // <>
+        //     <Navbar />
+        // </>
+        null
     );
 }
 
