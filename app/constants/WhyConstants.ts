@@ -2,7 +2,6 @@ import { whyDataInterface } from "@/interface/interface"
 
 
 export const WHYDATA = (idx : number) => {
-    if(idx === 0)
     return {
         heading: "How It Works​",
         subHeading : "Your Vision, We Help Build AI Models​",
@@ -12,15 +11,19 @@ export const WHYDATA = (idx : number) => {
 }
 const whydata: whyDataInterface[] = [
     {
-        heading: "Quality",
-        subheading: "Follow a hashtag growth total posts, videos and images.more revitions",
+        heading: "Step 1: Book a Meeting​",
+        subheading: "Provide us information on your grant proposal and funding agency while booking your meeting​",
     },
     {
-        heading: "Communication",
-        subheading: "Follow a hashtag growth total posts, videos and images.more revitions",
+        heading: "Step 2: Discuss Requirements​",
+        subheading: "We schedule a meeting within 24 hour to discuss your needs and delve into specific AI tasks​",
     },
     {
-        heading: "Reliability",
-        subheading: "Follow a hashtag growth total posts, videos and images.more revitions",
+        heading: "Step 3: Data Upload​",
+        subheading: "Describe your dataset and upload it to our server​",
+    },
+    {
+        heading: "Step 4: Results Deliveries​​",
+        subheading: "We deliver high-quality preliminary results (graphs, tables, figures) within 2-4 weeks that you can use in your proposals.​",
     }
 ]

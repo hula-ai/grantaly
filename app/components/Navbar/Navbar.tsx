@@ -91,7 +91,6 @@ const Navbar = ({user}:Props) => {
                                     <Signdialog />
                                     <Registerdialog /> 
                                 </> :<LogoutModal/>
-                            null 
                         }
 
                  {/* REGISTER DIALOG */}

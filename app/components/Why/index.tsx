@@ -1,36 +1,37 @@
 import { WhyProps } from "@/interface/interface";
 import Image from "next/image";
 
-interface whydata {
-    heading: string;
-    subheading: string;
-}
 
-const whydata: whydata[] = [
+
+const whydata: whyDataInterface[] = [
     {
-        heading: "Quality",
-        subheading: "Follow a hashtag growth total posts, videos and images.more revitions",
+        heading: "Step 1: Book a Meeting​",
+        subheading: "Provide us information on your grant proposal and funding agency while booking your meeting​",
     },
     {
-        heading: "Communication",
-        subheading: "Follow a hashtag growth total posts, videos and images.more revitions",
+        heading: "Step 2: Discuss Requirements​",
+        subheading: "We schedule a meeting within 24 hour to discuss your needs and delve into specific AI tasks​",
     },
     {
-        heading: "Reliability",
-        subheading: "Follow a hashtag growth total posts, videos and images.more revitions",
+        heading: "Step 3: Data Upload​",
+        subheading: "Describe your dataset and upload it to our server​",
+    },
+    {
+        heading: "Step 4: Results Deliveries​​",
+        subheading: "We deliver high-quality preliminary results (graphs, tables, figures) within 2-4 weeks that you can use in your proposals.​",
     }
 ]
 
-const Why = ({heading,subHeading,subContent,WhyContent} :WhyProps) => {
+const Why = ({heading,subHeading,subContent,why} :WhyProps) => {
     return (
         <div id="about">
             <div className='mx-auto max-w-7xl px-4 my-20 sm:py-20 lg:px-8'>
-                <h1 className="text-6xl lg:text-7xl font-semibold text-center my-6">How it works</h1>
+                <h1 className="text-6xl lg:text-7xl font-semibold text-center my-6">{heading}</h1>
                 <div className='grid grid-cols-1 lg:grid-cols-2'>
 
                     {/* COLUMN-1 */}
                     <div className="lg:-ml-64">
-                        <Image src="/assets/why/iPad.png" alt="iPad-image" width={4000} height={900} />
+                        <Image src="/assets/why/ipad.png" alt="iPad-image" width={4000} height={900} />
                     </div>
 
                     {/* COLUMN-2 */}
@@ -40,8 +41,8 @@ const Why = ({heading,subHeading,subContent,WhyContent} :WhyProps) => {
 
                         <div className="mt-10">
                             {whydata.map((items, i) => (
-                                <div className="flex mt-4" key={i}>
-                                    <div className="rounded-full h-10 w-12 flex items-center justify-center bg-circlebg">
+                                <div className="flex items-start justify-start mt-4" key={i}>
+                                    <div className={`rounded-full h-8 ${i==2 ? 'w-8' : i==3 ? 'w-16' : 'w-12'} flex items-center justify-center bg-circlebg`}>
                                         <Image src="/assets/why/check.svg" alt="check-image" width={24} height={24} />
                                     </div>
                                     <div className="ml-5">

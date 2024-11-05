@@ -14,7 +14,6 @@ import { whyDataInterface } from './interface/interface';
 export default function Home() {
 
   const idx = 0; // Set the index you want to use
-  const { heading, subHeading, subContent, whydata }:WhyProps = WHYDATA(idx);
 
   return (
     <main>

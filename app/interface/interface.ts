@@ -11,5 +11,5 @@ export interface WhyProps {
     heading: string;
     subHeading: string;
     subContent: string;
-    WhyContent: WhyContentInterface;
+    WhyContent: WhyContentInterface[];
 }

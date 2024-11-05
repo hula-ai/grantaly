@@ -1,73 +1,28 @@
-// LogoutModal.tsx
-
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
+import { LockClosedIcon } from "@heroicons/react/20/solid";
+import { signOut } from "next-auth/react"; // Import signOut from next-auth
 
-interface LogoutModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onLogout: () => void; // Callback to handle logout
-}
+const Logout = () => {
 
-const LogoutModal: React.FC<LogoutModalProps> = ({ isOpen, onClose, onLogout }) => {
-  if (!isOpen) return null;
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/' }); // Sign out and redirect to the home page or desired URL
+  };
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={onClose}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
-        </Transition.Child>
-
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-                  Confirm Logout
-                </h2>
-                <p className="mt-4 text-center text-gray-600">
-                  Are you sure you want to log out?
-                </p>
-                <div className="mt-6 flex justify-center space-x-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={onLogout}
-                  >
-                    Yes, Log out
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={onClose}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
+    <>
+      <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:pr-0">
+        <div className="hidden lg:block">
+          <button
+            className="text-blue text-lg font-medium ml-9 py-5 px-16 transition duration-150 ease-in-out leafbutton bg-lightblue hover:text-white hover:bg-blue"
+            onClick={handleSignOut} // Call handleSignOut on click
+          >
+            Log Out
+          </button>
         </div>
-      </Dialog>
-    </Transition>
-  );
-};
+      </div>
+    </>
+  )
+}
 
-export default LogoutModal;
+export default Logout
