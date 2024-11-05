@@ -1,7 +1,7 @@
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
-const SigninPage = () => {
+const ForgotPasswordPage = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 p-4">
       <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-2xl shadow-xl transition-transform transform hover:scale-105 duration-300">
@@ -12,10 +12,10 @@ const SigninPage = () => {
             alt="Company"
           />
           <h2 className="mt-4 text-2xl font-bold text-gray-900 tracking-tight">
-            Sign in to your account
+            Reset Your Password
           </h2>
           <p className="mt-1 text-sm text-gray-600">
-            Welcome back! Please enter your credentials.
+            Enter your email address below and we will send you a link to reset your password.
           </p>
         </div>
         <form className="space-y-4" action="#" method="POST">
@@ -29,40 +29,6 @@ const SigninPage = () => {
               className="block w-full rounded-md border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 text-sm"
               placeholder="Email Address"
             />
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              className="block w-full rounded-md border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 text-sm"
-              placeholder="Password"
-            />
-          </div>
-
-          <div className="flex items-center justify-between mt-2">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 text-xs text-gray-600"
-              >
-                Remember me
-              </label>
-            </div>
-
-            <div className="text-sm">
-            <Link href={'/Auth/ForgotPassword'}>
-            <span className="font-medium text-blue-600 hover:text-blue-500">
-              Forgot Password?
-            </span>
-          </Link>
-            </div>
           </div>
 
           <div>
@@ -76,16 +42,16 @@ const SigninPage = () => {
                   aria-hidden="true"
                 />
               </span>
-              Sign in
+              Send Reset Link
             </button>
           </div>
         </form>
         <p className="mt-3 text-center text-xs text-gray-500">
-          Don't have an account?{" "}
-          <Link href={'/Auth/SignUp'}>
-            <p className="font-medium text-blue-600 hover:text-blue-500">
-              Sign up
-            </p>
+          Remembered your password?{" "}
+          <Link href={'/Auth/SignIn'}>
+            <span className="font-medium text-blue-600 hover:text-blue-500">
+              Sign in
+            </span>
           </Link>
         </p>
       </div>
@@ -93,4 +59,4 @@ const SigninPage = () => {
   );
 };
 
-export default SigninPage;
+export default ForgotPasswordPage;
