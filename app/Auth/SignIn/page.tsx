@@ -88,12 +88,11 @@ const SigninPage = () => {
             </div>
 
             <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
-                Forgot your password?
-              </a>
+            <Link href={'/Auth/ForgotPassword'}>
+            <span className="font-medium text-blue-600 hover:text-blue-500">
+              Forgot Password?
+            </span>
+          </Link>
             </div>
           </div>
 
