@@ -7,6 +7,7 @@ import Drawerdata from "./Drawerdata";
 import Signdialog from "./Signdialog";
 import Registerdialog from "./Registerdialog";
 import Image from 'next/image';
+import { user } from '../ClientOnly/ClientOnly';
 
 
 interface NavigationItem {
@@ -27,7 +28,11 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-const Navbar = () => {
+interface Props {
+    user: user
+}
+
+const Navbar = ({user}:Props) => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -77,12 +82,18 @@ const Navbar = () => {
 
                         {/* SIGNIN DIALOG */}
 
-                        <Signdialog />
-
+                        { 
+                            !user ? 
+                                <>
+                                    <Signdialog />
+                                    <Registerdialog /> 
+                                </> :
+                            null 
+                        }
 
                         {/* REGISTER DIALOG */}
 
-                        <Registerdialog />
+
 
 
                         {/* DRAWER FOR MOBILE VIEW */}

@@ -1,7 +1,33 @@
+'use client'
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { useState } from "react";
+import { signIn } from "next-auth/react"; // Import signIn function
+import { useRouter } from "next/navigation";
 
 const SigninPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null); // State to manage errors
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null); // Reset error state before submission
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false, // Prevent automatic redirection
+    });
+
+    if (result.error) {
+      setError(result.error); // Set error message
+    } else {
+      router.push("/"); // Redirect to home or desired page after successful sign-in
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 p-4">
       <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-2xl shadow-xl transition-transform transform hover:scale-105 duration-300">
@@ -17,8 +43,9 @@ const SigninPage = () => {
           <p className="mt-1 text-sm text-gray-600">
             Welcome back! Please enter your credentials.
           </p>
+          {error && <p className="text-red-500 text-sm">{error}</p>} {/* Display error message */}
         </div>
-        <form className="space-y-4" action="#" method="POST">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-3">
             <input
               id="email-address"
@@ -26,6 +53,8 @@ const SigninPage = () => {
               type="email"
               autoComplete="email"
               required
+              value={email} // Controlled input
+              onChange={(e) => setEmail(e.target.value)} // Handle input change
               className="block w-full rounded-md border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 text-sm"
               placeholder="Email Address"
             />
@@ -35,6 +64,8 @@ const SigninPage = () => {
               type="password"
               autoComplete="current-password"
               required
+              value={password} // Controlled input
+              onChange={(e) => setPassword(e.target.value)} // Handle input change
               className="block w-full rounded-md border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 text-sm"
               placeholder="Password"
             />
@@ -83,7 +114,7 @@ const SigninPage = () => {
         </form>
         <p className="mt-3 text-center text-xs text-gray-500">
           Don't have an account?{" "}
-          <Link href={'/Auth/SignUp'}>
+          <Link href={'/auth/signup'}>
             <p className="font-medium text-blue-600 hover:text-blue-500">
               Sign up
             </p>

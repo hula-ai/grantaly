@@ -1,10 +1,9 @@
 // app/api/auth/[...nextauth]/route.js
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import clientPromise from "../../../lib/mongodb"; // Adjust the import based on your structure
-import { ObjectId } from "mongodb"; // Import ObjectId if needed
+import clientPromise from "@/lib/mongodb";
 
-const handler = NextAuth({
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -14,13 +13,13 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_DB); // Use environment variable for database name
+        const db = client.db(process.env.MONGODB_DB);
 
         // Find user by email
         const user = await db.collection("users").findOne({ email: credentials.email });
 
         if (user) {
-          // Compare passwords (make sure to hash passwords when saving and use a proper comparison)
+          // Compare passwords
           if (credentials.password === user.password) {
             return { id: user._id, email: user.email };
           } else {
@@ -32,10 +31,8 @@ const handler = NextAuth({
       },
     }),
   ],
-  // Callbacks and other configurations
   callbacks: {
     async session({ session, token }) {
-      // Include user info in the session
       session.user.id = token.id;
       return session;
     },
@@ -47,9 +44,12 @@ const handler = NextAuth({
     },
   },
   pages: {
-    signIn: '/auth/signin', // Custom sign-in page
-    error: '/auth/error' // Error page
+    signIn: '/auth/signin',
+    error: '/auth/error'
   },
-});
+  secret: process.env.NEXTAUTH_SECRET, 
+};
 
-export { handler as GET, handler as POST };
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST, authOptions }; // Export authOptions

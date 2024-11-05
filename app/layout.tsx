@@ -2,6 +2,7 @@
 
 import './globals.css';
 import ClientOnly from './components/ClientOnly/ClientOnly';
+import getCurrentUser from './actions/getCurrentUser';
 
 export const metadata = {
   title: 'Grantaly',
@@ -17,25 +18,15 @@ export default async function RootLayout({
   // For example, you could fetch user data or any other required data
 
   // Simulating a data fetch (replace this with actual data fetching logic)
-  const data = await fetchData();
+  const user = await getCurrentUser();
 
   return (
     <html lang="en">
       <body>
-        <ClientOnly>
+        <ClientOnly user={user}>
            {children}
         </ClientOnly>
       </body>
     </html>
   );
-}
-
-async function fetchData() {
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve({ someData: 'This is some server-side data' });
-  //   }, 1000);
-  // });
-
-  //  If need anything from server side either by actions or create actions here
 }
