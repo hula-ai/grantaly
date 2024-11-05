@@ -8,6 +8,7 @@ import Signdialog from "./Signdialog";
 import Registerdialog from "./Registerdialog";
 import Image from 'next/image';
 import { user } from '../ClientOnly/ClientOnly';
+import LogoutModal from './Logoutdialog';
 
 
 interface NavigationItem {
@@ -87,7 +88,7 @@ const Navbar = ({user}:Props) => {
                                 <>
                                     <Signdialog />
                                     <Registerdialog /> 
-                                </> :
+                                </> :<LogoutModal/>
                             null 
                         }
 
