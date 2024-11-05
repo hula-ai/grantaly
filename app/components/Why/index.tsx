@@ -1,3 +1,4 @@
+import { WhyProps } from "@/interface/interface";
 import Image from "next/image";
 
 interface whydata {
@@ -20,12 +21,11 @@ const whydata: whydata[] = [
     }
 ]
 
-
-const Why = () => {
+const Why = ({heading,subHeading,subContent,WhyContent} :WhyProps) => {
     return (
         <div id="about">
-
             <div className='mx-auto max-w-7xl px-4 my-20 sm:py-20 lg:px-8'>
+                <h1 className="text-6xl lg:text-7xl font-semibold text-center my-6">How it works</h1>
                 <div className='grid grid-cols-1 lg:grid-cols-2'>
 
                     {/* COLUMN-1 */}
