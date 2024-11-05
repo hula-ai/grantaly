@@ -32,11 +32,13 @@ const SigninPage = () => {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 p-4">
       <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-2xl shadow-xl transition-transform transform hover:scale-105 duration-300">
         <div className="text-center">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="/assets/logo/logo.png"
-            alt="Company"
-          />
+        <Link href="/">
+            <img
+              className="mx-auto h-10 w-auto cursor-pointer"
+              src="/assets/logo/logo.png"
+              alt="Company"
+            />
+          </Link>
           <h2 className="mt-4 text-2xl font-bold text-gray-900 tracking-tight">
             Sign in to your account
           </h2>
