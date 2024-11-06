@@ -4,6 +4,10 @@ import './globals.css';
 import ClientOnly from './components/ClientOnly/ClientOnly';
 import getCurrentUser from './actions/getCurrentUser';
 
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
+
 import { Toaster } from 'react-hot-toast';
 
 export const metadata = {
@@ -18,13 +22,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const user = await getCurrentUser();
 
   return (
     <html lang="en">
       <body>
         <Toaster position="bottom-right" reverseOrder={false} />
-        <ClientOnly user={user}>
+        <ClientOnly>
           {children}
         </ClientOnly>
       </body>
