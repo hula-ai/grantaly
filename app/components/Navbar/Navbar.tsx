@@ -30,7 +30,7 @@ function classNames(...classes: string[]) {
 }
 
 interface Props {
-    user: user
+    user: any
 }
 
 const Navbar = ({user}:Props) => {

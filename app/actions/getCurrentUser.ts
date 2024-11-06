@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/api/auth/[...nextauth]/route';
+import { authOptions } from '@/auth';
 import User from '@/models/User'; // Adjust the import path according to your structure
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -28,6 +28,10 @@ export default async function getCurrentUser(): Promise<User | null> {
     console.log('Called 2')
 
     // Connect to MongoDB if not connected yet
+    if(!MONGODB_URI){
+      return null;
+    }
+
     if (mongoose.connection.readyState !== 1) {
       await mongoose.connect(MONGODB_URI);
     }

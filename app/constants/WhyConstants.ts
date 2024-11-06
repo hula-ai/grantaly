@@ -6,7 +6,7 @@ export const WHYDATA = (idx : number) => {
         heading: "How It Works​",
         subHeading : "Your Vision, We Help Build AI Models​",
         subContent : "Grantaly specializes in fast, impactful proof-of-concept models tailored to your research goals​",
-        whydata : whydata
+        whyContent : whydata
     }
 }
 const whydata: whyDataInterface[] = [

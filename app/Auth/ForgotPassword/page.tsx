@@ -1,4 +1,6 @@
+'use client'
 import { LockClosedIcon } from "@heroicons/react/20/solid";
+import Image from "next/image";
 import Link from "next/link";
 
 const ForgotPasswordPage = () => {
@@ -7,10 +9,12 @@ const ForgotPasswordPage = () => {
       <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-2xl shadow-xl transition-transform transform hover:scale-105 duration-300">
         <div className="text-center">
         <Link href="/">
-            <img
+            <Image
               className="mx-auto h-10 w-auto cursor-pointer"
               src="/assets/logo/logo.png"
               alt="Company"
+              width={2000}
+              height={2000}
             />
           </Link>
           <h2 className="mt-4 text-2xl font-bold text-gray-900 tracking-tight">
@@ -62,3 +66,4 @@ const ForgotPasswordPage = () => {
 };
 
 export default ForgotPasswordPage;
+

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 
 
-const whydata: whyDataInterface[] = [
+const whydata = [
     {
         heading: "Step 1: Book a Meeting​",
         subheading: "Provide us information on your grant proposal and funding agency while booking your meeting​",
@@ -22,7 +22,7 @@ const whydata: whyDataInterface[] = [
     }
 ]
 
-const Why = ({heading,subHeading,subContent,why} :WhyProps) => {
+const Why = ({heading,subHeading,subContent,whyContent} :WhyProps) => {
     return (
         <div id="about">
             <div className='mx-auto max-w-7xl px-4 my-20 sm:py-20 lg:px-8'>
