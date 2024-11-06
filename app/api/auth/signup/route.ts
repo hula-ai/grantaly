@@ -9,6 +9,7 @@ import { NextResponse } from 'next/server';
 const MONGODB_URI = process.env.MONGODB_URI;
 
 export async function POST(req:any) {
+
   const { firstname, lastname, email, contact, password, confirmpassword } = await req.json();
 
   // Check if all fields are provided
@@ -25,8 +26,10 @@ export async function POST(req:any) {
     await mongoose.connect(MONGODB_URI);
   }
 
+
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
+  
 
   // Check if user already exists
   const existingUser = await db.collection("users").findOne({ email });
@@ -36,6 +39,8 @@ export async function POST(req:any) {
 
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
+  // return new Response(JSON.stringify({ message: 'success1' }));
+
 
   // Create a new user
   const newUser = await db.collection("users").insertOne({
@@ -47,10 +52,9 @@ export async function POST(req:any) {
     // Add other fields as necessary
   });
 
-//   return new Response(JSON.stringify({ message: 'User created successfully' }), { status: 201 });
+
+  return new Response(JSON.stringify({ message: 'User created successfully' }), { status: 201 });
 }
-
-
 
 // export async function POST() {
 

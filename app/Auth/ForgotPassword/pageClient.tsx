@@ -2,8 +2,28 @@
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import EmailChange from "./emailChange";
+import OtpVerificationScreen from "./otp";
 
 const ForgotPasswordPage = () => {
+  const [step, setStep] = useState(0);
+
+  const stepUp = () => {
+    if (step < 2)
+    setStep( val => val+1 )
+  }
+  const stepDown = () => {
+    if (step > 0)
+    setStep( val => val-1 )
+  }
+
+  const textArray = [
+    "Enter your email address below and we will send you an OTP to your email to reset your password.",
+    "Please enter the OTP sent to your email",
+    "Set your new password"
+  ]
+  
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 p-4">
       <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-2xl shadow-xl transition-transform transform hover:scale-105 duration-300">
@@ -21,37 +41,12 @@ const ForgotPasswordPage = () => {
             Reset Your Password
           </h2>
           <p className="mt-1 text-sm text-gray-600">
-            Enter your email address below and we will send you a link to reset your password.
+            {textArray[step]}
           </p>
         </div>
-        <form className="space-y-4" action="#" method="POST">
-          <div className="rounded-md shadow-sm space-y-3">
-            <input
-              id="email-address"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              className="block w-full rounded-md border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 text-sm"
-              placeholder="Email Address"
-            />
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="group relative flex w-full justify-center rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 py-2 text-sm font-semibold text-white hover:from-indigo-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-            >
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <LockClosedIcon
-                  className="h-5 w-5 text-indigo-300 group-hover:text-indigo-100"
-                  aria-hidden="true"
-                />
-              </span>
-              Send Reset Link
-            </button>
-          </div>
-        </form>
+        {step === 0 ? <EmailChange stepUp = {stepUp} stepDown = {stepDown}/> : 
+         step === 1 ? <OtpVerificationScreen/> :
+         step === 2 ? <OtpVerificationScreen/> : null}
         <p className="mt-3 text-center text-xs text-gray-500">
           Remembered your password?{" "}
           <Link href={'/auth/signin'}>
