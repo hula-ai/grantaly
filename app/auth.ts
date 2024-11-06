@@ -28,10 +28,10 @@ export const authOptions = {
           if (credentials?.password === user.password) {
             return { id: user._id.toString(), email: user.email }; // Convert ObjectId to string
           } else {
-            throw new Error("Invalid password");
+            return null
           }
         } else {
-          throw new Error("No user found");
+          return null;
         }
       },
     }),

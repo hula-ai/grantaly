@@ -1,6 +1,7 @@
 import SigninPage from "./pageClient";
 
-const page = () => {
+export const dynamic = "force-dynamic"
+const page = async () => {
    <SigninPage/>
 }
 
