@@ -21,3 +21,10 @@ export interface user {
     password : string;
     email : string;
 }
+
+export interface datatype {
+    imgSrc: string;
+    country: string;
+    paragraph: string;
+    Project: string[];
+}
