@@ -5,7 +5,10 @@ import { Component } from 'react';
 interface Props {
     stepUp: () => void
     stepDown: () => void
+    setEmail: () => void
+    email : string
 }
+
 
 const EmailChange = ({stepUp, stepDown}:Props) => {
     return(
