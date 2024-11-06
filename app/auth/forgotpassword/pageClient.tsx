@@ -48,7 +48,7 @@ const ForgotPasswordPage = () => {
             {textArray[step]}
           </p>
         </div>
-        {step === 0 ? <EmailChange stepUp = {stepUp} stepDown = {stepDown}/>  : null}
+        {step === 0 ? <EmailChange email={email} setEmail={setEmail} stepUp = {stepUp} stepDown = {stepDown}/>  : null}
         <p className="mt-3 text-center text-xs text-gray-500">
           Remembered your password?{" "}
           <Link href={'/auth/signin'}>
