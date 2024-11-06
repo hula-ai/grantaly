@@ -7,8 +7,9 @@ import Drawerdata from "./Drawerdata";
 import Signdialog from "./Signdialog";
 import Registerdialog from "./Registerdialog";
 import Image from 'next/image';
-import { user } from '../ClientOnly/ClientOnly';
+
 import LogoutModal from './Logoutdialog';
+import { user } from '@/interface/interface';
 
 
 interface NavigationItem {
@@ -30,13 +31,14 @@ function classNames(...classes: string[]) {
 }
 
 interface Props {
-    user: any
+    user: user
 }
 
 const Navbar = ({user}:Props) => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
+    console.log(user,"iamuser")
     return (
         // <Disclosure as="nav" className="navbar">
            
@@ -86,11 +88,11 @@ const Navbar = ({user}:Props) => {
                  {/* SIGNIN DIALOG */}
 
                         { 
-                            !user ? 
+                            user ? 
                                 <>
-                                    <Signdialog />
-                                    <Registerdialog /> 
-                                </> :<LogoutModal/>
+                                    <LogoutModal/>
+                                </> : <> <Signdialog />
+                                    <Registerdialog /> </>
                         }
 
                  {/* REGISTER DIALOG */}

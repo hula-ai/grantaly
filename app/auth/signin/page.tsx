@@ -2,7 +2,7 @@ import SigninPage from "./pageClient";
 
 export const dynamic = "force-dynamic"
 const page = async () => {
-   <SigninPage/>
+   return <SigninPage/>
 }
 
 export default page;

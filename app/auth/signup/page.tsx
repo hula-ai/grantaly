@@ -6,7 +6,7 @@ import RegisterPage from "./pageClient";
 
 export const dynamic = "force-dynamic"
 const Page = async () => {
-  <RegisterPage/>
+  return <RegisterPage/>
 }
 
 export default Page;
