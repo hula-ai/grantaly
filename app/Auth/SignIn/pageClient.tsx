@@ -93,7 +93,7 @@ const SigninPage = () => {
             </div>
 
             <div className="text-sm">
-            <Link href={'/Auth/ForgotPassword'}>
+            <Link href={'/auth/forgotpassword'}>
             <span className="font-medium text-blue-600 hover:text-blue-500">
               Forgot Password?
             </span>
@@ -118,7 +118,7 @@ const SigninPage = () => {
         </form>
         <p className="mt-3 text-center text-xs text-gray-500">
           Don&apos;t have an account?{" "}
-          <Link href={'/Auth/SignUp'}>
+          <Link href={'/auth/signup'}>
             <p className="font-medium text-blue-600 hover:text-blue-500">
               Sign up
             </p>

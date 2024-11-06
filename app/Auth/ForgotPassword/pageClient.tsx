@@ -54,7 +54,7 @@ const ForgotPasswordPage = () => {
         </form>
         <p className="mt-3 text-center text-xs text-gray-500">
           Remembered your password?{" "}
-          <Link href={'/Auth/SignIn'}>
+          <Link href={'/auth/signin'}>
             <span className="font-medium text-blue-600 hover:text-blue-500">
               Sign in
             </span>

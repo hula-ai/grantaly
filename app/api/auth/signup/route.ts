@@ -28,16 +28,16 @@ export async function POST(req:any) {
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
 
-//   // Check if user already exists
+  // Check if user already exists
   const existingUser = await db.collection("users").findOne({ email });
   if (existingUser) {
     return NextResponse.json({ message: 'User already exists' }, { status: 409 });
   }
 
-//   // Hash the password
+  // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-//   // Create a new user
+  // Create a new user
   const newUser = await db.collection("users").insertOne({
     firstname,
     lastname,
