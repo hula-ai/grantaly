@@ -7,8 +7,9 @@ import Drawerdata from "./Drawerdata";
 import Signdialog from "./Signdialog";
 import Registerdialog from "./Registerdialog";
 import Image from 'next/image';
-import { user } from '../ClientOnly/ClientOnly';
+
 import LogoutModal from './Logoutdialog';
+import { user } from '@/interface/interface';
 
 
 interface NavigationItem {
@@ -37,6 +38,7 @@ const Navbar = ({user}:Props) => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
+    console.log(user,"iamuser")
     return (
         // <Disclosure as="nav" className="navbar">
            

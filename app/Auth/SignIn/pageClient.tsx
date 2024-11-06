@@ -14,6 +14,7 @@ const SigninPage = () => {
   const router = useRouter();
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     setError(null); // Reset error state before submission
 
@@ -26,8 +27,9 @@ const SigninPage = () => {
     if(result.ok) {
       toast.success("User logged in successfully")
       router.refresh();
-      // window.location.href = '/';
-
+      setTimeout(() => {
+        window.location.href = '/'; // Redirects to the homepage
+      },3000)
     } else {
       toast.error("Invalid credentials")
     }
@@ -54,8 +56,7 @@ const SigninPage = () => {
           </p>
           {error && <p className="text-red-500 text-sm">{error}</p>} {/* Display error message */}
         </div>
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-3">
+         <div className="rounded-md shadow-sm space-y-3">
             <input
               id="email-address"
               name="email"
@@ -107,7 +108,7 @@ const SigninPage = () => {
 
           <div>
             <button
-              type="submit"
+              onClick={handleSubmit}
               className="group relative flex w-full justify-center rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 py-2 text-sm font-semibold text-white hover:from-indigo-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
             >
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -119,7 +120,6 @@ const SigninPage = () => {
               Sign in
             </button>
           </div>
-        </form>
         <p className="mt-3 text-center text-xs text-gray-500">
           Don&apos;t have an account?{" "}
           <Link href={'/auth/signup'}>
