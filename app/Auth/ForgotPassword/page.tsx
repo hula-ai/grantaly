@@ -3,7 +3,7 @@ import ForgotPasswordPage from "./pageClient";
 export const dynamic = "force-dynamic"
 
 const Page = async () => {
-  <ForgotPasswordPage/>
+  return <ForgotPasswordPage/>
 }
 
 export default Page;

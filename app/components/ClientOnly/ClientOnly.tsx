@@ -21,7 +21,8 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({ children,user }) => {
     setHasMounted(true);
   }, []);
 
-  const pathname = usePathname().startsWith('/Auth');
+  const pathname = usePathname().startsWith('/auth');
+  console.log(pathname,'akwhdnfdivnd');
 
   if (!hasMounted) return null;
 
