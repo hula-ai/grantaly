@@ -27,11 +27,11 @@ const Why = ({heading,subHeading,subContent,whyContent} :WhyProps) => {
         <div id="about">
             <div className='mx-auto max-w-7xl px-4 my-20 sm:py-20 lg:px-8'>
                 <h1 className="text-6xl lg:text-7xl font-semibold text-center my-6">{heading}</h1>
-                <div className='grid grid-cols-1 lg:grid-cols-2'>
+                <div className='grid items-center justify-center grid-cols-1 lg:grid-cols-2'>
 
                     {/* COLUMN-1 */}
-                    <div className="lg:-ml-64">
-                        <Image src="/assets/why/ipad.png" alt="iPad-image" width={4000} height={900} />
+                    <div className="">
+                        <Image  className=" p-12 flex items-center justify-center" src="/assets/image.png" alt="iPad-image" width={4000} height={900} />
                     </div>
 
                     {/* COLUMN-2 */}
