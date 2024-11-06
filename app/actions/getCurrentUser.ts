@@ -3,7 +3,8 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/auth';
 import User from '@/models/User'; // Adjust the import path according to your structure
 
-const MONGODB_URI = process.env.MONGODB_URI;
+export const dynamic = "force-dynamic"
+
 
 // Function to get session
 export async function getSession() {
@@ -19,6 +20,8 @@ interface User {
 // Function to get current user
 export default async function getCurrentUser(): Promise<User | null> {
   try {
+    const MONGODB_URI = process.env.MONGODB_URI;
+
     const session = await getSession();
 
     console.log('Called',session)
@@ -27,7 +30,7 @@ export default async function getCurrentUser(): Promise<User | null> {
     }
     console.log('Called 2')
 
-    // Connect to MongoDB if not connected yet
+    // // Connect to MongoDB if not connected yet
     if(!MONGODB_URI){
       return null;
     }
@@ -36,7 +39,7 @@ export default async function getCurrentUser(): Promise<User | null> {
       await mongoose.connect(MONGODB_URI);
     }
 
-    // Find the user by email
+    // // Find the user by email
     const currentUser = await User.findOne({
       email: session.user.email as string,
     });
@@ -49,8 +52,11 @@ export default async function getCurrentUser(): Promise<User | null> {
       email: currentUser.email,
       // If you need more fields, add them here
     } as User; // Return the user object conforming to the User interface
+
   } catch (error: any) {
     console.error('Error fetching current user:', error); // Log the error for debugging
     return null;
   }
 }
+
+

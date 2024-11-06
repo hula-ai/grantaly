@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import RegisterPage from "./pageClient";
 
-const Page = () => {
+
+export const dynamic = "force-dynamic"
+const Page = async () => {
   <RegisterPage/>
 }
 
