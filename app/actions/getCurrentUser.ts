@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/auth';
 import User from '@/models/User'; // Adjust the import path according to your structure
+import { user } from '@/interface/interface';
 
 export const dynamic = "force-dynamic"
 
@@ -11,14 +12,8 @@ export async function getSession() {
   return await getServerSession(authOptions);
 }
 
-// Define User interface
-interface User {
-  email: string;
-  password?: string; // Assuming you may not need the password here
-}
-
 // Function to get current user
-export default async function getCurrentUser(): Promise<User | null> {
+export default async function getCurrentUser(): Promise<user | null> {
   try {
     const MONGODB_URI = process.env.MONGODB_URI;
 

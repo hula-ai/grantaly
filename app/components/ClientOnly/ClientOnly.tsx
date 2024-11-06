@@ -4,11 +4,9 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import { usePathname } from 'next/navigation';
+import { user } from '@/interface/interface';
 
-export interface user {
-  email: string;
-  password: string;
-}
+
 interface ClientOnlyProps {
   children: React.ReactNode;
   user: user;
