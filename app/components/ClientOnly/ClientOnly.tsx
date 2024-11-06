@@ -11,7 +11,7 @@ export interface user {
 }
 interface ClientOnlyProps {
   children: React.ReactNode;
-  user: any;
+  user: user;
 }
 
 const ClientOnly: React.FC<ClientOnlyProps> = ({ children,user }) => {
@@ -22,7 +22,6 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({ children,user }) => {
   }, []);
 
   const pathname = usePathname().startsWith('/auth');
-  console.log(pathname,'akwhdnfdivnd');
 
   if (!hasMounted) return null;
 

@@ -13,3 +13,11 @@ export interface WhyProps {
     subContent: string;
     whyContent: WhyContentInterface[];
 }
+
+export interface user {
+    firstName : string;
+    lastName : string;
+    contact : string;
+    password : string;
+    email : string;
+}

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react"; // Import signIn function
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 const SigninPage = () => {
   const [email, setEmail] = useState("");
@@ -22,10 +23,13 @@ const SigninPage = () => {
       redirect: false, // Prevent automatic redirection
     });
 
-    if (result.error) {
-      setError(result.error); // Set error message
+    if(result.ok) {
+      toast.success("User logged in successfully")
+      router.refresh();
+      // window.location.href = '/';
+
     } else {
-      router.push("/"); // Redirect to home or desired page after successful sign-in
+      toast.error("Invalid credentials")
     }
   };
 

@@ -24,11 +24,9 @@ export default async function getCurrentUser(): Promise<User | null> {
 
     const session = await getSession();
 
-    console.log('Called',session)
     if (!session?.user?.email) {
       return null;
     }
-    console.log('Called 2')
 
     // // Connect to MongoDB if not connected yet
     if(!MONGODB_URI){
@@ -40,7 +38,7 @@ export default async function getCurrentUser(): Promise<User | null> {
     }
 
     // // Find the user by email
-    const currentUser = await User.findOne({
+    const currentUser = await User.findOne({  
       email: session.user.email as string,
     });
 
@@ -48,10 +46,15 @@ export default async function getCurrentUser(): Promise<User | null> {
       return null;
     }
 
-    return {
-      email: currentUser.email,
-      // If you need more fields, add them here
-    } as User; // Return the user object conforming to the User interface
+    const user = {
+        firstName : currentUser.firstName,
+        lastName : currentUser.lastName,
+        contact : currentUser.contact,
+        email : currentUser.email,
+        password : currentUser.password,
+    }
+
+    return user
 
   } catch (error: any) {
     console.error('Error fetching current user:', error); // Log the error for debugging

@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb"; // Make sure this is imported
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import clientPromise from "@/lib/mongodb";
+import bcrypt from "bcrypt";
 
 interface User {
   id: string; // Change to string if that's what NextAuth expects
@@ -25,7 +26,8 @@ export const authOptions = {
 
         if (user) {
           // Compare passwords (make sure to hash passwords in production)
-          if (credentials?.password === user.password) {
+          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+          if (isPasswordCorrect) {
             return { id: user._id.toString(), email: user.email }; // Convert ObjectId to string
           } else {
             return null

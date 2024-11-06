@@ -30,7 +30,7 @@ function classNames(...classes: string[]) {
 }
 
 interface Props {
-    user: any
+    user: user
 }
 
 const Navbar = ({user}:Props) => {
@@ -86,11 +86,11 @@ const Navbar = ({user}:Props) => {
                  {/* SIGNIN DIALOG */}
 
                         { 
-                            !user ? 
+                            user ? 
                                 <>
-                                    <Signdialog />
-                                    <Registerdialog /> 
-                                </> :<LogoutModal/>
+                                    <LogoutModal/>
+                                </> : <> <Signdialog />
+                                    <Registerdialog /> </>
                         }
 
                  {/* REGISTER DIALOG */}
