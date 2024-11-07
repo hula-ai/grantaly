@@ -36,7 +36,11 @@ const EmailChange = ({email,setEmail,stepUp, stepDown}:Props) => {
           toast.error('Something went wrong, please try again.');
         }
       } catch (error) {
+        if (error?.response?.status === 404){
+          toast.error('Incorrect email');  
+        } else {
         toast.error('Error sending reset link. Please try again.');
+        }
         console.error(error);
       } finally {
         setLoading(false)
