@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Newsletter = () => {
     return (
-        <div className='-mt-32 relative z-3'>
+        <div id="contactus" className='-mt-32 relative z-3'>
             <div className="mx-auto max-w-2xl lg:max-w-7xl bg-blue-500 rounded-3xl">
                 <div className="grid grid-cols-1 gap-y-10 gap-x-6 lg:grid-cols-2 xl:gap-x-8">
 
@@ -22,7 +22,7 @@ const Newsletter = () => {
                     {/* COLUMN-2 */}
                     <div className="p-10 flex flex-col justify-center">
                         <h3 className="text-3xl md:text-4xl font-semibold mb-2 text-white">Contact Us</h3>
-                        <h4 className="text-base font-normal mb-4 text-offwhite">Craven omni memoria patriae zombieland clairvius narcisse religionis sunt diri undead historiarum.</h4>
+                        {/* <h4 className="text-base font-normal mb-4 text-offwhite">Craven omni memoria patriae zombieland clairvius narcisse religionis sunt diri undead historiarum.</h4> */}
                         <div className="flex flex-col gap-2">
                             <div className="flex flex-col gap-2">
                                 <div className="flex gap-2">
