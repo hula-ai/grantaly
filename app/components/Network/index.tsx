@@ -19,13 +19,13 @@ const Network = () => {
                     spaceBetween={30}
                     slidesPerView={4}
                     navigation
-                    pagination={{ clickable: true }}
+                    pagination={{ clickable: true,  }}
                     modules={[Navigation, Pagination]}
                     className="mySwiper"
                 >
                     {Aboutdata.map((item, i) => (
-                        <SwiperSlide key={i}>
-                            <div className="bg-white rounded-2xl p-5 shadow-xl">
+                        <SwiperSlide  key={i}>
+                            <div className="my-4 bg-white rounded-2xl p-5 shadow-xl">
                                 <div className="flex justify-start items-center gap-2">
                                     <Image src={item.imgSrc} style={{ width: '250px', height: '200px' }} alt={item.imgSrc} width={300} height={300} className="mb-2" />
                                 </div>
@@ -40,6 +40,11 @@ const Network = () => {
                         </SwiperSlide>
                     ))}
                 </Swiper>
+                <style jsx global>{`
+                    .mySwiper .swiper-pagination {
+                        margin-bottom: 0px; /* Adjust this as needed */
+                    }
+                `}</style>
             </div>
         </div>
     );
