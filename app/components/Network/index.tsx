@@ -6,8 +6,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
+import { useRouter } from "next/navigation";
+
+import qs from 'query-string';
 
 const Network = () => {
+
+    const router = useRouter();
     return (
         <div className="pb-80">
             <div className="bg-babyblue" id="project">
@@ -37,7 +42,16 @@ const Network = () => {
                         }}
                         className="mySwiper"
                     >
-                        {Aboutdata.map((item, i) => (
+                        {Aboutdata.map((item, i) =>{
+                            
+                            const url = qs.stringifyUrl({
+                                url: '/project',
+                                query: {id: i}
+                              }, { skipNull: true });
+                            
+                            return (
+
+                            
                             <SwiperSlide key={i}>
                                 <div className="transition-transform hover:scale-105 mb-12 bg-white rounded-2xl p-5 shadow-xl">
                                     <div className="rounded-2xl flex justify-center items-center gap-2">
@@ -55,13 +69,14 @@ const Network = () => {
                                     <h4 className="text-lg font-medium text-gray-700 mb-2 my-2 overflow-hidden text-ellipsis" style={{ minHeight: '90px' }}>
                                         {item.project[0].length > 50 ? `${item.project[0].slice(0, 50)} ...` : item.project[0]} 
                                         &nbsp;
-                                        <span onClick={() => {}} className="cursor-pointer text-black hover:text-blue-500 hover:underline">
+                                        <span onClick={() => {router.push(url)}} className="cursor-pointer text-black hover:text-blue-500 hover:underline">
                                             See more
                                         </span>
                                     </h4>
                                 </div>
                             </SwiperSlide>
-                        ))}
+                        )}
+                        )}
                     </Swiper>
                     <style jsx global>{`
                         .mySwiper .swiper-pagination {

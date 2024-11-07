@@ -2,6 +2,8 @@
 import { WhyProps } from "@/interface/interface";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Modal from "../Modal/Modal";
 
 const whydata = [
     {
@@ -14,19 +16,39 @@ const whydata = [
     },
     {
         heading: "Step 3: Data Upload​",
-        subheading: "Describe your dataset and upload it to our server​",
+        subheading: "Securely upload your data for analysis and model development.​",
     },
     {
         heading: "Step 4: Results Deliveries​​",
-        subheading: "We deliver high-quality preliminary results (graphs, tables, figures) within 2-4 weeks that you can use in your proposals.​",
+        subheading: "We deliver ready-to-use results―graphs, tables, and figures―within 2-4 weeks, empowering your proposal with the evidence it needs.​",
     }
 ]
 
 const Why = ({heading, subHeading, subContent, whyContent} : WhyProps) => {
 
     const router = useRouter()
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleBookMeeting = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
     return (
         <div id="about">
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+                <iframe
+                src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3ZrL5uOoxEoytWxOSE7nIJt1TvEb_Di9nOtxd5ytWM-o0_YboBUGa3xaBJSEC3ubkRePG5udsx?gv=true"
+                width="90%"
+                height="500px"
+                frameBorder="0"
+                allowFullScreen
+                />
+            </Modal>
             <div className='mx-auto max-w-7xl px-4 my-20 sm:py-20 lg:px-8'>
                 <h1 className="text-6xl lg:text-7xl font-semibold text-center my-6">{heading}</h1>
                 <div className='grid items-center justify-center grid-cols-1 lg:grid-cols-2 gap-8'>
@@ -59,7 +81,8 @@ const Why = ({heading, subHeading, subContent, whyContent} : WhyProps) => {
                                     </div>
                                     <div className="ml-0">
                                         <h4 className="text-2xl font-semibold">{items.heading}</h4>
-                                        <h5 onClick={() => {router.push('/')}} className={`lg:max-w-[400px] md:max-w-[800px] sm:max-w-[600px] max-w-[400px] text-lg text-beach font-normal mt-2`}>{items.subheading}</h5>
+                                        {i === 0 && <span onClick={handleBookMeeting} className="cursor-pointer text-black hover:text-blue-500 hover:underline">Schedule Now</span>}
+                                        <h5 className={`lg:max-w-[400px] md:max-w-[800px] sm:max-w-[600px] max-w-[400px] text-lg text-beach font-normal mt-2`}>{items.subheading}</h5>
                                     </div>
                                 </div>
                             ))}
