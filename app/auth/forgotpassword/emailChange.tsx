@@ -5,9 +5,12 @@ import { Component } from 'react';
 interface Props {
     stepUp: () => void
     stepDown: () => void
+    setEmail: (e:string) => void
+    email : string
 }
 
-const EmailChange = ({stepUp, stepDown}:Props) => {
+
+const EmailChange = ({email,setEmail,stepUp, stepDown}:Props) => {
     return(
         <form className="space-y-4" action="#" method="POST">
           <div className="rounded-md shadow-sm space-y-3">

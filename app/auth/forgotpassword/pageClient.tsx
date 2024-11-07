@@ -4,9 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import EmailChange from "./emailChange";
-import OtpVerificationScreen from "./otp";
 
 const ForgotPasswordPage = () => {
+  const [email, setEmail] = useState("");
+
+  const resetPasswordLink = () => { 
+
+  }
+
   const [step, setStep] = useState(0);
 
   const stepUp = () => {
@@ -19,9 +24,8 @@ const ForgotPasswordPage = () => {
   }
 
   const textArray = [
-    "Enter your email address below and we will send you an OTP to your email to reset your password.",
-    "Please enter the OTP sent to your email",
-    "Set your new password"
+    "Enter your email address below and we will send you a password reset link to your email",
+    "Password reset link has been sent to your email"
   ]
   
   return (
@@ -44,9 +48,7 @@ const ForgotPasswordPage = () => {
             {textArray[step]}
           </p>
         </div>
-        {step === 0 ? <EmailChange stepUp = {stepUp} stepDown = {stepDown}/> : 
-         step === 1 ? <OtpVerificationScreen/> :
-         step === 2 ? <OtpVerificationScreen/> : null}
+        {step === 0 ? <EmailChange email={email} setEmail={setEmail} stepUp = {stepUp} stepDown = {stepDown}/>  : null}
         <p className="mt-3 text-center text-xs text-gray-500">
           Remembered your password?{" "}
           <Link href={'/auth/signin'}>
