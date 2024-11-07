@@ -37,29 +37,30 @@ export async function POST(req: any) {
     await user.save();
 
     // Configure nodemailer to send the email
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: 'Gmail',
+    //   auth: {
+    //     user: process.env.EMAIL_USER,
+    //     pass: process.env.EMAIL_PASS,
+    //   },
+    // });
 
     // Compose the email
-    const resetLink = `${process.env.NEXTAUTH_URL}/resetpassword?token=${token}`;
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Password Reset Request',
-      text: `Click the link to reset your password: ${resetLink}`,
-    };
+    const resetLink = `${process.env.NEXTAUTH_URL}/auth/reset-password?token=${token}`;
+    // const mailOptions = {
+    //   from: process.env.EMAIL_USER,
+    //   to: email,
+    //   subject: 'Password Reset Request',
+    //   text: `Click the link to reset your password: ${resetLink}`,
+    // };
 
  
 
     // Send the email
-    await transporter.sendMail(mailOptions);
+    // await transporter.sendMail(mailOptions);
 
-    return new Response(JSON.stringify({ message: 'Reset link sent to email' }), { status: 200 });
+    // return new Response(JSON.stringify({ message: 'Reset link sent to email',url: resetLink }), { status: 200 });
+    return new Response(JSON.stringify(resetLink), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ message: 'Something went wrong' }), { status: 500 });
   }

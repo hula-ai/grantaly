@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Component } from 'react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-
+import { useRouter } from 'next/navigation';
 interface Props {
     stepUp: () => void
     stepDown: () => void
@@ -24,6 +24,8 @@ const EmailChange = ({email,setEmail,stepUp, stepDown}:Props) => {
   };
   
 
+  const router = useRouter();
+
   const sendResetLink = async () => {
     if (testEmail(email)) {
       setLoading(true)
@@ -32,6 +34,7 @@ const EmailChange = ({email,setEmail,stepUp, stepDown}:Props) => {
         if (response.status === 200) {
           toast.success('Reset link sent successfully!');
           stepUp();
+          router.push(response.data)
         } else {
           toast.error('Something went wrong, please try again.');
         }

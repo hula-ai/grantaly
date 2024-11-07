@@ -2,15 +2,20 @@ import connectToDatabase from '@/lib/mongoose';
 import bcrypt from 'bcrypt';
 import { resetPasswordSchema } from '@/Validation/Server/validator';
 import User from '@/models/User';
+import { NextResponse } from 'next/server';
 
 export async function POST(req: any) {
   try {
+
+    
     const { token, password } = await req.json();
 
     // Validate input using Joi
     const { error } = resetPasswordSchema.validate({ token, password });
+
+
     if (error) {
-      return new Response(JSON.stringify({ message: error.details[0].message }), { status: 400 });
+      return NextResponse.json({ message: error.details[0].message }), { status: 400 };
     }
 
     // Connect to the database
