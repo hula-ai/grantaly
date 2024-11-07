@@ -75,9 +75,7 @@ const Network = () => {
                                     </h4>
                                 </div>
                             </SwiperSlide>
-
                         )}
-                        
                         )}
                     </Swiper>
                     <style jsx global>{`
