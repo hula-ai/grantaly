@@ -10,8 +10,8 @@ interface cardDataType {
 const cardData: cardDataType[] = [
     {
         imgSrc: '/assets/buyers/ourbuyers.svg',
-        percent: '#5L',
-        heading: "Simple AI",
+        percent: '15+',
+        heading: "Years of Expertise in AI",
         // subheading: "Follow a hashtag growth total posts, videos and images.",
         subheading: ""
     },
