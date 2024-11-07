@@ -59,7 +59,7 @@ const Why = ({heading, subHeading, subContent, whyContent} : WhyProps) => {
                                     </div>
                                     <div className="ml-0">
                                         <h4 className="text-2xl font-semibold">{items.heading}</h4>
-                                        <h5 onClick={() => {router.push('/')}} className={`lg:max-w-[400px] md:max-w-[800px] sm:max-w-[600px] max-w-[400px] text-lg text-beach font-normal mt-2`}>{items.subheading}</h5>
+                                        <h5 className={`lg:max-w-[400px] md:max-w-[800px] sm:max-w-[600px] max-w-[400px] text-lg text-beach font-normal mt-2`}>{items.subheading}</h5>
                                     </div>
                                 </div>
                             ))}

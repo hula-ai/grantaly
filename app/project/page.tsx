@@ -4,10 +4,23 @@ import Image from "next/image";
 import { useEffect } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useSearchParams } from "next/navigation";
+
+
 
 const ProjectPage = () => {
-  const project = Aboutdata[0]; // Assuming you want the first project
-  
+
+  const params = useSearchParams();
+  const id = params?.get("id");
+
+  const IdInt = parseInt(id);
+
+  let ID=0;
+  if(IdInt < Aboutdata.length && IdInt >= 0){
+    ID = IdInt
+  }
+  const project = Aboutdata[ID]; 
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
