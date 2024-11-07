@@ -9,7 +9,7 @@ export async function POST(req: any) {
 
     // Validate input using Joi
     const { error } = signUpSchema.validate({ 
-      firstName, lastName, email, contact, password, confirmPassword,
+      firstName, lastName, email, contact, password, confirmPassword
     });
     if (error) {
       return new Response(
@@ -18,15 +18,11 @@ export async function POST(req: any) {
       );
     }
 
-
     // Connect to the database
     await connectToDatabase();
 
-
-
     // Check if user already exists
     const existingUser = await User.findOne({ email });
-    // return new Response(JSON.stringify({ message: 'success1' }));
 
     if (existingUser) {
       return new Response(JSON.stringify({ message: "User already exists" }), {
@@ -34,17 +30,19 @@ export async function POST(req: any) {
       });
     }
 
-
     // Hash the password
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Create a new user
-    const newUser = new User({
+    const newUser = await new User({
       firstName,
       lastName,
       email,
       contact,
-      password,
+      password : hashedPassword
     });
+    console.log(firstName, lastName, email, contact, password);
     await newUser.save();
 
     return new Response(
@@ -52,8 +50,8 @@ export async function POST(req: any) {
       { status: 201 }
     );
   } catch (error) {
-    return new Response(JSON.stringify({ message: "Something went wrong" }), {
-      status: 500,
-    });
+    return new Response(JSON.stringify({ message: "Something went wrong" }), 
+    { status: 500,}
+  );
   }
 }
