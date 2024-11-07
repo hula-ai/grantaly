@@ -34,7 +34,8 @@ export async function POST(req: any) {
     // Store the token and expiration in the user document
     user.resetToken = token;
     user.resetTokenExpiration = expirationTime;
-    await user.save();
+    var hello = await user.save();
+    console.log("HELLO",hello);
 
     // Configure nodemailer to send the email
     // const transporter = nodemailer.createTransport({
