@@ -1,28 +1,36 @@
-// models/User.ts
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true,
+    required: false,  // Make this optional since Google might not provide it
   },
   lastName: {
     type: String,
-    required: true,
+    required: false,  // Same here
   },
   contact: {
     type: String,
-    required: true,
+    required: false,  // Optional for Google OAuth, but can be added later
   },
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true,  // Ensure uniqueness for email
   },
   password: {
     type: String,
-    required: true,
+    required: false,  // Optional for Google OAuth
+  },
+  googleId: {
+    type: String,
+    required: false,  // Only needed if the user logs in via Google
+    unique: true,  // Ensure Google ID is unique
+  },
+  image: {
+    type: String,
+    required: false,  // Optional field for Google profile image
   },
   resetToken: {
     type: String,
@@ -31,11 +39,9 @@ const userSchema = new mongoose.Schema({
   resetTokenExpiration: {
     type: Date,
     default: null,
-  }
+  },
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;
-
-

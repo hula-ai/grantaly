@@ -112,7 +112,7 @@ const Navbar = ({user}:Props) => {
                  {/* DRAWER LINKS DATA */}
 
                  <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
-                     <Drawerdata />
+                     <Drawerdata user={user} />
                  </Drawer>
 
              </div>
