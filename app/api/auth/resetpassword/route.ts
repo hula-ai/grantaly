@@ -2,20 +2,16 @@ import connectToDatabase from '@/lib/mongoose';
 import bcrypt from 'bcrypt';
 import { resetPasswordSchema } from '@/Validation/Server/validator';
 import User from '@/models/User';
+import { NextResponse } from 'next/server';
 
 export async function POST(req: any) {
   try {
-    // Ensure the request has a body
-    if (!req.body) {
-      return new Response(JSON.stringify({ message: 'Request body is missing' }), { status: 400 });
-    }
-
     // Parse JSON from the request
     let data;
     try {
       data = await req.json();
-    } catch {
-      return new Response(JSON.stringify({ message: 'Invalid JSON input' }), { status: 400 });
+    } catch (error) {
+      return NextResponse.json({ message: 'Invalid JSON input' }, { status: 400 });
     }
 
     const { token, password } = data;
@@ -23,7 +19,7 @@ export async function POST(req: any) {
     // Validate input using Joi
     const { error } = resetPasswordSchema.validate({ token, password });
     if (error) {
-      return new Response(JSON.stringify({ message: error.details[0].message }), { status: 400 });
+      return NextResponse.json({ message: error.details[0].message }, { status: 400 });
     }
 
     // Connect to the database
@@ -36,7 +32,7 @@ export async function POST(req: any) {
     });
 
     if (!user) {
-      return new Response(JSON.stringify({ message: 'Invalid or expired token' }), { status: 400 });
+      return NextResponse.json({ message: 'Invalid or expired token' }, { status: 400 });
     }
 
     // Hash the new password and update the user document
@@ -46,9 +42,9 @@ export async function POST(req: any) {
     user.resetTokenExpiration = undefined;
     await user.save();
 
-    return new Response(JSON.stringify({ message: 'Password reset successfully' }), { status: 200 });
+    return NextResponse.json({ message: 'Password reset successfully' }, { status: 200 });
   } catch (error) {
     console.error("Error resetting password:", error);
-    return new Response(JSON.stringify({ message: 'Something went wrong' }), { status: 500 });
+    return NextResponse.json({ message: 'Something went wrong' }, { status: 500 });
   }
 }
