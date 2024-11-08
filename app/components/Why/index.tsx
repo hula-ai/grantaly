@@ -11,7 +11,7 @@ const whydata = [
         subheading: "Provide us information on your grant proposal and funding agency while booking your meeting​",
     },
     {
-        heading: "Step 2: Discuss Requirements​",
+        heading: "Step 2: Discuss Your Vision",
         subheading: "We schedule a meeting within 24 hour to discuss your needs and delve into specific AI tasks​",
     },
     {
@@ -19,7 +19,7 @@ const whydata = [
         subheading: "Securely upload your data for analysis and model development.​",
     },
     {
-        heading: "Step 4: Results Deliveries​​",
+        heading: "Step 4: Receive Your Preliminary Results",
         subheading: "We deliver ready-to-use results―graphs, tables, and figures―within 2-4 weeks, empowering your proposal with the evidence it needs.​",
     }
 ]
