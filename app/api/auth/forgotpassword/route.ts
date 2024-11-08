@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import { forgotPasswordSchema } from '@/Validation/Server/validator';
 import User from '@/models/User';
+import { NextResponse } from 'next/server';
 
 export async function POST(req: any) {
   try {
@@ -11,7 +12,7 @@ export async function POST(req: any) {
     // Validate email using Joi
     const { error } = forgotPasswordSchema.validate({ email });
     if (error) {
-      return new Response(JSON.stringify({ message: error.details[0].message }), { status: 400 });
+      return NextResponse.json({ message: error.details[0].message }), { status: 400 };
     }
 
     // return new Response(JSON.stringify({ message: 'success1' }));
@@ -24,7 +25,7 @@ export async function POST(req: any) {
     // Check if the user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return new Response(JSON.stringify({ message: 'User not found' }), { status: 404 });
+      return NextResponse.json({ message: 'User not found' }), { status: 404 };
     }
 
     // Generate a unique token
@@ -61,8 +62,8 @@ export async function POST(req: any) {
     // await transporter.sendMail(mailOptions);
 
     // return new Response(JSON.stringify({ message: 'Reset link sent to email',url: resetLink }), { status: 200 });
-    return new Response(JSON.stringify(resetLink), { status: 200 });
+    return NextResponse.json(resetLink), { status: 200 };
   } catch (error) {
-    return new Response(JSON.stringify({ message: 'Something went wrong' }), { status: 500 });
+    return NextResponse.json({ message: 'Something went wrong' }), { status: 500 };
   }
 }

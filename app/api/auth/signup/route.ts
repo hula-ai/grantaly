@@ -2,6 +2,7 @@ import connectToDatabase from "@/lib/mongoose";
 import bcrypt from "bcrypt";
 import { signUpSchema } from "@/Validation/Server/validator";
 import User from "@/models/User";
+import { NextResponse } from "next/server";
 
 export async function POST(req: any) {
   try {
@@ -12,10 +13,7 @@ export async function POST(req: any) {
       firstName, lastName, email, contact, password, confirmPassword
     });
     if (error) {
-      return new Response(
-        JSON.stringify({ message: error.details[0].message }),
-        { status: 400 }
-      );
+      return NextResponse.json({ message: error.details[0].message }),{ status: 400 };
     }
 
     // Connect to the database
@@ -25,9 +23,7 @@ export async function POST(req: any) {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return new Response(JSON.stringify({ message: "User already exists" }), {
-        status: 409,
-      });
+      return NextResponse.json({ message: "User already exists" }, {status: 409});
     }
 
     // Hash the password
@@ -45,13 +41,8 @@ export async function POST(req: any) {
     console.log(firstName, lastName, email, contact, password);
     await newUser.save();
 
-    return new Response(
-      JSON.stringify({ message: "User created successfully" }),
-      { status: 201 }
-    );
+    return NextResponse.json({ message: "User created successfully" }),{ status: 201 };
   } catch (error) {
-    return new Response(JSON.stringify({ message: "Something went wrong" }), 
-    { status: 500,}
-  );
+    return NextResponse.json({ message: "Something went wrong" }), { status: 500};
   }
 }
