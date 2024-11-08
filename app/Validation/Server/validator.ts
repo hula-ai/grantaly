@@ -47,3 +47,20 @@ export const resetPasswordSchema = Joi.object({
       'any.required': 'Password is required',
     }),
   });
+
+  export const contactUsSchema = Joi.object({
+    firstName: Joi.string().required().messages({
+      'string.empty': 'First name is required',
+    }),
+    lastName: Joi.string().required().messages({
+      'string.empty': 'Last name is required',
+    }),
+    email: Joi.string().email().required().messages({
+      'string.email': 'Please provide a valid email',
+      'string.empty': 'Email is required',
+    }),
+    contact: Joi.string().optional(),
+    message: Joi.string().required().messages({
+      'string.empty': 'Message is required',
+    }),
+  });
