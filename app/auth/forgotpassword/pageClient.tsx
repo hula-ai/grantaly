@@ -7,11 +7,6 @@ import EmailChange from "./emailChange";
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
-
-  const resetPasswordLink = () => { 
-
-  }
-
   const [step, setStep] = useState(0);
 
   const stepUp = () => {

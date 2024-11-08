@@ -10,6 +10,7 @@ import Image from 'next/image';
 
 import LogoutModal from './Logoutdialog';
 import { user } from '@/interface/interface';
+import { useRouter } from 'next/navigation';
 
 
 interface NavigationItem {
@@ -38,7 +39,7 @@ const Navbar = ({user}:Props) => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
-    console.log(user,"iamuser")
+    const router = useRouter();
     return (
         // <Disclosure as="nav" className="navbar">
            
@@ -50,7 +51,7 @@ const Navbar = ({user}:Props) => {
 
                      {/* LOGO */}
 
-                     <div className="flex flex-shrink-0 items-center">
+                     <div onClick={()=>{router.push('/')}} className="cursor-pointer flex flex-shrink-0 items-center">
                          Grantaly
                          {/* <img
                              className="block h-12 w-40 lg:hidden"
@@ -111,7 +112,7 @@ const Navbar = ({user}:Props) => {
                  {/* DRAWER LINKS DATA */}
 
                  <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
-                     <Drawerdata />
+                     <Drawerdata user={user} />
                  </Drawer>
 
              </div>

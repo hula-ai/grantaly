@@ -16,11 +16,11 @@ const whydata = [
     },
     {
         heading: "Step 3: Data Upload​",
-        subheading: "Describe your dataset and upload it to our server​",
+        subheading: "Securely upload your data for analysis and model development.​",
     },
     {
         heading: "Step 4: Results Deliveries​​",
-        subheading: "We deliver high-quality preliminary results (graphs, tables, figures) within 2-4 weeks that you can use in your proposals.​",
+        subheading: "We deliver ready-to-use results―graphs, tables, and figures―within 2-4 weeks, empowering your proposal with the evidence it needs.​",
     }
 ]
 

@@ -2,28 +2,20 @@ import connectToDatabase from '@/lib/mongoose';
 import bcrypt from 'bcrypt';
 import { resetPasswordSchema } from '@/Validation/Server/validator';
 import User from '@/models/User';
+import { NextResponse } from 'next/server';
 
 export async function POST(req: any) {
   try {
-    // Ensure the request has a body
-    if (!req.body) {
-      return new Response(JSON.stringify({ message: 'Request body is missing' }), { status: 400 });
-    }
 
-    // Parse JSON from the request
-    let data;
-    try {
-      data = await req.json();
-    } catch {
-      return new Response(JSON.stringify({ message: 'Invalid JSON input' }), { status: 400 });
-    }
-
-    const { token, password } = data;
+    
+    const { token, password } = await req.json();
 
     // Validate input using Joi
     const { error } = resetPasswordSchema.validate({ token, password });
+
+
     if (error) {
-      return new Response(JSON.stringify({ message: error.details[0].message }), { status: 400 });
+      return NextResponse.json({ message: error.details[0].message }), { status: 400 };
     }
 
     // Connect to the database
@@ -48,7 +40,6 @@ export async function POST(req: any) {
 
     return new Response(JSON.stringify({ message: 'Password reset successfully' }), { status: 200 });
   } catch (error) {
-    console.error("Error resetting password:", error);
     return new Response(JSON.stringify({ message: 'Something went wrong' }), { status: 500 });
   }
 }
