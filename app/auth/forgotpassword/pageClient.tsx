@@ -30,7 +30,7 @@ const ForgotPasswordPage = () => {
         <Link href="/">
             <Image
               className="mx-auto h-10 w-auto cursor-pointer"
-              src="/assets/logo/logo.png"
+              src="/assets/logo/logo-b.svg"
               alt="Company"
               width={2000}
               height={2000}

@@ -59,7 +59,7 @@ const SigninPage = () => {
           <Link href="/">
             <Image
               className="mx-auto h-10 w-auto cursor-pointer"
-              src="/assets/logo/logo.png"
+              src="/assets/logo/logo-b.svg"
               alt="Company"
               height={2000}
               width={2000}
