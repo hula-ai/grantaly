@@ -64,7 +64,7 @@ const Register = () => {
                       <div>
                         <Image
                           className="mx-auto h-12 w-auto"
-                          src="/assets/logo/logo.png"
+                          src="/assets/logo/logo-b.svg"
                           alt="Your Company"
                           width={2000}
                           height={2000}

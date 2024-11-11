@@ -10,6 +10,7 @@ import Image from 'next/image';
 
 import LogoutModal from './Logoutdialog';
 import { user } from '@/interface/interface';
+import { useRouter } from 'next/navigation';
 
 
 interface NavigationItem {
@@ -23,7 +24,7 @@ const navigation: NavigationItem[] = [
     { name: 'Services', href: '#services', current: false },
     { name: 'About', href: '#about', current: false },
     { name: 'Project', href: '#project', current: false },
-    { name: 'Help', href: '/', current: false },
+    { name: 'Contact', href: '#contactus', current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -38,7 +39,7 @@ const Navbar = ({user}:Props) => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
-    console.log(user,"iamuser")
+    const router = useRouter();
     return (
         // <Disclosure as="nav" className="navbar">
            
@@ -50,18 +51,15 @@ const Navbar = ({user}:Props) => {
 
                      {/* LOGO */}
 
-                     <div className="flex flex-shrink-0 items-center">
-                         Grantaly
-                         {/* <img
-                             className="block h-12 w-40 lg:hidden"
-                             src={'/assets/logo/logo.png'}
-                             alt="dsign-logo"
-                         /> */}
-                         {/* <img
-                             className="hidden h-full w-full lg:block"
-                             src={'/assets/logo/logo.png'}
-                             alt="dsign-logo"
-                         /> */}
+                     <div onClick={()=>{router.push('/')}} className="cursor-pointer flex flex-shrink-0 items-center">
+                         
+                         <Image
+                            className="mx-auto h-12 w-auto"
+                            src="/assets/logo/logo-b.svg"
+                            alt="Your Company"
+                            width={2000}
+                            height={2000}
+                        />
                      </div>
 
                      {/* LINKS */}
@@ -111,7 +109,7 @@ const Navbar = ({user}:Props) => {
                  {/* DRAWER LINKS DATA */}
 
                  <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
-                     <Drawerdata />
+                     <Drawerdata user={user} />
                  </Drawer>
 
              </div>

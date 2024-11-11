@@ -1,61 +1,48 @@
+import connectToDatabase from "@/lib/mongoose";
+import bcrypt from "bcrypt";
+import { signUpSchema } from "@/Validation/Server/validator";
+import User from "@/models/User";
+import { NextResponse } from "next/server";
 
-import clientPromise from '@/lib/mongodb';
-import bcrypt from 'bcrypt';
-import mongoose from 'mongoose';
-import next, { NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
+export async function POST(req: any) {
+  try {
+    const { firstName, lastName, email, contact, password, confirmPassword } = await req.json();
 
+    // Validate input using Joi
+    const { error } = signUpSchema.validate({ 
+      firstName, lastName, email, contact, password, confirmPassword
+    });
+    if (error) {
+      return NextResponse.json({ message: error.details[0].message }),{ status: 400 };
+    }
 
-const MONGODB_URI = process.env.MONGODB_URI;
+    // Connect to the database
+    await connectToDatabase();
 
-export async function POST(req:any) {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
 
-  const { firstName, lastName, email, contact, password, confirmPassword } = await req.json();
+    if (existingUser) {
+      return NextResponse.json({ message: "User already exists" }, {status: 409});
+    }
 
-  // Check if all fields are provided
-  if (!firstName || !lastName || !email || !contact || !password || !confirmPassword) {
-    return new Response(JSON.stringify({ message: 'All fields are required' }), { status: 400 });
+    // Hash the password
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const newUser = await new User({
+      firstName,
+      lastName,
+      email,
+      contact,
+      password : hashedPassword
+    });
+    console.log(firstName, lastName, email, contact, password);
+    await newUser.save();
+
+    return NextResponse.json({ message: "User created successfully" }),{ status: 201 };
+  } catch (error) {
+    return NextResponse.json({ message: "Something went wrong" }), { status: 500};
   }
-
-  // Check if password and confirm password match
-  if (password !== confirmPassword) {
-    return new Response(JSON.stringify({ message: 'Passwords do not match' }), { status: 400 });
-  }
-
-  if (mongoose.connection.readyState !== 1) {
-    await mongoose.connect(MONGODB_URI);
-  }
-
-
-  const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_DB);
-  
-
-  // Check if user already exists
-  const existingUser = await db.collection("users").findOne({ email });
-  if (existingUser) {
-    return NextResponse.json({ message: 'User already exists' }, { status: 409 });
-  }
-
-  // Hash the password
-  const hashedPassword = await bcrypt.hash(password, 10);
-  // return new Response(JSON.stringify({ message: 'success1' }));
-
-
-  // Create a new user
-  const newUser = await db.collection("users").insertOne({
-    firstName,
-    lastName,
-    email,
-    contact,
-    password: hashedPassword,
-    // Add other fields as necessary
-  });
-
-
-  return new Response(JSON.stringify({ message: 'User created successfully' }), { status: 201 });
 }
-
-// export async function POST() {
-
-// }
