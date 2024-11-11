@@ -41,7 +41,7 @@ const cardData: cardDataType[] = [
 
 const Buyers = () => {
     return (
-        <div className='mx-auto max-w-7xl py-16 px-6'>
+        <div id="about" className='mx-auto max-w-7xl py-16 px-6'>
             <div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-y-20 gap-x-5'>
                 {cardData.map((items, i) => (
                     <div className='flex flex-col justify-center items-center' key={i}>

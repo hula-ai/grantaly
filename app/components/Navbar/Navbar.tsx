@@ -52,17 +52,14 @@ const Navbar = ({user}:Props) => {
                      {/* LOGO */}
 
                      <div onClick={()=>{router.push('/')}} className="cursor-pointer flex flex-shrink-0 items-center">
-                         Grantaly
-                         {/* <img
-                             className="block h-12 w-40 lg:hidden"
-                             src={'/assets/logo/logo.png'}
-                             alt="dsign-logo"
-                         /> */}
-                         {/* <img
-                             className="hidden h-full w-full lg:block"
-                             src={'/assets/logo/logo.png'}
-                             alt="dsign-logo"
-                         /> */}
+                         
+                         <Image
+                            className="mx-auto h-12 w-auto"
+                            src="/assets/logo/logo-b.svg"
+                            alt="Your Company"
+                            width={2000}
+                            height={2000}
+                        />
                      </div>
 
                      {/* LINKS */}

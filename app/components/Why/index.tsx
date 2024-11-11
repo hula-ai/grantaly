@@ -39,7 +39,7 @@ const Why = ({heading, subHeading, subContent, whyContent} : WhyProps) => {
   };
 
     return (
-        <div id="about">
+        <div id='meeting'>
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                 <iframe
                 src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3ZrL5uOoxEoytWxOSE7nIJt1TvEb_Di9nOtxd5ytWM-o0_YboBUGa3xaBJSEC3ubkRePG5udsx?gv=true"
