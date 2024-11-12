@@ -41,7 +41,6 @@ export default function Page() {
   const [priceType, setPriceType] = useState('monthly');
   const [addons, setAddons] = useState(new Set());
 
-
   const goToNextStep = async () => {
     if(step === 0){
       const data = {projectTitle,abstract,fundingAgency,startDate,endDate,expectedTimeline};
@@ -74,6 +73,32 @@ export default function Page() {
         }
         // setStep((prevstep) => prevstep+1 )
       }
+    }
+
+    if(step === 1){
+      try {
+        if(projectId) {
+          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {isBooked: true});  
+          setStep((prevStep) => prevStep + 1)
+          toast.success('Progress Saved...')
+        } 
+      } catch (error) {
+        toast.error('failed to save progress')
+      } 
+    }
+
+    if(step === 2){
+      try {
+        if(projectId) {
+          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {isBooked: true});  
+          if(response.data){
+            setStep((prevStep) => prevStep + 1)
+            toast.success('Progress Saved...')
+          }
+        } 
+      } catch (error) {
+        toast.error('failed to save progress')
+      } 
     }
   };
 

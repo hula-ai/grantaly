@@ -1,4 +1,4 @@
-import { PlanAddon, PriceType } from '~/config'
+import { PlanAddon, PriceType } from '../../../config'
 import { Card } from '../multi-step/card/Card'
 import styles from './AddonsCard.module.scss'
 
@@ -14,9 +14,9 @@ export default function AddonsCard(
 ) {
   return (
     <Card>
-      <Card.Title>Pick add-ons</Card.Title>
+      <Card.Title>Contract Management</Card.Title>
       <Card.Description>
-        Add-ons help enhance your gaming experience.
+        Please upload your contract
       </Card.Description>
       <div className={styles.cardContent}>
         {addons.map(addon => {
