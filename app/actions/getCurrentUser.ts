@@ -37,7 +37,7 @@ export default async function getCurrentUser(): Promise<user | null> {
       email: session.user.email as string,
     });
 
-    console.log(currentUser, "i am current user");
+    // console.log(currentUser._id.toString(), "i am current user");
 
     if (!currentUser) {
       return null;
@@ -50,7 +50,9 @@ export default async function getCurrentUser(): Promise<user | null> {
         email : currentUser.email,
         password : currentUser.password,
         role : currentUser.role,
-        // id : currentUser.
+        id : currentUser._id.toString(),
+        // id : currentUser._id,
+
     }
 
     return user

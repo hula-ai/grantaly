@@ -3,8 +3,8 @@ import bcrypt from 'bcrypt';
 import { roles, status } from "@/utils/constant";
 
 export enum Role {
-  USER = "user",
-  ADMIN = "admin",
+  USER = "User",
+  ADMIN = "Admin",
 }
 
 const userSchema = new mongoose.Schema({

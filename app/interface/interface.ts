@@ -1,4 +1,4 @@
-import { Role } from "@/models/User";
+import { Role } from "@/models/user";
 
 export interface whyDataInterface {
     heading: string;
@@ -22,7 +22,8 @@ export interface user {
     contact : string;
     password : string;
     email : string;
-    role : Role
+    role : Role,
+    id: String,
 }
 
 export interface datatype {
