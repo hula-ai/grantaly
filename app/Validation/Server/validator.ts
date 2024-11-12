@@ -64,3 +64,27 @@ export const resetPasswordSchema = Joi.object({
       'string.empty': 'Message is required',
     }),
   });
+
+export const projectSchema = Joi.object({
+  projectTitle: Joi.string().required().messages({
+    'string.empty': 'Project title is required',
+  }),
+  abstract: Joi.string().required().messages({
+    'string.empty': 'Abstract is required',
+  }),
+  fundingAgency: Joi.string().required().messages({
+    'string.empty': 'Funding agency is required',
+  }),
+  // startDate: Joi.date().required().messages({
+  //   'date.base': 'Start date must be a valid date',
+  //   'any.required': 'Start date is required',
+  // }),
+  // endDate: Joi.date().min(Joi.ref('startDate')).required().messages({
+  //   'date.base': 'End date must be a valid date',
+  //   'date.min': 'End date must be after start date',
+  //   'any.required': 'End date is required',
+  // }),
+  expectedTimeline: Joi.string().required().messages({
+    'string.empty': 'Expected timeline is required',
+  })
+});

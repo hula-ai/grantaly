@@ -12,9 +12,13 @@ import Clientsay from './components/Clientsay/index';
 import Newsletter from './components/Newsletter/Newsletter';
 import { WHYDATA } from './constants/WhyConstants';
 import { whyDataInterface } from './interface/interface';
+import getCurrentUser from './actions/getCurrentUser';
 
 
 export default function Home() {
+
+  // const currentUser = await getCurrentUser();
+  // console.log(currentUser);
 
   const idx = 0; // Set the index you want to use
 
