@@ -2,6 +2,8 @@ import { Plan, PriceType } from '~/config'
 import { Card } from '../multi-step/card/Card'
 import { SelectionToggle } from '../SelectionToggle'
 import styles from './PlanCard.module.scss'
+import { useState } from 'react'
+import BookMeetingButton from '@/components/BookMeetingButton/BookMeetingButton'
 
 type Props = {
   plans: Plan[]
@@ -15,53 +17,27 @@ export default function PlanCard(
   { plans, selectedPlan, onPlanChange, selectedPriceType, onPriceTypeToggle }:
     Props,
 ) {
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleBookMeeting = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <Card>
-      <Card.Title>Select your plan</Card.Title>
+      <Card.Title>Meeting Booking</Card.Title>
       <Card.Description>
-        You have the option of monthly or yearly billing.
+        Select date to book a meeting.
       </Card.Description>
-      <div className={styles.planList} role='radiogroup'>
-        <legend className='sr-only'>Select your plan</legend>
-        {plans.map(plan => {
-          const inputId = `radio-${plan.id}`
 
-          return (
-            <div key={plan.id} className={styles.planWrapper}>
-              <input
-                id={inputId}
-                type='radio'
-                name='plan'
-                className={styles.planRadio}
-                value={plan.id}
-                checked={selectedPlan.id === plan.id}
-                onChange={() => onPlanChange(plan)}
-              />
+      <BookMeetingButton/>
 
-              <label key={plan.id} htmlFor={inputId} className={styles.plan}>
-                <img src={getIconPath(plan.icon)} className={styles.planIcon} />
-                <p className={styles.planName}>{plan.name}</p>
-                <p className={styles.planPrice}>
-                  {getPriceMessage(plan, selectedPriceType)}
-                </p>
-                {selectedPriceType === 'yearly'
-                  && (
-                    <p className={styles.yearlyBonusMessage}>
-                      {plan.yearlyBonusMessage}
-                    </p>
-                  )}
-              </label>
-            </div>
-          )
-        })}
-      </div>
-      <SelectionToggle
-        leftLabel='Monthly'
-        rightLabel='Yearly'
-        onToggle={onPriceTypeToggle}
-        toggled={selectedPriceType === 'yearly'}
-        className={styles.priceTypeSelector}
-      />
+
     </Card>
   )
 }

@@ -1,5 +1,5 @@
 'use client';
-import { SignUpValidation } from "@/Validation/Client/signup-validation";
+import { SignUpValidation } from "@/Validation/Client/validator";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import Link from "next/link";

@@ -14,7 +14,7 @@ type Props = {
 
 const StepIndicator = ({ steps, currentStep }: Props) => {
   return (
-    <ul className={styles.container}>
+    <ul style={{height:'100%',alignSelf:'flex-start'}} className={styles.container}>
       {steps.map((step) => (
         <li key={step.id} className={styles.step}>
           <div

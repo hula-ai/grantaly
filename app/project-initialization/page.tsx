@@ -7,8 +7,9 @@ import StepIndicator from "../components/PI-Components/multi-step/StepIndicator"
 import styles from './PI.module.scss'
 import { Plan, PlanAddon, planAddons, plans, PriceType } from '../config';
 import PersonalInfoCard from '../components/PI-Components/registration-step-cards/PersonalInfoCard';
-import { ProjectStep1Schema } from '@/Validation/Client/signup-validation';
+import { ProjectStep1Schema } from '@/Validation/Client/validator';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 const AddonsCard = lazy(() => import('../components/PI-Components/registration-step-cards/AddonsCard'));
 const FinishingUpCard = lazy(() => import('../components/PI-Components/registration-step-cards/FinishingUpCard'));
 const PlanCard = lazy(() => import('../components/PI-Components/registration-step-cards/PlanCard'));
@@ -24,6 +25,7 @@ const steps = [
 export default function Page() {
   const [step, setStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [formId,setFormId] = useState(0);
 
   // State for each form field
   const [projectTitle, setProjectTitle] = useState('');
@@ -38,16 +40,30 @@ export default function Page() {
   const [addons, setAddons] = useState(new Set());
 
 
-  const goToNextStep = () => {
-    if(step === 1){
+  const goToNextStep = async () => {
+    if(step === 0){
+      const data = {projectTitle,abstract,fundingAgency,startDate,endDate,expectedTimeline};
       const { value, error } = ProjectStep1Schema.validate({projectTitle,abstract,fundingAgency,startDate,endDate,expectedTimeline}, { abortEarly: false });
+      if(endDate < startDate){
+        toast.error('End date cannot be before start date');
+        return;
+      }
+
       if (error) {
         // Show the first error message in a toast
         toast.error(error.details[0].message);
         return;
       }
       else {
-        setStep((prevStep) => prevStep + 1)
+        // try {
+        //   const response = await axios.post(`/api/project/${formId}/step/${step}`, data);
+        //   setFormId(response.data.formId);
+        //   setStep((prevStep) => prevStep + 1)
+        //   toast.success('Progress Saved...')
+        // } catch (error) {
+        //   toast.error('failed to save progress')
+        // }
+        setStep((prevstep) => prevstep+1 )
       }
     }
   };
@@ -70,35 +86,30 @@ export default function Page() {
   };
 
   return (
-    <div className='mb-80 flex items-center justify-center'>
-      <main className={styles.main} >
-        <StepIndicator steps={steps} currentStep={steps[step].id} />
-
+    <div className='mb-80 flex justify-center' >
+      <main className={styles.main}>
+          <StepIndicator steps={steps} currentStep={steps[step].id} />
+        
         <Suspense fallback="Loading...">
-          <div className={styles.content}>
+          <div className={styles.content} style={{height:'100%',alignSelf:'flex-start'}}>
             {!isComplete ? (
               <>
                 <div className={styles.cardWrapper}>
                   {step === 0 && (
                     <PersonalInfoCard
-                    initialProjectTitle={projectTitle}
-                    initialAbstract={abstract}
-                    initialFundingAgency={fundingAgency}
-                    initialStartDate={startDate}
-                    initialEndDate={endDate}
-                    initialExpectedTimeline={expectedTimeline}
-                    onSubmit={(result) => {
-                      setProjectTitle(result.projectTitle);
-                      setAbstract(result.abstract);
-                      setFundingAgency(result.fundingAgency);
-                      setStartDate(result.startDate);
-                      setEndDate(result.endDate);
-                      setExpectedTimeline(result.expectedTimeline);
-                      goToNextStep();
-                    }}
+                      projectTitle={projectTitle}
+                      abstract={abstract}
+                      fundingAgency={fundingAgency}
+                      startDate={startDate}
+                      endDate={endDate}
+                      expectedTimeline={expectedTimeline}
+                      setProjectTitle={setProjectTitle}
+                      setAbstract={setAbstract}
+                      setFundingAgency={setFundingAgency}
+                      setStartDate={setStartDate}
+                      setEndDate={setEndDate}
+                      setExpectedTimeline={setExpectedTimeline}
                   />
-                  
-                  
                   )}
                   {step === 1 && (
                     <PlanCard

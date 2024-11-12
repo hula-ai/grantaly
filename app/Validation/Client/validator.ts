@@ -87,7 +87,7 @@ export const ProjectStep1Schema = Joi.object({
   }),
 
   // Expected Timeline validation
-  expectedTimeline: Joi.string().min(5).required().messages({
+  expectedTimeline: Joi.string().max(10).required().messages({
     "string.empty": "Expected timeline is required.",
     "string.min": "Expected timeline must be at least 5 characters.",
   }),

@@ -5,38 +5,39 @@ import styles from './PersonalInfoCard.module.scss'
 import React from 'react'
 import { FormTextArea } from '../textarea/textarea'
 
-type SubmitResult = { 
-  projectTitle: string; 
-  abstract: string; 
-  fundingAgency: string; 
-  startDate: string; 
-  endDate: string; 
-  expectedTimeline: string; 
-}
 
-type Props = {
-  initialProjectTitle: string
-  initialAbstract: string
-  initialFundingAgency: string
-  initialStartDate: string
-  initialEndDate: string
-  initialExpectedTimeline: string
-  formId: string
-  onSubmit: (result: SubmitResult) => void
-}
+interface Props {
+    projectTitle: string;
+    abstract: string;
+    fundingAgency: string;
+    startDate: string;
+    endDate: string;
+    expectedTimeline: string;
+    
+    setProjectTitle: (value: string) => void;
+    setAbstract: (value: string) => void;
+    setFundingAgency: (value: string) => void;
+    setStartDate: (value: string) => void;
+    setEndDate: (value: string) => void;
+    setExpectedTimeline: (value: string) => void;
+  }
 
 export default function PersonalInfoCard(
-  { 
-    initialProjectTitle, 
-    initialAbstract, 
-    initialFundingAgency, 
-    initialStartDate, 
-    initialEndDate, 
-    initialExpectedTimeline, 
-    formId, 
-    onSubmit 
+  { projectTitle,
+    abstract,
+    fundingAgency,
+    startDate,
+    endDate,
+    expectedTimeline,
+    setProjectTitle,
+    setAbstract,
+    setFundingAgency,
+    setStartDate,
+    setEndDate,
+    setExpectedTimeline,
   }: Props,
 ) {
+
   const projectTitleInputRef = useRef<HTMLInputElement>(null)
   const abstractInputRef = useRef<HTMLInputElement>(null)
   const fundingAgencyInputRef = useRef<HTMLInputElement>(null)
@@ -44,12 +45,6 @@ export default function PersonalInfoCard(
   const endDateInputRef = useRef<HTMLInputElement>(null)
   const expectedTimelineInputRef = useRef<HTMLInputElement>(null)
 
-  const [projectTitle, setProjectTitle] = useState(initialProjectTitle)
-  const [abstract, setAbstract] = useState(initialAbstract)
-  const [fundingAgency, setFundingAgency] = useState(initialFundingAgency)
-  const [startDate, setStartDate] = useState(initialStartDate)
-  const [endDate, setEndDate] = useState(initialEndDate)
-  const [expectedTimeline, setExpectedTimeline] = useState(initialExpectedTimeline)
 
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
@@ -73,13 +68,12 @@ export default function PersonalInfoCard(
 
   return (
     <Card>
-      <Card.Title>Project Information</Card.Title>
+      <Card.Title>Project Information Form</Card.Title>
       <Card.Description>
         Please provide details about the project.
       </Card.Description>
       <form
         noValidate
-        id={formId}
         className={styles.cardContent}
         onSubmit={(event) => {
           event.preventDefault()
@@ -152,6 +146,7 @@ export default function PersonalInfoCard(
               label='Start Date'
               value={startDate}
               type='date'
+              min = {new Date().toISOString().split('T')[0]}
               onChange={startDate => setStartDate(startDate)}
               error={hasSubmitted && startDate.length === 0 ? 'This field is required' : undefined}
             />
@@ -160,6 +155,7 @@ export default function PersonalInfoCard(
               label='End Date'
               value={endDate}
               type='date'
+              min = {new Date().toISOString().split('T')[0]}
               onChange={endDate => setEndDate(endDate)}
               error={hasSubmitted && endDate.length === 0 ? 'This field is required' : undefined}
             />

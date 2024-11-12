@@ -28,7 +28,7 @@
 }
 
 .nextStepButton {
-  background-color: var(--clr-denim);
+  background-color: #483EFF;
   color: var(--clr-white);
   font-size: var(--btn-font-size);
   font-weight: var(--btn-font-weight);
@@ -41,7 +41,7 @@
   }
 
   &:hover {
-    background-color: hsl(213, 72%, 31%);
+    background-color: hsl(213, 76%, 49%);
   }
 
   &:focus {
