@@ -7,7 +7,8 @@ import StepIndicator from "../components/PI-Components/multi-step/StepIndicator"
 import styles from './PI.module.scss'
 import { Plan, PlanAddon, planAddons, plans, PriceType } from '../config';
 import PersonalInfoCard from '../components/PI-Components/registration-step-cards/PersonalInfoCard';
-
+import { ProjectStep1Schema } from '@/Validation/Client/signup-validation';
+import toast from 'react-hot-toast';
 const AddonsCard = lazy(() => import('../components/PI-Components/registration-step-cards/AddonsCard'));
 const FinishingUpCard = lazy(() => import('../components/PI-Components/registration-step-cards/FinishingUpCard'));
 const PlanCard = lazy(() => import('../components/PI-Components/registration-step-cards/PlanCard'));
@@ -36,11 +37,19 @@ export default function Page() {
   const [priceType, setPriceType] = useState('monthly');
   const [addons, setAddons] = useState(new Set());
 
+
   const goToNextStep = () => {
     if(step === 1){
-// Need to implement steps
+      const { value, error } = ProjectStep1Schema.validate({projectTitle,abstract,fundingAgency,startDate,endDate,expectedTimeline}, { abortEarly: false });
+      if (error) {
+        // Show the first error message in a toast
+        toast.error(error.details[0].message);
+        return;
+      }
+      else {
+        setStep((prevStep) => prevStep + 1)
+      }
     }
-    setStep((prevStep) => prevStep + 1)
   };
 
 
