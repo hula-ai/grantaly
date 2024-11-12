@@ -47,6 +47,7 @@ export default async function getCurrentUser(): Promise<user | null> {
         contact : currentUser.contact,
         email : currentUser.email,
         password : currentUser.password,
+        role : currentUser.role,
     }
 
     return user

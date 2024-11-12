@@ -1,3 +1,5 @@
+import { Role } from "@/models/User";
+
 export interface whyDataInterface {
     heading: string;
     subheading: string;
@@ -20,6 +22,7 @@ export interface user {
     contact : string;
     password : string;
     email : string;
+    role : Role
 }
 
 export interface datatype {

@@ -1,13 +1,13 @@
 import { GetServerSideProps } from "next";
-import Header from "@/component/Header/Header";
+import Header from "@/components/coComponents/Header/Header";
 import { getCaseById } from "@/actions/getCaseById";
 import { CaseObject } from "@/types/type";
-import NoData from "@/component/NoData/NoData";
+import NoData from "@/components/coComponents/NoData/NoData";
 import { getUserById } from "@/actions/getUserById";
 import EditUser from "./EditUser";
-import { Role } from "@/models/user";
-import RedirectComponent from "@/component/RedirectComponent/RedirectComponent";
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { Role } from "@/types/enum";
+import RedirectComponent from "@/components/coComponents/RedirectComponent/RedirectComponent";
+import getCurrentUser from "@/actions/getCurrentUser";
 export const dynamic = "force-dynamic";
 
 interface IParams {
@@ -22,16 +22,16 @@ const Page = async ({ params }: { params: IParams }) => {
     return <RedirectComponent />;
   }
 
-  const User = await getUserById(params);
+  // const User = await getUserById(params);
 
-  if (!User) {
-    return <NoData />;
-  }
+  // if (!User) {
+  //   return <NoData />;
+  // }
 
 
   return (
     <>
-      <EditUser User={User} />
+      <EditUser User={currentUser} />
     </>
   );
 };
