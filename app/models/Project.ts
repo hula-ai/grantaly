@@ -37,6 +37,11 @@ const projectSchema = new mongoose.Schema({
     default: FormStep.Step1,
     required: true,
   },
+  isBooked: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',  // Reference to the User model

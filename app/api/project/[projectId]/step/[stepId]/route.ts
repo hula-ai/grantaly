@@ -119,16 +119,19 @@ export async function PUT(req: Request,
       if (project.userId.toString() !== id) {
         return NextResponse.json({ message: "Unauthorized to edit this project" }, { status: 403 });
       }
-  
-      project.projectTitle = projectTitle || project.projectTitle;
-      project.abstract = abstract || project.abstract;
-      project.fundingAgency = fundingAgency || project.fundingAgency;
-      project.startDate = startDate || project.startDate;
-      project.endDate = endDate || project.endDate;
-      project.expectedTimeline = expectedTimeline || project.expectedTimeline;
-      project.formStep = NumStepId > project.formStep ? NumStepId : project.formStep;
-      project.isCompeleted = NumStepId === 5;
-  
+
+      if (NumStepId === 1) {
+        project.projectTitle = projectTitle || project.projectTitle;
+        project.abstract = abstract || project.abstract;
+        project.fundingAgency = fundingAgency || project.fundingAgency;
+        project.startDate = startDate || project.startDate;
+        project.endDate = endDate || project.endDate;
+        project.expectedTimeline = expectedTimeline || project.expectedTimeline;
+        project.formStep = NumStepId > project.formStep ? NumStepId : project.formStep;
+        project.isCompeleted = project.formStep === 5 ? true : false;
+      } else if (NumStepId === 2) {
+        project.isBooked = true;
+      }
       await project.save();
   
       return NextResponse.json({ message: "Project updated successfully", projectId: project._id }, { status: 200 });
