@@ -14,9 +14,9 @@ const PlanCard = lazy(() => import('../components/PI-Components/registration-ste
 const ThankYouCard = lazy(() => import('../components/PI-Components/registration-step-cards/ThankYouCard'));
 
 const steps = [
-  { id: '1', name: 'Your info' },
-  { id: '2', name: 'Select plan' },
-  { id: '3', name: 'Add-ons' },
+  { id: '1', name: 'Project Information Form' },
+  { id: '2', name: 'Meeting Booking' },
+  { id: '3', name: 'Contract Management' },
   { id: '4', name: 'Summary' },
 ];
 
@@ -25,14 +25,26 @@ export default function Page() {
   const [isComplete, setIsComplete] = useState(false);
 
   // State for each form field
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [projectTitle, setProjectTitle] = useState('');
+  const [abstract, setAbstract] = useState('');
+  const [fundingAgency, setFundingAgency] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [expectedTimeline, setExpectedTimeline] = useState('');
+
   const [selectedPlan, setSelectedPlan] = useState(plans[0]);
   const [priceType, setPriceType] = useState('monthly');
   const [addons, setAddons] = useState(new Set());
 
-  const goToNextStep = () => setStep((prevStep) => prevStep + 1);
+  const goToNextStep = () => {
+    if(step === 1){
+// Need to implement steps
+    }
+    setStep((prevStep) => prevStep + 1)
+  };
+
+
+
   const goToPrevStep = () => setStep((prevStep) => prevStep - 1);
   const goToPlanStep = () => setStep(1);
   const finish = () => setIsComplete(true);
@@ -60,16 +72,24 @@ export default function Page() {
                 <div className={styles.cardWrapper}>
                   {step === 0 && (
                     <PersonalInfoCard
-                      initialName={name}
-                      initialEmail={email}
-                      initialPhoneNumber={phoneNumber}
-                      onSubmit={(result) => {
-                        setName(result.name);
-                        setEmail(result.email);
-                        setPhoneNumber(result.phone);
-                        goToNextStep();
-                      }}
-                    />
+                    initialProjectTitle={projectTitle}
+                    initialAbstract={abstract}
+                    initialFundingAgency={fundingAgency}
+                    initialStartDate={startDate}
+                    initialEndDate={endDate}
+                    initialExpectedTimeline={expectedTimeline}
+                    onSubmit={(result) => {
+                      setProjectTitle(result.projectTitle);
+                      setAbstract(result.abstract);
+                      setFundingAgency(result.fundingAgency);
+                      setStartDate(result.startDate);
+                      setEndDate(result.endDate);
+                      setExpectedTimeline(result.expectedTimeline);
+                      goToNextStep();
+                    }}
+                  />
+                  
+                  
                   )}
                   {step === 1 && (
                     <PlanCard
@@ -101,7 +121,7 @@ export default function Page() {
                 <NavBar
                   steps={steps.length}
                   currentStep={step}
-                  isAtPersonalInfoStep={step === 0}
+                  isAtPersonalInfoStep={step === steps.length}
                   onBackButtonClick={goToPrevStep}
                   onNextStepButtonClick={goToNextStep}
                   onConfirmButtonClick={finish}

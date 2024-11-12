@@ -25,15 +25,17 @@ export function NavBar(
     <div className={styles.container}>
       {currentStep > 0 && (
         <button className={styles.goBackButton} onClick={onBackButtonClick}>
-          Go Back
+          {'<<'} Go Back
         </button>
       )}
       {(currentStep < steps - 1 && !isAtPersonalInfoStep) && (
         <button
           className={styles.nextStepButton}
-          onClick={onNextStepButtonClick}
+          onClick={() => {
+            onNextStepButtonClick()
+          }}
         >
-          Next Step
+          Next Step 
         </button>
       )}
       {/* If at the personal info step, the next button triggers the form submit */}

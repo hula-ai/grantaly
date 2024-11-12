@@ -1,42 +1,81 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { FormInput } from '../form/FormInput'
 import { Card } from '../multi-step/card/Card'
 import styles from './PersonalInfoCard.module.scss'
 import React from 'react'
+import { FormTextArea } from '../textarea/textarea'
 
-type SubmitResult = { name: string; email: string; phone: string }
+type SubmitResult = { 
+  projectTitle: string; 
+  abstract: string; 
+  fundingAgency: string; 
+  startDate: string; 
+  endDate: string; 
+  expectedTimeline: string; 
+}
 
 type Props = {
-  initialName: string
-  initialEmail: string
-  initialPhoneNumber: string
+  initialProjectTitle: string
+  initialAbstract: string
+  initialFundingAgency: string
+  initialStartDate: string
+  initialEndDate: string
+  initialExpectedTimeline: string
   formId: string
   onSubmit: (result: SubmitResult) => void
 }
 
 export default function PersonalInfoCard(
-  { initialName, initialEmail, initialPhoneNumber, formId, onSubmit }: Props,
+  { 
+    initialProjectTitle, 
+    initialAbstract, 
+    initialFundingAgency, 
+    initialStartDate, 
+    initialEndDate, 
+    initialExpectedTimeline, 
+    formId, 
+    onSubmit 
+  }: Props,
 ) {
-  const nameInputRef = useRef<HTMLInputElement>(null)
-  const emailInputRef = useRef<HTMLInputElement>(null)
-  const phoneInputRef = useRef<HTMLInputElement>(null)
+  const projectTitleInputRef = useRef<HTMLInputElement>(null)
+  const abstractInputRef = useRef<HTMLInputElement>(null)
+  const fundingAgencyInputRef = useRef<HTMLInputElement>(null)
+  const startDateInputRef = useRef<HTMLInputElement>(null)
+  const endDateInputRef = useRef<HTMLInputElement>(null)
+  const expectedTimelineInputRef = useRef<HTMLInputElement>(null)
 
-  const [name, setName] = useState(initialName)
-  const [email, setEmail] = useState(initialEmail)
-  const [phone, setPhone] = useState(initialPhoneNumber)
-  // Tracks if the form has been submitted at least once, so we
-  // know when to show validation messages
+  const [projectTitle, setProjectTitle] = useState(initialProjectTitle)
+  const [abstract, setAbstract] = useState(initialAbstract)
+  const [fundingAgency, setFundingAgency] = useState(initialFundingAgency)
+  const [startDate, setStartDate] = useState(initialStartDate)
+  const [endDate, setEndDate] = useState(initialEndDate)
+  const [expectedTimeline, setExpectedTimeline] = useState(initialExpectedTimeline)
+
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
-  const phoneError = validatePhoneNumber(phone)
-  const emailError = validateEmail(email)
-  const nameError = validateName(name)
+  // Calculate the expected timeline based on start and end dates
+  useEffect(() => {
+    if (startDate && endDate) {
+      const start = new Date(startDate)
+      const end = new Date(endDate)
+
+      // Calculate the difference in days
+      const timeDiff = end.getTime() - start.getTime()
+      const diffDays = timeDiff / (1000 * 3600 * 24)
+
+      if (diffDays >= 0) {
+        setExpectedTimeline(`${diffDays} days`)
+      } else {
+        setExpectedTimeline('Invalid date range')
+      }
+    }
+  }, [startDate, endDate]) // Recalculate whenever start or end date changes
 
   return (
     <Card>
-      <Card.Title>Personal info</Card.Title>
+      <Card.Title>Project Information</Card.Title>
       <Card.Description>
-        Please provide your name, email address, and phone number.
+        Please provide details about the project.
       </Card.Description>
       <form
         noValidate
@@ -45,86 +84,96 @@ export default function PersonalInfoCard(
         onSubmit={(event) => {
           event.preventDefault()
           // If there are no errors
-          if (!(nameError || emailError || phoneError)) {
-            onSubmit({ name, email, phone })
+          if (!(projectTitle.length === 0 || abstract.length === 0 || fundingAgency.length === 0 || startDate.length === 0 || endDate.length === 0 || expectedTimeline.length === 0)) {
+            onSubmit({ projectTitle, abstract, fundingAgency, startDate, endDate, expectedTimeline })
             return
           }
 
           setHasSubmitted(true)
 
           // Set focus on the first input with error
-          if (nameError) {
-            nameInputRef.current?.focus()
+          if (projectTitle.length === 0) {
+            projectTitleInputRef.current?.focus()
             return
           }
-          if (emailError) {
-            emailInputRef.current?.focus()
+          if (abstract.length === 0) {
+            abstractInputRef.current?.focus()
             return
           }
-          if (phoneError) {
-            phoneInputRef.current?.focus()
+          if (fundingAgency.length === 0) {
+            fundingAgencyInputRef.current?.focus()
+            return
+          }
+          if (startDate.length === 0) {
+            startDateInputRef.current?.focus()
+            return
+          }
+          if (endDate.length === 0) {
+            endDateInputRef.current?.focus()
+            return
+          }
+          if (expectedTimeline.length === 0) {
+            expectedTimelineInputRef.current?.focus()
             return
           }
         }}
       >
         <FormInput
-          ref={nameInputRef}
-          label='Name'
-          value={name}
+          ref={projectTitleInputRef}
+          label='Project Title'
+          value={projectTitle}
           type='text'
-          placeholder='e.g. Stephen King'
-          onChange={name => setName(name)}
+          placeholder='Enter project title'
+          onChange={projectTitle => setProjectTitle(projectTitle)}
           autoFocus
-          error={hasSubmitted ? nameError : undefined}
+          error={hasSubmitted && projectTitle.length === 0 ? 'This field is required' : undefined}
+        />
+        <FormTextArea
+          ref={abstractInputRef}
+          label='Abstract'
+          value={abstract}
+          type='text'
+          placeholder='Enter abstract'
+          onChange={abstract => setAbstract(abstract)}
+          error={hasSubmitted && abstract.length === 0 ? 'This field is required' : undefined}
         />
         <FormInput
-          ref={emailInputRef}
-          label='Email Address'
-          value={email}
-          type='email'
-          placeholder='e.g. stephenking@lorem.com'
-          onChange={email => setEmail(email)}
-          error={hasSubmitted ? emailError : undefined}
+          ref={fundingAgencyInputRef}
+          label='Funding Agency'
+          value={fundingAgency}
+          type='text'
+          placeholder='Enter funding agency'
+          onChange={fundingAgency => setFundingAgency(fundingAgency)}
+          error={hasSubmitted && fundingAgency.length === 0 ? 'This field is required' : undefined}
         />
+        <div className='grid grid-cols-2 gap-2'>
+            <FormInput
+              ref={startDateInputRef}
+              label='Start Date'
+              value={startDate}
+              type='date'
+              onChange={startDate => setStartDate(startDate)}
+              error={hasSubmitted && startDate.length === 0 ? 'This field is required' : undefined}
+            />
+            <FormInput
+              ref={endDateInputRef}
+              label='End Date'
+              value={endDate}
+              type='date'
+              onChange={endDate => setEndDate(endDate)}
+              error={hasSubmitted && endDate.length === 0 ? 'This field is required' : undefined}
+            />
+        </div>
         <FormInput
-          ref={phoneInputRef}
-          label='Phone Number'
-          value={phone}
-          type='tel'
-          placeholder='e.g. 1234567890'
-          onChange={phone => setPhone(phone)}
-          error={hasSubmitted ? phoneError : undefined}
+          ref={expectedTimelineInputRef}
+          label='Expected Timeline'
+          value={expectedTimeline}
+          type='text'
+          placeholder='Calculated timeline'
+          onChange={expectedTimeline => setExpectedTimeline(expectedTimeline)}
+          disabled
         />
       </form>
     </Card>
   )
-}
-
-function validateName(name: string) {
-  if (name.length === 0) {
-    return 'This field is required'
-  }
-}
-
-function validateEmail(email: string) {
-  if (email.length === 0) {
-    return 'This field is required'
-  }
-
-  if (
-    !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      .test(email)
-  ) {
-    return 'Invalid email'
-  }
-}
-
-function validatePhoneNumber(phone: string) {
-  if (phone.length === 0) {
-    return 'This field is required'
-  }
-
-  if (!/^[0-9]*$/.test(phone)) {
-    return 'Should only contain numbers'
-  }
 }
