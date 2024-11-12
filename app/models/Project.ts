@@ -1,3 +1,4 @@
+import { FormStep } from '@/types/enum';
 import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
@@ -23,6 +24,17 @@ const projectSchema = new mongoose.Schema({
   },
   expectedTimeline: {
     type: String,
+    required: true,
+  },
+  isCompeleted: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+  formStep: {
+    type: Number,
+    enum: Object.values(FormStep),
+    default: FormStep.Step1,
     required: true,
   },
   userId: {

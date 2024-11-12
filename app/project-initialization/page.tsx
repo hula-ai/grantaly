@@ -10,6 +10,8 @@ import PersonalInfoCard from '../components/PI-Components/registration-step-card
 import { ProjectStep1Schema } from '@/Validation/Client/validator';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+
+
 const AddonsCard = lazy(() => import('../components/PI-Components/registration-step-cards/AddonsCard'));
 const FinishingUpCard = lazy(() => import('../components/PI-Components/registration-step-cards/FinishingUpCard'));
 const PlanCard = lazy(() => import('../components/PI-Components/registration-step-cards/PlanCard'));
@@ -25,7 +27,7 @@ const steps = [
 export default function Page() {
   const [step, setStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [formId,setFormId] = useState(0);
+  const [projectId,setProjectId] = useState(0);
 
   // State for each form field
   const [projectTitle, setProjectTitle] = useState('');
@@ -55,15 +57,22 @@ export default function Page() {
         return;
       }
       else {
-        // try {
-        //   const response = await axios.post(`/api/project/${formId}/step/${step}`, data);
-        //   setFormId(response.data.formId);
-        //   setStep((prevStep) => prevStep + 1)
-        //   toast.success('Progress Saved...')
-        // } catch (error) {
-        //   toast.error('failed to save progress')
-        // }
-        setStep((prevstep) => prevstep+1 )
+        try {
+          if(projectId) {
+            const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, data);  
+            setProjectId(response.data.projectId);
+            setStep((prevStep) => prevStep + 1)
+            toast.success('Progress Saved...')
+          } else {
+            const response = await axios.post(`/api/project/${projectId}/step/${step+1}`, data);
+            setProjectId(response.data.projectId);
+            setStep((prevStep) => prevStep + 1)
+            toast.success('Progress Update Saved...')
+          }
+        } catch (error) {
+          toast.error('failed to save progress')
+        }
+        // setStep((prevstep) => prevstep+1 )
       }
     }
   };
