@@ -2,30 +2,31 @@
 import { Box, Button, Container, Heading, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "axios";
-import Loader from "@/component/Loader/Loader";
+import Loader from "@/components/coComponents/Loader/Loader";
 
 import { handleOpenToast } from "@/helper/toast";
 import { SignUpField, UserObject } from "@/types/type";
 import { Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 import { ChangeEvent } from "react";
-import PasswordField from "@/component/PasswordField/PasswordField";
+import PasswordField from "@/components/coComponents/PasswordField/PasswordField";
 import { useToastFunction } from "@/utils/ToastFunction";
 import { handleClientValidate } from "@/helper/validation";
 import { editUser, userSetting } from "@/schemas/validator";
+import { user } from "@/interface/interface";
 
 interface Props {
-  User: UserObject;
+  User: user;
 }
 
 const EditUser = ({ User }: Props) => {
   const toast = useToast();
   const [formData, setFormData] = useState<SignUpField>({
-    name: User.name,
+    firstName: User.firstName,
+    lastName:User.lastName,
+    contact:User.contact,
     email: User.email,
     password: "",
-    yoe: User.yoe,
-    designation: User.designation,
   });
 
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -40,78 +41,79 @@ const EditUser = ({ User }: Props) => {
   };
 
   const handleSubmitUserDetails = async () => {
-    const validate = handleClientValidate(
-      editUser,
-      {
-        name: formData.name,
-        designation: formData.designation,
-        yoe: formData.yoe,
-      },
-      toast
-    );
-    if (!validate) return;
-    try {
-      setLoading(true);
-      const response = await axios.put(
-        `/api/admin/user/${User._id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      showToast(
-        "User Data Submitted",
-        "Data Updated Successfully",
-        "success",
-        3000
-      );
-    } catch (err) {
-      showToast("Error", "Error in updating Record", "error", 3000);
-    } finally {
-      setLoading(false);
-    }
+    // const validate = handleClientValidate(
+    //   editUser,
+    //   {
+    //     firstName: formData.firstName,
+    //     lastName: formData.lastName,
+    //     contact: formData.contact,
+    //     email: formData.email,
+    //   },
+    //   toast
+    // );
+    // if (!validate) return;
+    // try {
+    //   setLoading(true);
+    //   const response = await axios.put(
+    //     `/api/admin/user/${User._id}`,
+    //     formData,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+    //   showToast(
+    //     "User Data Submitted",
+    //     "Data Updated Successfully",
+    //     "success",
+    //     3000
+    //   );
+    // } catch (err) {
+    //   showToast("Error", "Error in updating Record", "error", 3000);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const handleSubmitUserCredentials = async () => {
-    const validate = handleClientValidate(
-      userSetting,
-      {
-        email: formData.email,
-        confirmPassword: confirmPassword,
-        password: formData.password,
-      },
-      toast
-    );
-    if (!validate) return;
+    // const validate = handleClientValidate(
+    //   userSetting,
+    //   {
+    //     email: formData.email,
+    //     confirmPassword: confirmPassword,
+    //     password: formData.password,
+    //   },
+    //   toast
+    // );
+    // if (!validate) return;
 
-    try {
-      setCredentialsLoading(true);
-      const response = await axios.put(
-        `/api/admin/user/${User._id}/setting`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setCredentialsLoading(false);
+    // try {
+    //   setCredentialsLoading(true);
+    //   const response = await axios.put(
+    //     `/api/admin/user/${User._id}/setting`,
+    //     formData,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+    //   setCredentialsLoading(false);
 
-      showToast(
-        "User Data Submitted",
-        "Credentials Updated Successfully",
-        "success",
-        3000
-      );
-    } catch (err) {
-      setCredentialsLoading(false);
+    //   showToast(
+    //     "User Data Submitted",
+    //     "Credentials Updated Successfully",
+    //     "success",
+    //     3000
+    //   );
+    // } catch (err) {
+    //   setCredentialsLoading(false);
 
-      showToast("Error", "Error in updating Record", "error", 3000);
-    } finally {
-      setCredentialsLoading(false);
-    }
+    //   showToast("Error", "Error in updating Record", "error", 3000);
+    // } finally {
+    //   setCredentialsLoading(false);
+    // }
   };
   return (
     <Flex>
@@ -128,48 +130,63 @@ const EditUser = ({ User }: Props) => {
           </Heading>
 
           <FormControl mt={{ md: 12, base: 4, lg: 10 }}>
-            <FormLabel>Name</FormLabel>
+            <FormLabel>First Name</FormLabel>
             <Input
               onChange={handleChange}
-              name="name"
+              name="firstName"
               py={6}
-              value={formData.name}
+              value={formData.firstName}
               type="text"
               border='1px solid #adafb1'
-              placeholder="Enter Name"
+              placeholder="Enter First Name"
+              _hover={{ border: '1px solid #adafb1' }}
+              _placeholder={{ fontSize: '13px' }}
+            />
+          </FormControl>
+          <FormControl mt={{ md: 12, base: 4, lg: 10 }}>
+            <FormLabel>Last Name</FormLabel>
+            <Input
+              onChange={handleChange}
+              name="lastName"
+              py={6}
+              value={formData.lastName}
+              type="text"
+              border='1px solid #adafb1'
+              placeholder="Enter Last Name"
+              _hover={{ border: '1px solid #adafb1' }}
+              _placeholder={{ fontSize: '13px' }}
+            />
+          </FormControl>
+          <FormControl mt={{ md: 12, base: 4, lg: 10 }}>
+            <FormLabel>Contact</FormLabel>
+            <Input
+              onChange={handleChange}
+              name="contact"
+              py={6}
+              value={formData.contact}
+              type="text"
+              border='1px solid #adafb1'
+              placeholder="Enter Contact Number"
+              _hover={{ border: '1px solid #adafb1' }}
+              _placeholder={{ fontSize: '13px' }}
+            />
+          </FormControl>
+          <FormControl mt={{ md: 12, base: 4, lg: 10 }}>
+            <FormLabel>Email</FormLabel>
+            <Input
+              onChange={handleChange}
+              name="email"
+              py={6}
+              value={formData.email}
+              type="text"
+              border='1px solid #adafb1'
+              placeholder="Enter Email"
               _hover={{ border: '1px solid #adafb1' }}
               _placeholder={{ fontSize: '13px' }}
             />
           </FormControl>
 
-          <FormControl mt={{ md: 12, base: 4, lg: 10 }}>
-            <FormLabel>Year of Experience</FormLabel>
-            <Input
-              onChange={handleChange}
-              name="yoe"
-              value={formData.yoe}
-              type="number"
-              placeholder="Enter Year"
-              py={6}
-              border='1px solid #adafb1'
-              _hover={{ border: '1px solid #adafb1' }}
-              _placeholder={{ fontSize: '13px' }}
-            />
-          </FormControl>
-          <FormControl mt={{ md: 12, base: 4, lg: 10 }}>
-            <FormLabel>Designation</FormLabel>
-            <Input
-              onChange={handleChange}
-              name="designation"
-              value={formData.designation}
-              type="text"
-              placeholder="Enter Designation"
-              py={6}
-              border='1px solid #adafb1'
-              _hover={{ border: '1px solid #adafb1' }}
-              _placeholder={{ fontSize: '13px' }}
-            />
-          </FormControl>
+
           <Button
             disabled={loading}
             onClick={handleSubmitUserDetails}

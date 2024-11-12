@@ -1,4 +1,4 @@
-import UsersTable from '@/component/UsersTable/UsersTable'
+import UsersTable from '@/components/coComponents/UsersTable/UsersTable'
 import React from 'react'
 
 const page = () => {

@@ -1,5 +1,5 @@
-import Header from "@/component/Header/Header";
-import UserForm from "@/component/UserForm/UserForm";
+import Header from "@/components/coComponents/Header/Header";
+import UserForm from "@/components/coComponents/UserForm/UserForm";
 import { Box } from "@chakra-ui/react";
 import React from "react";
 

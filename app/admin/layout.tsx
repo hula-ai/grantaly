@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 // import "../global.css";
 
-import { connectToMongoDB } from "@/lib/db";
+// import { connectToMongoDB } from "@/lib/db";
 import { Providers } from "../Providers/Provider";
 
 import { Box } from "@chakra-ui/react";
-import Header from "@/component/Header/Header";
-import AdminSideBar from "@/component/AdminSideBar/AdminSideBar";
+import Header from "@/components/coComponents/Header/Header";
+import AdminSideBar from "@/components/coComponents/AdminSideBar/AdminSideBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  connectToMongoDB();
+  // connectToMongoDB();
   return (
     <Box >
       <AdminSideBar>{children}</AdminSideBar>
