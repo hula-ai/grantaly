@@ -3,7 +3,7 @@
 import './globals.css';
 import ClientOnly from './components/ClientOnly/ClientOnly';
 import getCurrentUser from './actions/getCurrentUser';
-
+import React from 'react';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 

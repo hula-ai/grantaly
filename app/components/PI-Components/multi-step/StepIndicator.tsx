@@ -25,7 +25,7 @@ const StepIndicator = ({ steps, currentStep }: Props) => {
             {step.id}
           </div>
           <p className={classNames('text-body-sm', styles.stepId)}>STEP {step.id}</p>
-          <p className={classNames('text-body-md', styles.stepName)}>{step.name}</p>
+          <p className={classNames('text-body-sm', styles.stepName)}>{step.name}</p>
         </li>
       ))}
     </ul>

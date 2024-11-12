@@ -1,7 +1,7 @@
 
 
 export const dynamic = "force-dynamic"
-
+import React from 'react';
 import Banner from './components/Banner/Banner';
 import Companies from './components/Companies/Companies';
 import Buyers from './components/Buyers/index';

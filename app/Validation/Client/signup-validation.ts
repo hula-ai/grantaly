@@ -52,3 +52,44 @@ export const ContactUsValidation = Joi.object({
     "string.min": "Message must be at least 10 characters.",
   }),
 });
+
+
+// Steps Project Initialization validation
+export const ProjectStep1Schema = Joi.object({
+  // Project Title validation
+  projectTitle: Joi.string().min(2).required().messages({
+    "string.empty": "Project title is required.",
+    "string.min": "Project title must be at least 2 characters.",
+  }),
+
+  // Abstract validation
+  abstract: Joi.string().min(2).required().messages({
+    "string.empty": "Abstract is required.",
+    "string.min": "Abstract must be at least 2 characters.",
+  }),
+
+  // Funding Agency validation
+  fundingAgency: Joi.string().min(2).required().messages({
+    "string.empty": "Funding agency is required.",
+    "string.min": "Funding agency must be at least 2 characters.",
+  }),
+
+  // Start Date validation
+  startDate: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).required().messages({
+    "string.empty": "Start date is required.",
+    "string.pattern.base": "Start date must be in the format YYYY-MM-DD.",
+  }),
+
+  // End Date validation
+  endDate: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).required().messages({
+    "string.empty": "End date is required.",
+    "string.pattern.base": "End date must be in the format YYYY-MM-DD.",
+  }),
+
+  // Expected Timeline validation
+  expectedTimeline: Joi.string().min(5).required().messages({
+    "string.empty": "Expected timeline is required.",
+    "string.min": "Expected timeline must be at least 5 characters.",
+  }),
+});
+
