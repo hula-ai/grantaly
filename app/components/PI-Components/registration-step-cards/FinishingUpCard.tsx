@@ -96,3 +96,86 @@ function calcTotal(plan: Plan, addons: Set<PlanAddon>, priceType: PriceType) {
 
   return total
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import axios from 'axios';
+
+// const uploadFile = async (file) => {
+//   try {
+//     // Step 1: Get presigned URL from the backend
+//     const { data } = await axios.post('/api/generatePresignedUrl', {
+//       fileName: file.name,
+//       fileType: file.type,
+//     });
+
+//     const { presignedUrl, key } = data;
+
+//     // Step 2: Upload file to S3 using the presigned URL
+//     await axios.put(presignedUrl, file, {
+//       headers: {
+//         'Content-Type': file.type,
+//       },
+//     });
+
+//     console.log('File uploaded successfully:', key);
+//     return key; // This can be stored in the database to reference the file
+//   } catch (error) {
+//     console.error('Error uploading file:', error);
+//     throw error;
+//   }
+// };
+
+
+
+
+
+// import { useState } from 'react';
+
+// const Step3UploadForm = () => {
+//   const [file, setFile] = useState(null);
+
+//   const handleFileChange = (event) => {
+//     setFile(event.target.files[0]);
+//   };
+
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+//     if (!file) return alert("Please select a file");
+
+//     try {
+//       const fileKey = await uploadFile(file);
+//       console.log("Uploaded file key:", fileKey);
+//       // Now, you can send fileKey to your backend to store the file reference in your database
+//     } catch (error) {
+//       console.error("File upload failed", error);
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input type="file" onChange={handleFileChange} accept="image/*,application/pdf" />
+//       <button type="submit">Upload Document</button>
+//     </form>
+//   );
+// };
+
