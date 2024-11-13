@@ -4,7 +4,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Card } from '../multi-step/card/Card'
 import styles from './AddonsCard.module.scss'
-import ClipLoader from "react-spinners/ClipLoader"; 
+// import ClipLoader from "react-spinners/ClipLoader"; 
 import { File } from '@/interface/interface';
 
 interface Props {
@@ -187,7 +187,7 @@ const DocumentUpload = ({clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props)
                 cursor: 'pointer',
               }}
             />
-            <ClipLoader color={"#483EFF"} loading={loader} size={30} />
+            {/* <ClipLoader color={"#483EFF"} loading={loader} size={30} /> */}
             </div>
           </div>
 

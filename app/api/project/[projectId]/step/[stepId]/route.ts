@@ -98,8 +98,9 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       endDate,
       expectedTimeline,
       userId,
-      clientDocs = [],  // Array of client documents (already uploaded)
-      adminDocs = [],   // Array of admin documents (already uploaded)
+      clientDocs = [], 
+      adminDocs = [],   
+      URLs = [], 
     } = await req.json();
 
     const { projectId, stepId } = params;
@@ -138,9 +139,11 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
     } else if (NumStepId === 2) {
       project.isBooked = true;
     } else if (NumStepId === 3) {
-      // Store the clientDocs and adminDocs arrays
-      project.clientDocs = clientDocs;  // Store the received array of client docs
-      project.adminDocs = adminDocs;    // Store the received array of admin docs
+      project.clientDocs = clientDocs;
+      project.adminDocs = adminDocs;
+    } else if (NumStepId === 4) {
+      console.log("Received string array:", URLs);
+      project.URLs = URLs;  // Store the array of strings for step 4
     }
 
     await project.save();
@@ -156,3 +159,4 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
     );
   }
 }
+
