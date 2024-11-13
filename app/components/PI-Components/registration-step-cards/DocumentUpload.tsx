@@ -49,12 +49,11 @@ const DocumentUpload = ({clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props)
           const responseData:File = response.data;
         
             if (activeTab === 'client') {
-                               // If activeTab is false, store the response data in clientDocs
-            setClientDocs(prevDocs => [...prevDocs, responseData]);
+                // If activeTab is false, store the response data in clientDocs
+                setClientDocs(prevDocs => [...prevDocs, responseData]);
             } else {
- 
-                        // If activeTab is true, store the response data in adminDocs
-                        setAdminDocs(prevDocs => [...prevDocs, responseData]);
+                // If activeTab is true, store the response data in adminDocs
+                setAdminDocs(prevDocs => [...prevDocs, responseData]);
             }
      
           // Handle the response (e.g., save the S3 URL or file key in your state/database)

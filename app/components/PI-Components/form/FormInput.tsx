@@ -7,6 +7,8 @@ type Props =
     label: string
     value: string
     error?: string
+    func?: any;
+    remove?: any;
     onChange: (newValue: string) => void
   }
   & Pick<
@@ -16,7 +18,7 @@ type Props =
 
 export const FormInput = forwardRef<HTMLInputElement, Props>(
   (props, ref) => {
-    const { label, value, onChange, error, ...inputProps } = props
+    const { label, value, onChange, error,func,remove, ...inputProps } = props
     const id = 'formInput-' + useId()
 
     return (
@@ -29,6 +31,7 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
             <p className={styles.errorMessage} aria-live='polite'>{error}</p>
           )}
         </div>
+        <div className='flex items-center gap-2'>
         <input
           id={id}
           type='text'
@@ -40,6 +43,20 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(
           }}
           {...inputProps}
         />
+        {remove && <button
+                  onClick={() => {func()}}
+                  style={{
+                    marginLeft: '0px',
+                    cursor: 'pointer',
+                    backgroundColor: '#ff4d4d',
+                    color: '#fff',
+                    border: 'none',
+                    marginTop: '0px',
+                    padding: '6px 12px',
+                    borderRadius: '100px',
+                  }}
+                >&times;</button>}
+                </div>
       </div>
     )
   },

@@ -1,21 +1,30 @@
+import { useState } from 'react'
 import { Plan, PlanAddon, planAddons, PriceType } from '../../../config'
 import { Card } from '../multi-step/card/Card'
 import styles from './FinishingUpCard.module.scss'
+import { FormInput } from '../form/FormInput'
 
-type Props = {
-  plan: Plan
-  addons: Set<PlanAddon>
-  priceType: PriceType
-  onChangePlanClick: () => void
+interface Props {
+  urls: string[]
+  setUrls: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export default function FinishingUpCard(
-  { plan, addons, priceType, onChangePlanClick }: Props,
-) {
-  const isMonthly = priceType === 'monthly'
-  const total = calcTotal(plan, addons, priceType)
+const DataUpload = ({ urls, setUrls }: Props) => {
 
-  const selectedAddons = planAddons.filter(addon => addons.has(addon))
+
+  const handleAddUrl = () => {
+    setUrls([...urls, ''])
+  }
+
+  const handleRemoveUrl = (index: number) => {
+    setUrls(urls.filter((_, i) => i !== index))
+  }
+
+  const handleUrlChange = (index: number, value: string) => {
+    const updatedUrls = [...urls]
+    updatedUrls[index] = value
+    setUrls(updatedUrls)
+  }
 
   return (
     <Card>
@@ -23,159 +32,47 @@ export default function FinishingUpCard(
       <Card.Description>
         Share your data securely through URLs (e.g., Google Drive, Dropbox).
       </Card.Description>
+        
       <div className={styles.cardContent}>
         <div className={styles.summary}>
-          <div className={styles.planSummary}>
-            <p className={styles.name}>
-              {`${plan.name} (${isMonthly ? 'Monthly' : 'Yearly'})`}
-            </p>
-            <button className={styles.changeBtn} onClick={onChangePlanClick}>
-              Change
-            </button>
-            <p className={styles.price}>
-              {getPriceMessage(
-                plan.monthlyPrice,
-                plan.yearlyPrice,
-                priceType,
-              )}
-            </p>
-          </div>
-
-          {selectedAddons.length > 0
-            && (
-              <div className={styles.addonList}>
-                {selectedAddons.map(addon => (
-                  <p key={addon.id} className={styles.addon}>
-                    <span className={styles.name}>{addon.name}</span>
-                    <span className={styles.price}>
-                      {'+'
-                        + getPriceMessage(
-                          addon.monthlyPrice,
-                          addon.yearlyPrice,
-                          priceType,
-                        )}
-                    </span>
-                  </p>
-                ))}
+          <div className={"flex flex-col gap-4"}>
+            {urls.map((url, index) => (
+              <div key={index}>
+                <FormInput
+                  label={`Enter your Url ${index + 1}`}
+                  value={url}
+                  type="text"
+                  placeholder=""
+                  onChange={(e) => handleUrlChange(index,e)}
+                  autoFocus
+                  remove={true}
+                  func={ () => handleRemoveUrl(index)}
+                />
               </div>
-            )}
+            ))}
+          </div>
+          
         </div>
       </div>
-
-      <div className={styles.total}>
-        <p className={styles.label}>
-          {`Total (per ${isMonthly ? 'month' : 'year'})`}
-        </p>
-        <p className={styles.price}>{`$${total}/${isMonthly ? 'mo' : 'yr'}`}</p>
-      </div>
+      <button
+          type="button"
+          onClick={handleAddUrl}
+          style={{
+            display: 'flex',
+            alignSelf: 'end',
+            padding: '10px 20px',
+            cursor: 'pointer',
+            backgroundColor: '#007bff' ,
+            color: '#fff',
+            border: 'none',
+            marginLeft: '16px',
+            borderRadius: '4px',
+          }}
+        >
+          + Add URL
+        </button>
     </Card>
   )
 }
 
-function getPriceMessage(
-  monthlyPrice: number,
-  yearlyPrice: number,
-  priceType: PriceType,
-) {
-  if (priceType === 'monthly') {
-    return `$${monthlyPrice}/mo`
-  }
-
-  return `$${yearlyPrice}/yr`
-}
-
-function calcTotal(plan: Plan, addons: Set<PlanAddon>, priceType: PriceType) {
-  let total = 0
-  if (priceType === 'monthly') {
-    total += plan.monthlyPrice
-    addons.forEach(addon => total += addon.monthlyPrice)
-  } else {
-    total += plan.yearlyPrice
-    addons.forEach(addon => total += addon.yearlyPrice)
-  }
-
-  return total
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import axios from 'axios';
-
-// const uploadFile = async (file) => {
-//   try {
-//     // Step 1: Get presigned URL from the backend
-//     const { data } = await axios.post('/api/generatePresignedUrl', {
-//       fileName: file.name,
-//       fileType: file.type,
-//     });
-
-//     const { presignedUrl, key } = data;
-
-//     // Step 2: Upload file to S3 using the presigned URL
-//     await axios.put(presignedUrl, file, {
-//       headers: {
-//         'Content-Type': file.type,
-//       },
-//     });
-
-//     console.log('File uploaded successfully:', key);
-//     return key; // This can be stored in the database to reference the file
-//   } catch (error) {
-//     console.error('Error uploading file:', error);
-//     throw error;
-//   }
-// };
-
-
-
-
-
-// import { useState } from 'react';
-
-// const Step3UploadForm = () => {
-//   const [file, setFile] = useState(null);
-
-//   const handleFileChange = (event) => {
-//     setFile(event.target.files[0]);
-//   };
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-//     if (!file) return alert("Please select a file");
-
-//     try {
-//       const fileKey = await uploadFile(file);
-//       console.log("Uploaded file key:", fileKey);
-//       // Now, you can send fileKey to your backend to store the file reference in your database
-//     } catch (error) {
-//       console.error("File upload failed", error);
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <input type="file" onChange={handleFileChange} accept="image/*,application/pdf" />
-//       <button type="submit">Upload Document</button>
-//     </form>
-//   );
-// };
-
+export default DataUpload;

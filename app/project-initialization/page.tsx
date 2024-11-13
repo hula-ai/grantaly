@@ -12,6 +12,8 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import DocumentUpload from '@/components/PI-Components/registration-step-cards/DocumentUpload';
 import { File } from '@/interface/interface';
+import DataUpload from '../components/PI-Components/registration-step-cards/FinishingUpCard';
+import { m } from 'framer-motion';
 
 
 const AddonsCard = lazy(() => import('../components/PI-Components/registration-step-cards/AddonsCard'));
@@ -23,11 +25,12 @@ const steps = [
   { id: '1', name: 'Project Information Form' },
   { id: '2', name: 'Meeting Booking' },
   { id: '3', name: 'Contract Management' },
-  { id: '4', name: 'Summary' },
+  { id: '4', name: 'Data Upload' },
+  { id: '5', name: 'Summary' },
 ];
 
 export default function Page() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(3);
   const [isComplete, setIsComplete] = useState(false);
   const [projectId,setProjectId] = useState(0);
 
@@ -42,6 +45,10 @@ export default function Page() {
   // Step3 UseStates
   const [clientDocs, setClientDocs] = useState<File[]>([]);
   const [adminDocs, setAdminDocs] = useState<File[]>([]);
+
+  // Step 4 Urls
+  const [urls,setUrls] = useState<string[]>([]);
+  console.log(urls,'we are urls')
 
   const [selectedPlan, setSelectedPlan] = useState(plans[0]);
   const [priceType, setPriceType] = useState('monthly');
@@ -61,6 +68,7 @@ export default function Page() {
         toast.error(error.details[0].message);
         return;
       }
+
       else {
         try {
           if(projectId) {
@@ -106,6 +114,29 @@ export default function Page() {
             toast.success('Progress Saved...')
           }
         } 
+      } catch (error) {
+        toast.error('failed to save progress')
+      } 
+    }
+
+    const validateUrls = () => {
+      if (urls.length === 0 || urls.some((url) => url.trim() === '')) {
+        toast.error('Please ensure all URLs are filled in and that you have at least one URL.')
+        return false
+      }
+      return true
+    }
+
+    if(step === 3){
+      if (!validateUrls()){
+        return;
+      }
+      try {
+          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {urls});  
+          if(response.data){
+            setStep((prevStep) => prevStep + 1)
+            toast.success('Progress Saved...')
+          }
       } catch (error) {
         toast.error('failed to save progress')
       } 
@@ -168,11 +199,9 @@ export default function Page() {
                     <DocumentUpload adminDocs={adminDocs} clientDocs={clientDocs} setAdminDocs={setAdminDocs} setClientDocs={setClientDocs}/>
                   )}
                   {step === 3 && (
-                    <FinishingUpCard
-                      onChangePlanClick={goToPlanStep}
-                      plan={selectedPlan}
-                      addons={addons}
-                      priceType={priceType}
+                    <DataUpload
+                      urls={urls}
+                      setUrls={setUrls}
                     />
                   )}
                 </div>
