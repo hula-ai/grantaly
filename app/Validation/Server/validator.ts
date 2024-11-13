@@ -88,3 +88,12 @@ export const projectSchema = Joi.object({
     'string.empty': 'Expected timeline is required',
   })
 });
+
+export const uploadSchema = Joi.object({
+  fileName: Joi.string().required().messages({
+    'any.required': 'File name is required',
+  }),
+  fileType: Joi.string().required().messages({
+    'any.required': 'File type is required',
+  }),
+});
