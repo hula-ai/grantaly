@@ -46,11 +46,7 @@ export async function POST(req: Request) {
       const s3Params = {
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: `uploads/${Date.now()}_${fileName}`,
-<<<<<<< HEAD
         Body: file.buffer,  // Use the file buffer directly from memory
-=======
-        Body: file.stream,  // Use the file stream directly
->>>>>>> 6468aacb048ce581eb706c059bbaccd004b95db5
         ContentType: fileType,
       };
 
