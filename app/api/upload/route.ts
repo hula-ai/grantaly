@@ -1,7 +1,6 @@
 import formidable from 'formidable';
 import AWS from 'aws-sdk';
 import { NextResponse } from 'next/server';
-import fs from 'fs';
 import { uploadSchema } from '@/Validation/Server/validator';
 
 // AWS S3 configuration
@@ -19,7 +18,11 @@ export const config = {
 };
 
 export async function POST(req: Request) {
-  const form = new formidable.IncomingForm();  // This should work after correcting the import
+  const form = new formidable.IncomingForm({
+    // Use memory storage to store files in memory (not the file system)
+    keepExtensions: true,
+    uploadDir: '/tmp',  // Temporary file storage, but it's not used in this case as we'll keep files in memory
+  });
 
   return new Promise((resolve, reject) => {
     form.parse(req, async (err, fields, files) => {
@@ -39,11 +42,11 @@ export async function POST(req: Request) {
         return resolve(NextResponse.json({ error: error.details[0].message }, { status: 400 }));
       }
 
-      // Prepare parameters for S3 upload
+      // Prepare parameters for S3 upload (uploading file from memory buffer)
       const s3Params = {
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: `uploads/${Date.now()}_${fileName}`,
-        Body: fs.createReadStream(file.filepath),  // Read the file from the temporary path
+        Body: file.buffer,  // Use the file buffer directly from memory
         ContentType: fileType,
       };
 
