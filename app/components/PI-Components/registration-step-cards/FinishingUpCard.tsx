@@ -19,9 +19,9 @@ export default function FinishingUpCard(
 
   return (
     <Card>
-      <Card.Title>Finishing up</Card.Title>
+      <Card.Title>Data Upload</Card.Title>
       <Card.Description>
-        Double-check everything looks OK before confirming.
+        Share your data securely through URLs (e.g., Google Drive, Dropbox).
       </Card.Description>
       <div className={styles.cardContent}>
         <div className={styles.summary}>

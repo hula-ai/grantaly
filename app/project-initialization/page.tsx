@@ -10,6 +10,8 @@ import PersonalInfoCard from '../components/PI-Components/registration-step-card
 import { ProjectStep1Schema } from '@/Validation/Client/validator';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import DocumentUpload from '@/components/PI-Components/registration-step-cards/DocumentUpload';
+import { File } from '@/interface/interface';
 
 
 const AddonsCard = lazy(() => import('../components/PI-Components/registration-step-cards/AddonsCard'));
@@ -25,7 +27,7 @@ const steps = [
 ];
 
 export default function Page() {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [projectId,setProjectId] = useState(0);
 
@@ -36,6 +38,10 @@ export default function Page() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [expectedTimeline, setExpectedTimeline] = useState('');
+
+  // Step3 UseStates
+  const [clientDocs, setClientDocs] = useState<File[]>([]);
+  const [adminDocs, setAdminDocs] = useState<File[]>([]);
 
   const [selectedPlan, setSelectedPlan] = useState(plans[0]);
   const [priceType, setPriceType] = useState('monthly');
@@ -88,9 +94,13 @@ export default function Page() {
     }
 
     if(step === 2){
+      if(clientDocs.length === 0 && adminDocs.length === 0){
+        toast.error('Please upload at least one document')
+        return;
+      }
       try {
         if(projectId) {
-          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {isBooked: true});  
+          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {clientDocs,adminDocs});  
           if(response.data){
             setStep((prevStep) => prevStep + 1)
             toast.success('Progress Saved...')
@@ -155,12 +165,7 @@ export default function Page() {
                     />
                   )}
                   {step === 2 && (
-                    <AddonsCard
-                      addons={planAddons}
-                      priceType={priceType}
-                      checkedAddons={addons}
-                      onToggleAddon={handleToggleAddon}
-                    />
+                    <DocumentUpload adminDocs={adminDocs} clientDocs={clientDocs} setAdminDocs={setAdminDocs} setClientDocs={setClientDocs}/>
                   )}
                   {step === 3 && (
                     <FinishingUpCard
