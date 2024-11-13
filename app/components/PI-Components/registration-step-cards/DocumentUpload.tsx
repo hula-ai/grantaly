@@ -44,10 +44,18 @@ const DocumentUpload = () => {
             },
           });
 
-          activeTab ? setAdminDocs(response.data) : setClientDocs(response.data)
+          const responseData:File = response.data;
+        
+            if (activeTab === 'admin') {
+            // If activeTab is true, store the response data in adminDocs
+            setAdminDocs(prevDocs => [...prevDocs, responseData]);
+            } else {
+            // If activeTab is false, store the response data in clientDocs
+            setClientDocs(prevDocs => [...prevDocs, responseData]);
+            }
      
           // Handle the response (e.g., save the S3 URL or file key in your state/database)
-          console.log('File uploaded successfully:', response.data);
+          console.log('File uploaded successfully:', response.data,clientDocs,adminDocs);
         } catch (error) {
           console.error('Error uploading file:', error);
           toast.error('Error in uploading File')
@@ -55,13 +63,16 @@ const DocumentUpload = () => {
       }
   };
 
-  const handleDelete = (docName) => {
+  const handleDelete = (docKey) => {
     if (activeTab === "client") {
-      setClientDocs(clientDocs.filter((doc) => doc !== docName));
+      // Filter the clientDocs array to remove the document with the specific key
+      setClientDocs(clientDocs.filter((doc) => doc.key !== docKey));
     } else {
-      setAdminDocs(adminDocs.filter((doc) => doc !== docName));
+      // Filter the adminDocs array to remove the document with the specific key
+      setAdminDocs(adminDocs.filter((doc) => doc.key !== docKey));
     }
   };
+  
 
   const AdminView = () => {
     return (
@@ -175,11 +186,11 @@ const DocumentUpload = () => {
     
           {/* List of Uploaded Documents */}
           <div>
-            {clientDocs.length>0 &&<h3>Client Documents</h3>}
+            {clientDocs.length>0 &&<h3>Client Documents sad</h3>}
             <ul className='mt-2' style={{ listStyleType: 'none', paddingLeft: 0 }}>
               {clientDocs.map((doc, index) => (
                 <li key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                  <span className="w-[200px] inline-block overflow-hidden whitespace-nowrap text-ellipsis">{doc}</span>
+                  <span className="w-[200px] inline-block overflow-hidden whitespace-nowrap text-ellipsis">{doc.name}</span>
                   <button
                     onClick={() => handleDelete(doc.key)}
                     style={{

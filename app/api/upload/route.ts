@@ -61,7 +61,7 @@ export async function POST(req: Request) {
         resolve(NextResponse.json({
           url: data.Location,
           key: s3Params.Key,
-          fileName: fileName,  // Include the file name in the response
+          name: fileName,  // Include the file name in the response
         }, { status: 200 }));
       });
     });
