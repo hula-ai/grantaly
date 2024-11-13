@@ -98,6 +98,8 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       endDate,
       expectedTimeline,
       userId,
+      clientDocs = [],  // Array of client documents (already uploaded)
+      adminDocs = [],   // Array of admin documents (already uploaded)
     } = await req.json();
 
     const { projectId, stepId } = params;
@@ -108,17 +110,6 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       return NextResponse.json({ message: "Invalid Step Id" }, { status: 401 });
     }
 
-    //   const { error } = projectSchema.validate({
-    //     projectTitle,
-    //     abstract,
-    //     fundingAgency,
-    //     expectedTimeline,
-    //   });
-
-    //   if (error) {
-    //     return NextResponse.json({ message: error.details[0].message }, { status: 400 });
-    //   }
-
     await connectToDatabase();
 
     const user = await User.findById(id);
@@ -128,17 +119,11 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
 
     const project = await Project.findById(projectId);
     if (!project) {
-      return NextResponse.json(
-        { message: "Project not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Project not found" }, { status: 404 });
     }
 
     if (project.userId.toString() !== id) {
-      return NextResponse.json(
-        { message: "Unauthorized to edit this project" },
-        { status: 403 }
-      );
+      return NextResponse.json({ message: "Unauthorized to edit this project" }, { status: 403 });
     }
 
     if (NumStepId === 1) {
@@ -148,12 +133,16 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       project.startDate = startDate || project.startDate;
       project.endDate = endDate || project.endDate;
       project.expectedTimeline = expectedTimeline || project.expectedTimeline;
-      project.formStep =
-        NumStepId > project.formStep ? NumStepId : project.formStep;
+      project.formStep = NumStepId > project.formStep ? NumStepId : project.formStep;
       project.isCompeleted = project.formStep === 5 ? true : false;
     } else if (NumStepId === 2) {
       project.isBooked = true;
+    } else if (NumStepId === 3) {
+      // Store the clientDocs and adminDocs arrays
+      project.clientDocs = clientDocs;  // Store the received array of client docs
+      project.adminDocs = adminDocs;    // Store the received array of admin docs
     }
+
     await project.save();
 
     return NextResponse.json(
