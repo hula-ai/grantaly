@@ -32,3 +32,9 @@ export interface datatype {
     paragraph: string;
     Project: string[];
 }
+
+export interface File {
+    name: string;
+    key: string;
+    url: string; // URL to the file (e.g., https://example.com/document.pdf)
+  }
