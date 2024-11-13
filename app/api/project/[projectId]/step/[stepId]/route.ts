@@ -100,7 +100,7 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       userId,
       clientDocs = [], 
       adminDocs = [],   
-      URLs = [], 
+      urls = [], 
     } = await req.json();
 
     const { projectId, stepId } = params;
@@ -142,8 +142,8 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       project.clientDocs = clientDocs;
       project.adminDocs = adminDocs;
     } else if (NumStepId === 4) {
-      console.log("Received string array:", URLs);
-      project.URLs = URLs;  // Store the array of strings for step 4
+      console.log("Received string array:", urls);
+      project.URLS = urls;  // Store the array of strings for step 4
     }
 
     await project.save();
