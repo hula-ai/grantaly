@@ -1,7 +1,6 @@
 import formidable from 'formidable';
 import AWS from 'aws-sdk';
 import { NextResponse } from 'next/server';
-import fs from 'fs';
 import { uploadSchema } from '@/Validation/Server/validator';
 
 // AWS S3 configuration
@@ -43,7 +42,7 @@ export async function POST(req: Request) {
       const s3Params = {
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: `uploads/${Date.now()}_${fileName}`,
-        Body: fs.createReadStream(file.filepath),  // Read the file from the temporary path
+        Body: file.stream,  // Use the file stream directly
         ContentType: fileType,
       };
 

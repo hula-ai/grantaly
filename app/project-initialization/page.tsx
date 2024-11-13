@@ -25,7 +25,7 @@ const steps = [
 ];
 
 export default function Page() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
   const [isComplete, setIsComplete] = useState(false);
   const [projectId,setProjectId] = useState(0);
 
