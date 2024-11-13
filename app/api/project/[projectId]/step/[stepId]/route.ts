@@ -71,8 +71,6 @@ export async function POST(req: Request, { params }: { params: IParams }) {
       formStep: NumStepId,
     });
 
-    // console.log(id, "I am id 2");
-
     const savedProject = await newProject.save();
 
     return NextResponse.json(
@@ -142,8 +140,7 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       project.clientDocs = clientDocs;
       project.adminDocs = adminDocs;
     } else if (NumStepId === 4) {
-      console.log("Received string array:", urls);
-      project.URLS = urls;  // Store the array of strings for step 4
+      project.URLs = urls;  // Store the array of strings for step 4
     }
 
     await project.save();
