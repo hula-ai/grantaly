@@ -47,6 +47,21 @@ const projectSchema = new mongoose.Schema({
     ref: 'User',  // Reference to the User model
     required: true,
   },
+  // New fields for client and admin docs
+  clientDocs: [{
+    name: { type: String, required: false },
+    key: { type: String, required: false },
+    url: { type: String, required: false },
+  }],
+  adminDocs: [{
+    name: { type: String, required: false },
+    key: { type: String, required: false },
+    url: { type: String, required: false },
+  }],
+  URLs: {  // Field for the array of strings
+    type: [String],
+    required: false,
+  }
 });
 
 const Project = mongoose.models.Project || mongoose.model('Project', projectSchema);

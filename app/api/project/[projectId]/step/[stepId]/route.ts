@@ -98,6 +98,9 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       endDate,
       expectedTimeline,
       userId,
+      clientDocs = [], 
+      adminDocs = [],   
+      URLs = [], 
     } = await req.json();
 
     const { projectId, stepId } = params;
@@ -108,17 +111,6 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       return NextResponse.json({ message: "Invalid Step Id" }, { status: 401 });
     }
 
-    //   const { error } = projectSchema.validate({
-    //     projectTitle,
-    //     abstract,
-    //     fundingAgency,
-    //     expectedTimeline,
-    //   });
-
-    //   if (error) {
-    //     return NextResponse.json({ message: error.details[0].message }, { status: 400 });
-    //   }
-
     await connectToDatabase();
 
     const user = await User.findById(id);
@@ -128,17 +120,11 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
 
     const project = await Project.findById(projectId);
     if (!project) {
-      return NextResponse.json(
-        { message: "Project not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Project not found" }, { status: 404 });
     }
 
     if (project.userId.toString() !== id) {
-      return NextResponse.json(
-        { message: "Unauthorized to edit this project" },
-        { status: 403 }
-      );
+      return NextResponse.json({ message: "Unauthorized to edit this project" }, { status: 403 });
     }
 
     if (NumStepId === 1) {
@@ -148,12 +134,18 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       project.startDate = startDate || project.startDate;
       project.endDate = endDate || project.endDate;
       project.expectedTimeline = expectedTimeline || project.expectedTimeline;
-      project.formStep =
-        NumStepId > project.formStep ? NumStepId : project.formStep;
+      project.formStep = NumStepId > project.formStep ? NumStepId : project.formStep;
       project.isCompeleted = project.formStep === 5 ? true : false;
     } else if (NumStepId === 2) {
       project.isBooked = true;
+    } else if (NumStepId === 3) {
+      project.clientDocs = clientDocs;
+      project.adminDocs = adminDocs;
+    } else if (NumStepId === 4) {
+      console.log("Received string array:", URLs);
+      project.URLs = URLs;  // Store the array of strings for step 4
     }
+
     await project.save();
 
     return NextResponse.json(
@@ -167,3 +159,4 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
     );
   }
 }
+
