@@ -9,12 +9,7 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
 });
 
-// Disable Next.js's default body parser to use formidable
-export const config = {
-  api: {
-    bodyParser: false,  // Disable body parsing to handle file upload manually
-  },
-};
+
 
 export async function POST(req: Request) {
   try {

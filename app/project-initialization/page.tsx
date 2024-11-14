@@ -3,17 +3,16 @@ import React from 'react';
 import { useState, useId, lazy, Suspense } from 'react';
 import { NavBar } from '../components/PI-Components/multi-step/navbar/NavBar';
 import StepIndicator from "../components/PI-Components/multi-step/StepIndicator"
-// import PersonalInfoCard from './components-copy/registration-step-cards/PersonalInfoCard';
 import styles from './PI.module.scss'
-import { Plan, PlanAddon, planAddons, plans, PriceType } from '../config';
+import { plans } from '../config';
 import PersonalInfoCard from '../components/PI-Components/registration-step-cards/PersonalInfoCard';
 import { ProjectStep1Schema } from '@/Validation/Client/validator';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import DocumentUpload from '@/components/PI-Components/registration-step-cards/DocumentUpload';
-import { File } from '@/interface/interface';
+import { DataUploadLink, File } from '@/interface/interface';
 import DataUpload from '../components/PI-Components/registration-step-cards/FinishingUpCard';
-import { m } from 'framer-motion';
+import ResultDelivery from '@/components/PI-Components/registration-step-cards/ResultDelivery';
 
 
 const AddonsCard = lazy(() => import('../components/PI-Components/registration-step-cards/AddonsCard'));
@@ -26,11 +25,11 @@ const steps = [
   { id: '2', name: 'Meeting Booking' },
   { id: '3', name: 'Contract Management' },
   { id: '4', name: 'Data Upload' },
-  { id: '5', name: 'Summary' },
+  { id: '5', name: 'Result Delivery' },
 ];
 
 export default function Page() {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [projectId,setProjectId] = useState(0);
 
@@ -47,10 +46,9 @@ export default function Page() {
   const [adminDocs, setAdminDocs] = useState<File[]>([]);
 
   // Step 4 Urls
-  const [urls,setUrls] = useState<string[]>([]);
-  console.log(urls,'we are urls')
+  const [dataUploadContent,setDataUploadContent] = useState<DataUploadLink[]>([]);
+  const [resultContent,setResultContent] = useState<DataUploadLink[]>([])
 
-  const [selectedPlan, setSelectedPlan] = useState(plans[0]);
   const [priceType, setPriceType] = useState('monthly');
   const [addons, setAddons] = useState(new Set());
 
@@ -102,10 +100,15 @@ export default function Page() {
     }
 
     if(step === 2){
+      if(adminDocs && adminDocs.length === 0){
+        toast.error("You can't progress until admin uploads a contract");
+        return;
+      }
       if(clientDocs.length === 0 && adminDocs.length === 0){
         toast.error('Please upload at least one document')
         return;
       }
+      
       try {
         if(projectId) {
           const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {clientDocs,adminDocs});  
@@ -119,20 +122,38 @@ export default function Page() {
       } 
     }
 
-    const validateUrls = () => {
-      if (urls.length === 0 || urls.some((url) => url.trim() === '')) {
-        toast.error('Please ensure all URLs are filled in and that you have at least one URL.')
-        return false
+    const validateUrls = (e:DataUploadLink[]) => {
+      if (
+          e.length === 0 ||
+          e.some((data) => data.url.trim() === '' || data.description.trim() === '')
+      ) {
+          toast.error('Please ensure all URLs and descriptions are filled in, and that you have at least one entry.');
+          return false;
       }
-      return true
-    }
+      return true;
+  };
 
     if(step === 3){
-      if (!validateUrls()){
+      if (!validateUrls(dataUploadContent)){
         return;
       }
       try {
-          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {urls});  
+          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {dataUploadContent});  
+          if(response.data){
+            setStep((prevStep) => prevStep + 1)
+            toast.success('Progress Saved...')
+          }
+      } catch (error) {
+        toast.error('failed to save progress')
+      } 
+    }
+
+    if(step === 4){
+      if (!validateUrls(resultContent)){
+        return;
+      }
+      try {
+          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {resultContent});  
           if(response.data){
             setStep((prevStep) => prevStep + 1)
             toast.success('Progress Saved...')
@@ -166,7 +187,7 @@ export default function Page() {
           <StepIndicator steps={steps} currentStep={steps[step].id} />
         
         <Suspense fallback="Loading...">
-          <div className={styles.content} style={{height:'100%',alignSelf:'flex-start'}}>
+          <div className={styles.content} style={{height:'100%',alignSelf:'center'}}>
             {!isComplete ? (
               <>
                 <div className={styles.cardWrapper}>
@@ -187,21 +208,21 @@ export default function Page() {
                   />
                   )}
                   {step === 1 && (
-                    <PlanCard
-                      plans={plans}
-                      selectedPlan={selectedPlan}
-                      onPlanChange={(plan) => setSelectedPlan(plan)}
-                      selectedPriceType={priceType}
-                      onPriceTypeToggle={() => setPriceType((prev) => (prev === 'monthly' ? 'yearly' : 'monthly'))}
-                    />
+                    <PlanCard/>
                   )}
                   {step === 2 && (
                     <DocumentUpload adminDocs={adminDocs} clientDocs={clientDocs} setAdminDocs={setAdminDocs} setClientDocs={setClientDocs}/>
                   )}
                   {step === 3 && (
                     <DataUpload
-                      urls={urls}
-                      setUrls={setUrls}
+                      dataUploadContent={dataUploadContent}
+                      setDataUploadContent={setDataUploadContent}
+                    />
+                  )}
+                  {step === 4 && (
+                    <ResultDelivery
+                      resultContent={resultContent}
+                      setResultContent={setResultContent}
                     />
                   )}
                 </div>

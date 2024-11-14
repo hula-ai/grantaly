@@ -1,4 +1,4 @@
-import { connectToMongoDB } from "@/lib/db";
+
 import User from "@/models/user";
 
 interface IParams {

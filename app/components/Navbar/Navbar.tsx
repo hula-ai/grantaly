@@ -11,6 +11,7 @@ import Image from 'next/image';
 import LogoutModal from './Logoutdialog';
 import { user } from '@/interface/interface';
 import { useRouter } from 'next/navigation';
+import ProjectInitiate from './ProjectInitiate';
 
 
 interface NavigationItem {
@@ -88,6 +89,7 @@ const Navbar = ({user}:Props) => {
                         { 
                             user ? 
                                 <>
+                                    <ProjectInitiate />
                                     <LogoutModal/>
                                 </> : <> <Signdialog />
                                     <Registerdialog /> </>

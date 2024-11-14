@@ -1,8 +1,9 @@
 import connectToDatabase from "@/lib/mongoose";
 import bcrypt from "bcrypt";
 import { signUpSchema } from "@/Validation/Server/validator";
-import User from "@/models/User";
+import User from "@/models/user";
 import { NextResponse } from "next/server";
+import { Role } from "@/types/enum";
 
 export async function POST(req: any) {
   try {
@@ -13,7 +14,7 @@ export async function POST(req: any) {
       firstName, lastName, email, contact, password, confirmPassword
     });
     if (error) {
-      return NextResponse.json({ message: error.details[0].message }),{ status: 400 };
+      return NextResponse.json({ message: error.details[0].message },{ status: 400 });
     }
 
     // Connect to the database
@@ -36,13 +37,14 @@ export async function POST(req: any) {
       lastName,
       email,
       contact,
-      password : hashedPassword
+      password : hashedPassword,
+      role : Role.USER
     });
     console.log(firstName, lastName, email, contact, password);
     await newUser.save();
 
-    return NextResponse.json({ message: "User created successfully" }),{ status: 201 };
+    return NextResponse.json({ message: "User created successfully" },{ status: 201 });
   } catch (error) {
-    return NextResponse.json({ message: "Something went wrong" }), { status: 500};
+    return NextResponse.json({ message: "Something went wrong" }, { status: 500});
   }
 }

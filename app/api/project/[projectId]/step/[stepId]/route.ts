@@ -10,6 +10,11 @@ interface IParams {
   stepId: string;
 }
 
+const validateStepId = (step:number) => {
+  if(step >0 && step < 6) 
+    return true;
+}
+
 export async function POST(req: Request, { params }: { params: IParams }) {
   try {
     const currentUser = await getCurrentUser();
@@ -23,6 +28,10 @@ export async function POST(req: Request, { params }: { params: IParams }) {
     const { projectId, stepId } = params;
     const NumStepId = parseInt(stepId);
     if (isNaN(NumStepId)) {
+      return NextResponse.json({ message: "Invalid Step Id" }, { status: 401 });
+    }
+
+    if(!validateStepId(NumStepId)){
       return NextResponse.json({ message: "Invalid Step Id" }, { status: 401 });
     }
 
@@ -71,6 +80,8 @@ export async function POST(req: Request, { params }: { params: IParams }) {
       formStep: NumStepId,
     });
 
+    console.log(newProject,'akwdnkd')
+
     const savedProject = await newProject.save();
 
     return NextResponse.json(
@@ -98,7 +109,8 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       userId,
       clientDocs = [], 
       adminDocs = [],   
-      urls = [], 
+      dataUploadContent = [], 
+      resultContent = [],
     } = await req.json();
 
     const { projectId, stepId } = params;
@@ -106,6 +118,10 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
 
     const NumStepId = parseInt(stepId);
     if (isNaN(NumStepId)) {
+      return NextResponse.json({ message: "Invalid Step Id" }, { status: 401 });
+    }
+
+    if(!validateStepId(NumStepId)){
       return NextResponse.json({ message: "Invalid Step Id" }, { status: 401 });
     }
 
@@ -125,6 +141,9 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       return NextResponse.json({ message: "Unauthorized to edit this project" }, { status: 403 });
     }
 
+    const formStep = NumStepId > project.formStep ? NumStepId : project.formStep
+    const isCompeleted = project.formStep === 5 ? true : false;    
+
     if (NumStepId === 1) {
       project.projectTitle = projectTitle || project.projectTitle;
       project.abstract = abstract || project.abstract;
@@ -136,13 +155,22 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       project.isCompeleted = project.formStep === 5 ? true : false;
     } else if (NumStepId === 2) {
       project.isBooked = true;
+      project.formStep = formStep;
+      project.isCompeleted = isCompeleted;
     } else if (NumStepId === 3) {
       project.clientDocs = clientDocs;
       project.adminDocs = adminDocs;
+      project.formStep = formStep;
+      project.isCompeleted = isCompeleted;
     } else if (NumStepId === 4) {
-      project.URLs = urls;  // Store the array of strings for step 4
+      project.dataUploadContent = dataUploadContent;  // Store the array of strings for step 4
+      project.formStep = formStep;
+      project.isCompeleted = isCompeleted;
+    } else if(NumStepId === 5) {
+      project.resultContent = resultContent;
     }
 
+    console.log(project,'askndw')
     await project.save();
 
     return NextResponse.json(

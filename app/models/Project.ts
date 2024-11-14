@@ -33,8 +33,7 @@ const projectSchema = new mongoose.Schema({
   },
   formStep: {
     type: Number,
-    enum: Object.values(FormStep),
-    default: FormStep.Step1,
+    default: 1,
     required: true,
   },
   isBooked: {
@@ -58,10 +57,14 @@ const projectSchema = new mongoose.Schema({
     key: { type: String, required: false },
     url: { type: String, required: false },
   }],
-  URLs: {  // Field for the array of strings
-    type: [String],
-    required: false,
-  }
+  dataUploadContent: [{
+    url: {type: String, required: false},
+    description: {type: String, required: false},
+  }],
+  resultContent: [{
+    url: {type: String, required: false},
+    description: {type: String, required: false},
+  }],
 });
 
 const Project = mongoose.models.Project || mongoose.model('Project', projectSchema);
