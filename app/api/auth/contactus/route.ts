@@ -1,6 +1,6 @@
 import connectToDatabase from "@/lib/mongoose";
 import { NextResponse } from "next/server";
-import ContactUs from "@/models/ContactUs";
+import ContactUs from "@/models/contactus";
 import { contactUsSchema } from "@/Validation/Server/validator";
 
 

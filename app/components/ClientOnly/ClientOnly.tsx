@@ -5,6 +5,7 @@ import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import { usePathname } from "next/navigation";
 import { user } from "@/interface/interface";
+import Sidebar from "../AdminSideBar/AdminSideBar";
 
 interface ClientOnlyProps {
   children: React.ReactNode;
@@ -14,6 +15,8 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({ children }) => {
   const [hasMounted, setHasMounted] = useState(false);
 
   const [user, setUser] = useState<user | null>(null);
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -40,13 +43,20 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({ children }) => {
 
   const pathname = usePathname().startsWith("/auth");
 
+  const isAdmin = usePathname().startsWith("/admin");
+
+  const isUser = usePathname().startsWith("/user");
+
   if (!hasMounted) return null;
 
   return (
     <>
-      {!pathname && <Navbar user={user} />}
+    
+    {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
+      {!pathname && !isAdmin && !isUser && <Navbar user={user} />}
       {children}
-      {!pathname && <Footer />}
+      {!pathname && !isAdmin && !isUser && <Footer />}
+      {/* {!pathname  && <Footer />} */}
     </>
   );
 };

@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google"; // Import Google provider
 import clientPromise from "@/lib/mongodb";
 import bcrypt from "bcrypt";
+import { Role } from "./types/enum";
 
 interface User {
   id: string; 
@@ -74,6 +75,7 @@ export const authOptions = {
             googleId: profile.sub,
             resetToken: null,
             resetTokenExpiration: null,
+            role: Role.USER,
             // You can add more fields as per your application (e.g. phone, address, etc.)
           });
           return {

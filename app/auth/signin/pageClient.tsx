@@ -45,7 +45,7 @@ const SigninPage = () => {
       if (callback?.error) {
         toast.error(callback.error);
       } else{
-          toast.success("User logged in successfully");
+          // toast.success("User logged in successfully");
       } 
     }).catch((err) => {
       toast.error('Error occured in google sign in')

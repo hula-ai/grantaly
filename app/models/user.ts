@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import { roles, status } from "@/utils/constant";
+
+export enum Role {
+  USER = "User",
+  ADMIN = "Admin",
+}
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -27,6 +33,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,  // Only needed if the user logs in via Google
     unique: true,  // Ensure Google ID is unique
+  },
+  role: {
+    type: String,
+    enum: roles,
+    default: Role.USER,
   },
   image: {
     type: String,

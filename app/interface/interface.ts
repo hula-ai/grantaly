@@ -1,3 +1,5 @@
+import { Role } from "@/models/awdf";
+
 export interface whyDataInterface {
     heading: string;
     subheading: string;
@@ -20,6 +22,9 @@ export interface user {
     contact : string;
     password : string;
     email : string;
+    role : Role,
+    id: String,
+    _id?: String,
 }
 
 export interface datatype {
@@ -27,4 +32,15 @@ export interface datatype {
     country: string;
     paragraph: string;
     Project: string[];
+}
+
+export interface File {
+    name: string;
+    key: string;
+    url: string; // URL to the file (e.g., https://example.com/document.pdf)
+  }
+
+export interface DataUploadLink {
+    url: string;
+    description: string;
 }

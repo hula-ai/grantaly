@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/auth';
-import User from '@/models/User'; // Adjust the import path according to your structure
+import User from '@/models/user';
 import { user } from '@/interface/interface';
 import { NextResponse } from 'next/server';
 
@@ -47,6 +47,7 @@ export async function GET() {
       contact: currentUser.contact as string,
       email: currentUser.email as string,
       password: currentUser.password as string,
+      role: currentUser.role as string,
     };
 
     return NextResponse.json(user);

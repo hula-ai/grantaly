@@ -1,4 +1,4 @@
-import { Disclosure } from '@headlessui/react';
+'use client'
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import React from 'react';
@@ -10,7 +10,9 @@ import Image from 'next/image';
 
 import LogoutModal from './Logoutdialog';
 import { user } from '@/interface/interface';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import ProjectInitiate from './ProjectInitiate';
+import { Role } from '@/types/enum';
 
 
 interface NavigationItem {
@@ -19,23 +21,38 @@ interface NavigationItem {
     current: boolean;
 }
 
-const navigation: NavigationItem[] = [
-    { name: 'Home', href: '/', current: true },
-    { name: 'Services', href: '#services', current: false },
-    { name: 'About', href: '#about', current: false },
-    { name: 'Project', href: '#project', current: false },
-    { name: 'Contact', href: '#contactus', current: false },
-]
+
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
 interface Props {
-    user: user
+    user: user | null;
 }
 
 const Navbar = ({user}:Props) => {
+
+    const pathname = usePathname();
+    const loggedIn = pathname.includes('/admin') || pathname.includes('/user') ? true :false
+    const admin = user?.role === Role.ADMIN ? true : false; 
+
+
+    const navigation: NavigationItem[] = 
+    user ? 
+    [
+        { name: loggedIn ? 'home' : 'Dashboard', href: loggedIn ? '/' : admin ? '/admin/dashboard' : '/user/dashboard' , current: true },
+        { name: 'Services', href: '#services', current: false },
+        { name: 'About', href: '#about', current: false },
+        { name: 'Project', href: '#project', current: false },
+        { name: 'Contact', href: '#contactus', current: false },
+    ] : [
+        { name: 'home', href: '/', current: true },
+        { name: 'Services', href: '#services', current: false },
+        { name: 'About', href: '#about', current: false },
+        { name: 'Project', href: '#project', current: false },
+        { name: 'Contact', href: '#contactus', current: false },
+    ]
 
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -88,6 +105,7 @@ const Navbar = ({user}:Props) => {
                         { 
                             user ? 
                                 <>
+                                    {user?.role !== Role.ADMIN && <ProjectInitiate />}
                                     <LogoutModal/>
                                 </> : <> <Signdialog />
                                     <Registerdialog /> </>

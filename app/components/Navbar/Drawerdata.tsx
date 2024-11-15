@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { user } from "@/interface/interface";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { Role } from "@/types/enum";
 
 interface NavigationItem {
   name: string;
@@ -28,6 +29,27 @@ interface Props {
 
 const Data = ({ user }: Props) => {
   const router = useRouter();
+
+
+  const pathname = usePathname();
+  const loggedIn = pathname.includes('/admin') || pathname.includes('/user') ? true :false
+  const admin = user?.role === Role.ADMIN ? true : false; 
+
+
+  const navigation: NavigationItem[] = user ? [
+    { name: loggedIn ? 'home' : 'Dashboard', href: loggedIn ? '/' : admin ? '/admin/dashboard' : '/user/dashboard' , current: true },
+    { name: 'Services', href: '#services', current: false },
+    { name: 'About', href: '#about', current: false },
+    { name: 'Project', href: '#project', current: false },
+    { name: 'Contact', href: '#contactus', current: false },
+] : [
+  { name: 'home', href: '/', current: true },
+  { name: 'Services', href: '#services', current: false },
+  { name: 'About', href: '#about', current: false },
+  { name: 'Project', href: '#project', current: false },
+  { name: 'Contact', href: '#contactus', current: false },
+]
+
   return (
     <div className="rounded-md max-w-sm w-full mx-auto">
       <div className="flex-1 space-y-4 py-1">
@@ -49,9 +71,19 @@ const Data = ({ user }: Props) => {
               </Link>
             ))}
             {user ? (
+              <>
+              <button
+                  onClick={() => {
+                    router.push("/project-initialization");
+                  }}
+                  className="bg-lightblue w-full hover:bg-blue hover:text-white text-blue font-medium my-2 py-2 px-4 rounded"
+                >
+                  Project Initiate
+                </button>
               <button onClick={()=>{signOut({ callbackUrl: '/' });}} className="bg-white w-full text-blue border border-lightblue font-medium py-2 px-4 rounded">
                 LogOut
               </button>
+              </>
             ) : (
               <>
                 <div className="mt-4"></div>

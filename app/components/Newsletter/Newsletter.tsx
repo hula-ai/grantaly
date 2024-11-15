@@ -1,5 +1,5 @@
 'use client'
-import { ContactUsValidation } from "@/Validation/Client/signup-validation";
+import { ContactUsValidation } from "@/Validation/Client/validator";
 import Image from "next/image";
 import { useState } from "react";
 import toast, { LoaderIcon } from "react-hot-toast";
