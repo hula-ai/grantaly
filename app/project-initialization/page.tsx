@@ -5,7 +5,7 @@ import React from 'react';
 import { useState, useId, lazy, Suspense } from 'react';
 import { NavBar } from '../components/PI-Components/multi-step/navbar/NavBar';
 import StepIndicator from "../components/PI-Components/multi-step/StepIndicator"
-import styles from './PI.module.scss'
+import styles from './pi.module.scss'
 import { plans } from '../config';
 import PersonalInfoCard from '../components/PI-Components/registration-step-cards/PersonalInfoCard';
 import { ProjectStep1Schema } from '@/Validation/Client/validator';
