@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic"
 
 import connectToDatabase from "@/lib/mongoose";
 import { NextResponse } from "next/server";
-import Project from "@/models/newproject";
+import Project from "@/models/project";
 import getCurrentUser from "@/actions/getCurrentUser";
 
 

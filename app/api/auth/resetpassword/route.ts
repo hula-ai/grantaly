@@ -1,7 +1,7 @@
 import connectToDatabase from '@/lib/mongoose';
 import bcrypt from 'bcrypt';
 import { resetPasswordSchema } from '@/Validation/Server/validator';
-import User from '@/models/newuser';
+import User from '@/models/user';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: any) {
