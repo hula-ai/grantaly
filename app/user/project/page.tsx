@@ -70,6 +70,8 @@ const CaseTable: React.FC<CaseTableProps> = ({ isAdmin }) => {
           return (<span>Pending</span>)
         if(step === 5 && row.original.isCompeleted)
           return 'Completed'
+        if(step === 5 && !row.original.isCompeleted)
+          return 'Pending'
       }
     },
     {

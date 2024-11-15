@@ -7,6 +7,7 @@ import Image from "next/image";
 import SidebarLinkGroup from "./SideBarLinkGroup";
 import axios from "axios";
 import GrantalyLOGO from "../../../public/assets/logo/logo-w.svg"
+import { Role } from "@/types/enum";
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
@@ -15,19 +16,24 @@ interface SidebarProps {
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const [isLogOut,setIsLogOut] = useState(true)
-  // useEffect(() => {
-  //   const checkLogin = () => {
-  //     axios.get('/api/getAdmin').then((response) => {
-  //       if (response.data) {
-  //         setIsLogOut(false);
-  //       }
-  //     }).catch((error) => {
-  //       console.log('Unable to retrieve status');
-  //     });
-  //   };
 
-  //   checkLogin();
-  // }, []);
+  const [isAdmin,setIsAdmin] = useState(null)
+  useEffect(() => {
+    const checkLogin = () => {
+      axios.get('/api/getCurrentUserAPI').then((response) => {
+        if (response.data) {
+          if(response.data.role === Role.ADMIN){
+              setIsAdmin(true)
+          }
+          setIsLogOut(false);
+        }
+      }).catch((error) => {
+        console.log('Unable to retrieve status');
+      });
+    };
+
+    checkLogin();
+  }, []);
 
   const pathname = usePathname();
 
@@ -141,7 +147,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   return (
                     <React.Fragment>
                       <Link
-                        href="/admin/dashboard"
+                        href={isAdmin ? "/admin/dashboard" : "/user/dashboard" }
                         style={{color: pathname.includes("/admin/dashboard") ? '#0075FF' : ''}}
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                           (pathname === "/" ||
@@ -184,7 +190,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
               <li>
                 <Link
-                  href="/admin/project"
+                  href={isAdmin ? "/admin/project" : "/user/project" }
                   style={{color: pathname.includes("/admin/project") ? '#0075FF' : ''}}
                   className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                       pathname.includes("/admin/project") ? "bg-gray-200 dark:bg-meta-4" : ""
