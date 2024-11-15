@@ -93,7 +93,7 @@ const CaseTable: React.FC<CaseTableProps> = ({ isAdmin }) => {
   const handleApply = () => {
     setIsApplied(true);
     setRefresh((prev) => !prev);
-    setAPIEndPoint(`/api/project/${selectedUser}`);
+    setAPIEndPoint(`/api/user/${selectedUser}`);
   };
 
   const handleReset = () => {

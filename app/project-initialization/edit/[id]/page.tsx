@@ -3,6 +3,8 @@ import EditProject from './pageClient'
 import getCurrentUser from '@/actions/getCurrentUser';
 import { getProjectById } from '@/actions/getProjectById';
 
+export const dynamic = "force-dynamic"
+
 interface Props {
     id: string
 }

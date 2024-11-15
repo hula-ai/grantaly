@@ -1,4 +1,7 @@
 'use client'
+
+
+export const dynamic = "force-dynamic"
 import React from 'react';
 import { useState, useId, lazy, Suspense } from 'react';
 import { NavBar } from '@/components/PI-Components/multi-step/navbar/NavBar';
