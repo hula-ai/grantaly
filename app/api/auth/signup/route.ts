@@ -1,7 +1,7 @@
 import connectToDatabase from "@/lib/mongoose";
 import bcrypt from "bcrypt";
 import { signUpSchema } from "@/Validation/Server/validator";
-import User from "@/models/user";
+import User from "@/models/newuser";
 import { NextResponse } from "next/server";
 import { Role } from "@/types/enum";
 

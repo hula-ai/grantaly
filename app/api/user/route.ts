@@ -2,8 +2,8 @@
 export const dynamic = "force-dynamic"
 import connectToDatabase from "@/lib/mongoose";
 import { NextResponse } from "next/server";
-import User from "@/models/user";
-import Project from "@/models/project";  // Assuming Project is a separate model
+import User from "@/models/newuser";
+import Project from "@/models/newproject";  // Assuming Project is a separate model
 import getCurrentUser from "@/actions/getCurrentUser";
 
 export async function GET(req: Request) {

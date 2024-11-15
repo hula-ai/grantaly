@@ -2,7 +2,7 @@ import connectToDatabase from '@/lib/mongoose';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import { forgotPasswordSchema } from '@/Validation/Server/validator';
-import User from '@/models/user';
+import User from '@/models/newuser';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: any) {

@@ -1,8 +1,8 @@
 import connectToDatabase from "@/lib/mongoose";
 import { NextResponse } from "next/server";
-import Project from "@/models/Project";
+import Project from "@/models/newproject";
 import { projectSchema } from "@/Validation/Server/validator";
-import User from "@/models/user";
+import User from "@/models/newuser";
 import getCurrentUser from "@/actions/getCurrentUser";
 
 interface IParams {

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs'; // Add bcrypt for password hashing
-import User, { Role } from '@/models/user'; // Adjust the import path as needed
+import User, { Role } from '@/models/newuser'; // Adjust the import path as needed
 
 // MongoDB connection URI from your .env file
 const MONGODB_URI = process.env.MONGODB_URI;
