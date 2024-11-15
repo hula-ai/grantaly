@@ -58,7 +58,7 @@ const Data = ({ user }: Props) => {
                 >
                   Project Initiate
                 </button>
-              <button onClick={()=>{signOut({ callbackUrl: '/' }); useEffect(()=>{},[])}} className="bg-white w-full text-blue border border-lightblue font-medium py-2 px-4 rounded">
+              <button onClick={()=>{signOut({ callbackUrl: '/' });}} className="bg-white w-full text-blue border border-lightblue font-medium py-2 px-4 rounded">
                 LogOut
               </button>
               </>
