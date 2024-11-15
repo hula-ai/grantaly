@@ -4,6 +4,7 @@ import Project from "@/models/project";
 import { projectSchema } from "@/Validation/Server/validator";
 import User from "@/models/user";
 import getCurrentUser from "@/actions/getCurrentUser";
+import { Role } from "@/types/enum";
 
 interface IParams {
   projectId: string;
@@ -137,8 +138,10 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       return NextResponse.json({ message: "Project not found" }, { status: 404 });
     }
 
-    if (project.userId.toString() !== id) {
-      return NextResponse.json({ message: "Unauthorized to edit this project" }, { status: 403 });
+    if(currentUser?.role !== Role.ADMIN) {
+      if (project.userId.toString() !== id) {
+        return NextResponse.json({ message: "Unauthorized to edit this project" }, { status: 403 });
+      }
     }
 
     const formStep = NumStepId > project.formStep ? NumStepId : project.formStep

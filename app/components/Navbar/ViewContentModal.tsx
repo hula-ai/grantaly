@@ -79,8 +79,10 @@ const ViewContentModal = ({ isModalOpen, doc, closeModal }: Props) => {
         <p className="text-sm mb-2">Name: {doc.name}</p>
 
         {/* Display content based on file type */}
-        <div className="flex items-center justify-center w-full h-3/4 overflow-auto">
-          {renderContent()}
+        <div className="w-full h-full flex item-center justify-center">
+          <div className="flex items-center justify-center w-4/5 h-4/5 overflow-auto">
+            {renderContent()}
+          </div>
         </div>
       </div>
     </div>

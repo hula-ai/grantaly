@@ -1,12 +1,5 @@
 import { Privacy, Roles } from "@/types/type";
 
-export const Role: Roles = {
-  admin: "admin",
-  superAdmin: "superadmin",
-  user: "user",
-  student: "student",
-  teacher: "teacher",
-};
 export const Privacy_Constant: Privacy = {
   private: "private",
   public: "public",
@@ -23,5 +16,5 @@ export const status: string[] = [
   "inactive",
 ];
 
-export const LIMIT_COUNT =20
+export const LIMIT_COUNT =5
 export const uniqueSuffix = `${Date.now()}`;

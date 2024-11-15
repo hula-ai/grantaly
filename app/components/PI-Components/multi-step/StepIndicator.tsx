@@ -16,6 +16,7 @@ const StepIndicator = ({ steps, currentStep }: Props) => {
   const [applyHeight, setApplyHeight] = useState(window.innerWidth >= 1024);
   const [applyWidth, setApplyWidth] = useState(window.innerWidth < 1024);
 
+
   useEffect(() => {
     const handleResize = () => {
       setApplyHeight(window.innerWidth >= 1024); // Apply height if width is 994px or more

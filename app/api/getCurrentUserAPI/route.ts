@@ -47,6 +47,7 @@ export async function GET() {
       contact: currentUser.contact as string,
       email: currentUser.email as string,
       password: currentUser.password as string,
+      role: currentUser.role as string,
     };
 
     return NextResponse.json(user);

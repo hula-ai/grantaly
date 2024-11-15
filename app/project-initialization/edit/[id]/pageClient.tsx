@@ -12,7 +12,7 @@ import { ProjectStep1Schema } from '@/Validation/Client/validator';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import DocumentUpload from '@/components/PI-Components/registration-step-cards/DocumentUpload';
-import { DataUploadLink, File } from '@/interface/interface';
+import { DataUploadLink, File, user } from '@/interface/interface';
 import DataUpload from '@/components/PI-Components/registration-step-cards/FinishingUpCard';
 import ResultDelivery from '@/components/PI-Components/registration-step-cards/ResultDelivery';
 
@@ -28,29 +28,73 @@ const steps = [
   { id: '5', name: 'Result Delivery' },
 ];
 
-export default function EditProject() {
-  const [step, setStep] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
-  const [projectId,setProjectId] = useState(0);
+import { Admin, ObjectId } from 'mongodb';
+import { Role } from '@/types/enum';
+import AdminWait from './AdminWait';
+
+interface ProjectProps {
+  _id: ObjectId;
+  projectTitle: string;
+  abstract: string;
+  fundingAgency: string;
+  startDate: Date;
+  endDate: Date;
+  expectedTimeline: string;
+  isCompeleted: boolean;
+  formStep: number;
+  isBooked: boolean;
+  userId: ObjectId;
+  clientDocs: any[]; // Replace `any` with the specific type if you have it for documents
+  adminDocs: any[];  // Replace `any` with the specific type if you have it for documents
+  dataUploadContent: any[]; // Replace `any` with the specific type if you have it for content
+  resultContent: any[]; // Replace `any` with the specific type if you have it for content
+  __v: number;
+}
+
+interface props {
+  Project: ProjectProps;
+  currentUser: user;
+}
+
+export default function EditProject({Project,currentUser}:props) {
+
+  const formatDate = (date: Date) => new Date(date).toISOString().split('T')[0];
+
+  const isAdmin = currentUser?.role === Role.ADMIN ? true : false
+
+  console.log(isAdmin,Project.formStep,'skndkn')
+  let stepper =0;
+  if(isAdmin && Project.formStep === 3) {
+    stepper = 6;
+  }
+  else if(!isAdmin && Project.formStep === 4) {
+    stepper = 7;
+  } else {
+    stepper = Project.formStep;
+  }
+
+  const [step, setStep] = useState(stepper);
+  const [isComplete, setIsComplete] = useState(Project.isCompeleted);
+  const [projectId,setProjectId] = useState(Project._id);
 
   // State for each form field
-  const [projectTitle, setProjectTitle] = useState('');
-  const [abstract, setAbstract] = useState('');
-  const [fundingAgency, setFundingAgency] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [expectedTimeline, setExpectedTimeline] = useState('');
+  const [projectTitle, setProjectTitle] = useState(Project?.projectTitle ?? '');
+  const [abstract, setAbstract] = useState(Project?.abstract ?? '');
+  const [fundingAgency, setFundingAgency] = useState(Project?.fundingAgency ?? '');
+  const [startDate, setStartDate] = useState(Project?.startDate ? formatDate(Project?.startDate) : '');
+  const [endDate, setEndDate] = useState(Project?.endDate ? formatDate(Project?.endDate) : '');
+  const [expectedTimeline, setExpectedTimeline] = useState(Project?.expectedTimeline ?? '');
 
   // Step3 UseStates
-  const [clientDocs, setClientDocs] = useState<File[]>([]);
-  const [adminDocs, setAdminDocs] = useState<File[]>([]);
+  const [clientDocs, setClientDocs] = useState<File[]>(Project?.clientDocs ?? []);
+  const [adminDocs, setAdminDocs] = useState<File[]>(Project?.adminDocs ?? []);
 
   // Step 4 Urls
-  const [dataUploadContent,setDataUploadContent] = useState<DataUploadLink[]>([]);
-  const [resultContent,setResultContent] = useState<DataUploadLink[]>([])
+  const [dataUploadContent,setDataUploadContent] = useState<DataUploadLink[]>(Project?.dataUploadContent ?? []);
+  const [resultContent,setResultContent] = useState<DataUploadLink[]>(Project?.resultContent ?? [])
 
-  const [priceType, setPriceType] = useState('monthly');
-  const [addons, setAddons] = useState(new Set());
+
+  
 
   const goToNextStep = async () => {
     if(step === 0){
@@ -113,6 +157,9 @@ export default function EditProject() {
         if(projectId) {
           const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {clientDocs,adminDocs});  
           if(response.data){
+            if(isAdmin && dataUploadContent.length === 0){
+                setStep(6)
+            }
             setStep((prevStep) => prevStep + 1)
             toast.success('Progress Saved...')
           }
@@ -171,21 +218,14 @@ export default function EditProject() {
   const finish = () => setIsComplete(true);
 
   // Handler for updating addons
-  const handleToggleAddon = (addon) => {
-    const updatedAddons = new Set(addons);
-    if (updatedAddons.has(addon)) {
-      updatedAddons.delete(addon);
-    } else {
-      updatedAddons.add(addon);
-    }
-    setAddons(updatedAddons);
-  };
+  
 
   return (
     <div className='mb-80 flex justify-center' >
       <main className={styles.main}>
+        {step < 5 &&
           <StepIndicator steps={steps} currentStep={steps[step].id} />
-        
+        }
         <Suspense fallback="Loading...">
           <div className={styles.content} style={{height:'100%',alignSelf:'center'}}>
             {!isComplete ? (
@@ -211,7 +251,7 @@ export default function EditProject() {
                     <PlanCard/>
                   )}
                   {step === 2 && (
-                    <DocumentUpload adminDocs={adminDocs} clientDocs={clientDocs} setAdminDocs={setAdminDocs} setClientDocs={setClientDocs}/>
+                    <DocumentUpload currentUser={currentUser} adminDocs={adminDocs} clientDocs={clientDocs} setAdminDocs={setAdminDocs} setClientDocs={setClientDocs}/>
                   )}
                   {step === 3 && (
                     <DataUpload
@@ -225,16 +265,23 @@ export default function EditProject() {
                       setResultContent={setResultContent}
                     />
                   )}
+                  {step === 6 && (
+                    <AdminWait setStep={() => {setStep(Project.formStep - 1)}}/>
+                    
+                  )}
+                  {/* {step === 7 && (
+                    <ClientWait/>
+                  )} */}
                 </div>
 
-                <NavBar
+                {step < 6 && <NavBar
                   steps={steps.length}
                   currentStep={step}
                   isAtPersonalInfoStep={step === steps.length}
                   onBackButtonClick={goToPrevStep}
                   onNextStepButtonClick={goToNextStep}
                   onConfirmButtonClick={finish}
-                />
+                />}
               </>
             ) : (
               <div className={styles.thankYouCardWrapper}>

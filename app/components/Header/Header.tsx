@@ -22,9 +22,9 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
   { name: 'Home', href: '/', current: true },
-  { name: 'Services', href: '#services', current: false },
-  { name: 'About', href: '#about', current: false },
-  { name: 'Project', href: '#project', current: false },
+  { name: 'Services', href: '/#services', current: false },
+  { name: 'About', href: '/#about', current: false },
+  { name: 'Project', href: '/#project', current: false },
 ]
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')

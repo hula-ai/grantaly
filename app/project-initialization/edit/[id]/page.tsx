@@ -2,25 +2,24 @@ import React from 'react'
 import EditProject from './pageClient'
 import getCurrentUser from '@/actions/getCurrentUser';
 import { getProjectById } from '@/actions/getProjectById';
+import ProjectInitiate from '@/components/Navbar/ProjectInitiate';
 
 export const dynamic = "force-dynamic"
 
-interface Props {
-    id: string
+
+
+interface IParams {
+  id: string;
 }
-const page = async ({ id }: Props) => {
+const page = async ({ params }: { params: IParams }) => {
 
-  console.log('awdmdk')
-
-  return null;
+  const {id} = params
   const currentUser = await getCurrentUser();
-
   const Project = await getProjectById({projectId:id});
-  console.log(Project,'awdmdk')
   
 
   return (
-    <EditProject/>
+    <EditProject currentUser={currentUser} Project={Project}/>
   )
 }
 

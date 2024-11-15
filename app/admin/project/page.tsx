@@ -126,7 +126,7 @@ const CaseTable: React.FC<CaseTableProps> = ({ isAdmin }) => {
         <div className="flex pt-5 items-center justify-between">
           <h2 className="text-lg font-bold py-2 text-black">Projects</h2>
           <div className="flex items-center gap-2">
-            <div className="bg-white rounded-lg w-96">
+            {/* <div className="bg-white rounded-lg w-96">
               <select
                 className="w-full p-2 border rounded"
                 placeholder="Select User"
@@ -155,7 +155,7 @@ const CaseTable: React.FC<CaseTableProps> = ({ isAdmin }) => {
               >
                 Reset
               </button>
-            )}
+            )} */}
           </div>
         </div>
         <DataTable

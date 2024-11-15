@@ -31,7 +31,7 @@ const DataTable = ({
     try {
       const params = {
         limit: LIMIT_COUNT,
-        page: pageIndex > 0 ? pageIndex * LIMIT_COUNT : null,
+        page: pageIndex >= 0 ? pageIndex : null,
       };
       const response = await axios.get(`${APIEndPoint}`, { params });
       const { data: fetchedData, totalCount } = response.data;
@@ -146,31 +146,31 @@ const DataTable = ({
                 disabled={!canPreviousPage}
                 className="px-4 py-2 text-black bg-purple-500 rounded hover:bg-purple-600 disabled:opacity-50"
               >
-                Previous
+                {'<<'} Previous
               </button>
 
-              {/* <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 {[...Array(totalPages)].map((_, i) => (
                   <button
                     key={i}
                     onClick={() => handlePageChange(i)}
                     className={`px-3 py-1 rounded border ${
                       i === pageIndex
-                        ? "bg-purple-500 text-white"
+                        ? "bg-black text-white"
                         : "bg-white text-black"
                     }`}
                   >
                     {i + 1}
                   </button>
                 ))}
-              </div> */}
+              </div>
 
               <button
                 onClick={() => handlePageChange(pageIndex + 1)}
                 disabled={!canNextPage}
                 className="px-4 py-2 text-black bg-purple-500 rounded hover:bg-purple-600 disabled:opacity-50"
               >
-                Next
+                Next {'>>'}
               </button>
             </div>
           </>

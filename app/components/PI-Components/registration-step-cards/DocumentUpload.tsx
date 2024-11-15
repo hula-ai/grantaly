@@ -5,17 +5,22 @@ import toast from 'react-hot-toast';
 import { Card } from '../multi-step/card/Card'
 import styles from './AddonsCard.module.scss'
 import ClipLoader from "react-spinners/ClipLoader"; 
-import { File } from '@/interface/interface';
+import { File, user } from '@/interface/interface';
 import { useRouter } from 'next/navigation';
+import { Role } from '@/types/enum';
 
 interface Props {
     clientDocs : File[];
     adminDocs : File[];
     setClientDocs: React.Dispatch<React.SetStateAction<File[]>>;  // Function to update clientDocs
     setAdminDocs: React.Dispatch<React.SetStateAction<File[]>>; 
+    currentUser: user
 }
 
-const DocumentUpload = ({clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props) => {
+const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props) => {
+
+  const role = currentUser?.role === Role.ADMIN ? 'admin' : 'user'
+  const IsAdminLoggedIn = role === 'admin' ? true : false;
   
   const [activeTab, setActiveTab] = useState("client"); // "client" or "admin"
   const [modalDoc, setModalDoc] = useState<File|null>(null);
@@ -86,44 +91,62 @@ const DocumentUpload = ({clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props)
     <>
         {/* Upload Section */}
       <div>
-        <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>
-          Upload Contract:
-        </label>
-        <input
-          type="file"
-          onChange={handleFileUpload}
-          style={{
-            display: 'block',
-            marginBottom: '20px',
-            padding: '5px',
-            cursor: 'pointer'
-          }}
-        />
+      <label
+                style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}
+              >
+                Upload Contract:
+              </label>
+              <div className="flex">
+                <input
+                  type="file"
+                  onChange={handleFileUpload}
+                  style={{
+                    display: 'inline',
+                    marginBottom: '20px',
+                    cursor: 'pointer',
+                  }}
+                />
+                <ClipLoader color={"#483EFF"} loading={loader} size={30} />
+              </div>
       </div>
 
       {/* List of Uploaded Documents */}
       <div>
         <h3>{activeTab === "client" ? "Client Documents" : "Admin Documents"}</h3>
         <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
-          {adminDocs.map((doc, index) => (
-            <li key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-              <span>{doc.name}</span>
-              <button
-                onClick={() => handleDelete(doc.key)}
-                style={{
-                  marginLeft: '10px',
-                  padding: '2px 8px',
-                  cursor: 'pointer',
-                  backgroundColor: '#ff4d4d',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '4px'
-                }}
-              >
-                &times;
-              </button>
-            </li>
-          ))}
+        {adminDocs.map((doc, index) => (
+                  <li
+                    key={index}
+                    style={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}
+                  >
+                    <span className="w-[200px] inline-block overflow-hidden whitespace-nowrap text-ellipsis">
+                      {doc.name}
+                    </span>
+                    <button
+                      onClick={() => {
+                        handleView();
+                        setModalDoc(doc);
+                      }}
+                      className="ml-2 px-0.5 py-0.5 cursor-pointer bg-blue-500 text-white rounded"
+                    >
+                      👁️
+                    </button>
+                    <button
+                      onClick={() => handleDelete(doc.key)}
+                      style={{
+                        marginLeft: '10px',
+                        padding: '2px 8px',
+                        cursor: 'pointer',
+                        backgroundColor: '#ff4d4d',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      &times;
+                    </button>
+                  </li>
+                ))}
         </ul>
       </div>
     </>
@@ -147,23 +170,23 @@ const DocumentUpload = ({clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props)
                 <div>Looks Like admin has not uploaded any document yet</div>
               }
               {adminDocs.map((doc, index) => (
-                <li key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                  <span>{doc.name}</span>
-                  <button
-                    onClick={() => handleDelete(doc.key)}
-                    style={{
-                      marginLeft: '10px',
-                      padding: '2px 8px',
-                      cursor: 'pointer',
-                      backgroundColor: '#ff4d4d',
-                      color: '#fff',
-                      border: 'none',
-                      borderRadius: '4px'
-                    }}
-                  >
-                    &times;
-                  </button>
-                </li>
+                <li
+                key={index}
+                style={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}
+              >
+                <span className="w-[200px] inline-block overflow-hidden whitespace-nowrap text-ellipsis">
+                  {doc.name}
+                </span>
+                <button
+                  onClick={() => {
+                    handleView();
+                    setModalDoc(doc);
+                  }}
+                  className="ml-2 px-0.5 py-0.5 cursor-pointer bg-blue-500 text-white rounded"
+                >
+                  👁️
+                </button>
+              </li>
               ))}
             </ul>
           </div>
@@ -183,15 +206,17 @@ const DocumentUpload = ({clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props)
             >
               Client Contract:
             </label>
-            <div>you can not upload contract until admin uploads a contract</div>
+            <div>{IsAdminLoggedIn ? 'user' : 'you'} can not upload contract until admin uploads a contract</div>
             <div
               className="my-4 cursor-pointer hover:underline hover:text-blue-500"
-              onClick={() => router.push('/user')}
+              onClick={() => 
+                IsAdminLoggedIn ? router.push('/admin/dashboard') : router.push('/user/dashboard')}
             >
               Redirect to Dashboard
             </div>
           </div>
         ) : (
+          IsAdminLoggedIn ? <span>Please wait until client uploads their contract</span> :
           <div>
             <div>
               <label
@@ -252,14 +277,14 @@ const DocumentUpload = ({clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props)
               </ul>
             </div>
             <span className="mt-5">Note: Please upload image or pdf file</span>
-          </div>
+          </div> 
         )}
       </>
     );
   };
   
 
-  const IsAdminLoggedIn = false;
+  
 
   return (
     <Card>
@@ -299,7 +324,8 @@ const DocumentUpload = ({clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props)
         
       </div>
        
-       {IsAdminLoggedIn ? activeTab === "admin" ?<AdminView/> : <ClientView/> : activeTab === "admin" ?<AdminViewLoggedOut/> : <ClientView/> }
+       {IsAdminLoggedIn ? activeTab === "admin" ?<AdminView/> : <ClientView/> 
+       : activeTab === "admin" ?<AdminViewLoggedOut/> : <ClientView/> }
         <ViewContentModal isModalOpen={isModalOpen} closeModal={closeModal} doc={modalDoc}/>
     </div>
     </Card>
