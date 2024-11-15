@@ -16,6 +16,9 @@ const page = async ({ params }: { params: IParams }) => {
   const {id} = params
   const currentUser = await getCurrentUser();
   const Project = await getProjectById({projectId:id});
+
+  if(!Project)
+    return null;
   
 
   return (

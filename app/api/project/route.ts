@@ -1,15 +1,11 @@
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";
 
 import connectToDatabase from "@/lib/mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import Project from "@/models/project";
 import getCurrentUser from "@/actions/getCurrentUser";
 import { LIMIT_COUNT } from "@/utils/constant";
-
-interface Query {
-  userId?: string;
-  privacy?: string;
-}
+import { Role } from "@/types/enum";
 
 export async function GET(req: NextRequest) {
   try {
@@ -22,33 +18,31 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    const isAdmin = currentUser.role === Role.ADMIN;
+
     const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
-    const privacy = searchParams.get("privacy")?.toLowerCase();
 
     // Pagination parameters
     const page = parseInt(searchParams.get("page") || "0", 10);
     const limit = parseInt(searchParams.get("limit") || LIMIT_COUNT.toString(), 10);
 
-    let query: Query = {};
-    // if (userId) query.userId = userId;
-    // if (privacy) query.privacy = privacy;
-
     // Connect to the database
     await connectToDatabase();
 
-    // Fetch projects from the database
-    const projects = await Project.find(query).sort({ createdAt: -1 })
-    .skip((page) * limit) // Skip documents based on page
-    .limit(limit); // Limit the number of documents;
+    // Build query for projects
+    const query = isAdmin ? {} : { userId: currentUser.id };
 
-    // Calculate the total count of projects (this is used for pagination)
+    // Fetch projects with pagination
+    const projects = await Project.find(query)
+      .sort({ createdAt: -1 })
+      .skip(page * limit) // Skip documents based on page
+      .limit(limit); // Limit the number of documents
+
+    // Calculate the total count of projects (for pagination)
     const totalCount = await Project.countDocuments(query);
 
     // Respond with both the projects data and the total count
-    return NextResponse.json({ data: projects, totalCount: totalCount }, { status: 200 });
-
-
+    return NextResponse.json({ data: projects, totalCount }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Something went wrong", error: error.message },

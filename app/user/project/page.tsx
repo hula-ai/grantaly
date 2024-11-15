@@ -63,9 +63,9 @@ const CaseTable: React.FC<CaseTableProps> = ({ isAdmin }) => {
       Cell: ({ row }: any) => {
         const step = row.original.formStep
         if(step === 2 && row.original.adminDocs)
-          return (<span>Please Upload Contract</span>)
+          return (<span>Pending</span>)
         if(step === 4 && row.original.adminDocs)
-          return (<span>Please upload results</span>)
+          return (<span>Pending</span>)
         if(step < 5)
           return (<span>Pending</span>)
         if(step === 5 && row.original.isCompeleted)

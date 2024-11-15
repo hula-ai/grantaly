@@ -47,6 +47,8 @@ const ActionsCell = ({
       setLoading(false);
       toast.error("Something went wrong");
       console.error("Error deleting item:", error);
+    } finally {
+      setIsOpen(false)
     }
   };
 

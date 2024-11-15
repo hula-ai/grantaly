@@ -216,7 +216,7 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
             </div>
           </div>
         ) : (
-          IsAdminLoggedIn ? <span>Please wait until client uploads their contract</span> :
+          IsAdminLoggedIn && clientDocs.length === 0 ? <span>Please wait until client uploads their contract</span> :
           <div>
             <div>
               <label

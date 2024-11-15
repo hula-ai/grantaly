@@ -28,18 +28,26 @@ function classNames(...classes: string[]) {
 }
 
 interface Props {
-    user: user
+    user: user | null;
 }
 
 const Navbar = ({user}:Props) => {
 
     const pathname = usePathname();
     const loggedIn = pathname.includes('/admin') || pathname.includes('/user') ? true :false
-    const admin = user.role === Role.ADMIN ? true : false; 
+    const admin = user?.role === Role.ADMIN ? true : false; 
 
 
-    const navigation: NavigationItem[] = [
+    const navigation: NavigationItem[] = 
+    user ? 
+    [
         { name: loggedIn ? 'home' : 'Dashboard', href: loggedIn ? '/' : admin ? '/admin/dashboard' : '/user/dashboard' , current: true },
+        { name: 'Services', href: '#services', current: false },
+        { name: 'About', href: '#about', current: false },
+        { name: 'Project', href: '#project', current: false },
+        { name: 'Contact', href: '#contactus', current: false },
+    ] : [
+        { name: 'home', href: '/', current: true },
         { name: 'Services', href: '#services', current: false },
         { name: 'About', href: '#about', current: false },
         { name: 'Project', href: '#project', current: false },

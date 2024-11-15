@@ -45,15 +45,17 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({ children }) => {
 
   const isAdmin = usePathname().startsWith("/admin");
 
+  const isUser = usePathname().startsWith("/user");
+
   if (!hasMounted) return null;
 
   return (
     <>
     
     {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
-      {!pathname && !isAdmin && <Navbar user={user} />}
+      {!pathname && !isAdmin && !isUser && <Navbar user={user} />}
       {children}
-      {!pathname && !isAdmin && <Footer />}
+      {!pathname && !isAdmin && !isUser && <Footer />}
       {/* {!pathname  && <Footer />} */}
     </>
   );

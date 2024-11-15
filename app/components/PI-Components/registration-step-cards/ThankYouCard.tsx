@@ -1,8 +1,17 @@
+'use client'
 import { Card } from '../multi-step/card/Card'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './ThankYouCard.module.scss'
+import { useRouter } from 'next/navigation'
 
-export default function ThankYouCard() {
+interface Props {
+  isAdmin : boolean;
+}
+
+export default function ThankYouCard({isAdmin}:Props) {
+
+  const router = useRouter();
+
   return (
     <Card className={styles.card}>
       <svg
@@ -26,10 +35,10 @@ export default function ThankYouCard() {
 
       <Card.Title className={styles.title}>Thank you!</Card.Title>
       <Card.Description className={styles.description}>
-        Thanks for confirming your subscription! We hope you have fun using our
-        platform. If you ever need support, please feel free to email us at
-        support@loremgaming.com.
+        {isAdmin ? "Thanks for uploading the results" : "Thank you for viewing the results"}
+        <div className='underline cursor-pointer mt-5' onClick={()=>{router.push('/admin/dashboard')}}>Click here to redirect to dashboard</div>
       </Card.Description>
+
     </Card>
   )
 }

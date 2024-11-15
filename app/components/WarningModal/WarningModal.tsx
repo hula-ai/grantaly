@@ -29,10 +29,10 @@ const WarningModal: React.FC<WarningModalProps> = ({
   const [isReasonEmpty, setIsReasonEmpty] = useState(false);
 
   const handleConfirm = () => {
-    if (showReasonInput && !reason) {
-      setIsReasonEmpty(true);
-      return;
-    }
+    // if (showReasonInput && !reason) {
+    //   setIsReasonEmpty(true);
+    //   return;
+    // }
     onConfirm(reason);
   };
 
@@ -68,14 +68,14 @@ const WarningModal: React.FC<WarningModalProps> = ({
           <button
             onClick={onClose}
             disabled={isDisabled}
-            className="w-24 px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+            className="w-24 px-4 py-2 border rounded-lg text-gray-700 disabled:opacity-50"
           >
             No
           </button>
           <button
             onClick={handleConfirm}
             disabled={isDisabled || loading}
-            className="w-24 px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50"
+            className="w-24 px-4 py-2 rounded-lg border text-black disabled:opacity-50"
           >
             {loading ? <Loader /> : "Yes"}
           </button>

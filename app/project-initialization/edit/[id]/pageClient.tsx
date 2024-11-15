@@ -31,6 +31,7 @@ const steps = [
 import { Admin, ObjectId } from 'mongodb';
 import { Role } from '@/types/enum';
 import AdminWait from './AdminWait';
+import ClientWait from './ClientWait';
 
 interface ProjectProps {
   _id: ObjectId;
@@ -62,18 +63,30 @@ export default function EditProject({Project,currentUser}:props) {
 
   const isAdmin = currentUser?.role === Role.ADMIN ? true : false
 
-  console.log(isAdmin,Project.formStep,'skndkn')
   let stepper =0;
   if(isAdmin && Project.formStep === 3) {
     stepper = 6;
   }
+  else if(isAdmin && Project.formStep === 2) {
+    stepper = 2;
+  }
+  else if(!isAdmin && Project.formStep === 3 && Project.clientDocs.length ===0) {
+    stepper = 2;
+  }
   else if(!isAdmin && Project.formStep === 4) {
     stepper = 7;
+  } 
+  else if(!isAdmin && Project.formStep === 5){
+    stepper = 4;
   } else {
     stepper = Project.formStep;
   }
 
+  
+
   const [step, setStep] = useState(stepper);
+
+  console.log('awdadsd',stepper,isAdmin,step)
   const [isComplete, setIsComplete] = useState(Project.isCompeleted);
   const [projectId,setProjectId] = useState(Project._id);
 
@@ -87,6 +100,8 @@ export default function EditProject({Project,currentUser}:props) {
 
   // Step3 UseStates
   const [clientDocs, setClientDocs] = useState<File[]>(Project?.clientDocs ?? []);
+
+  console.log(Project,'awkdnand')
   const [adminDocs, setAdminDocs] = useState<File[]>(Project?.adminDocs ?? []);
 
   // Step 4 Urls
@@ -152,6 +167,10 @@ export default function EditProject({Project,currentUser}:props) {
         toast.error('Please upload at least one document')
         return;
       }
+      if(!isAdmin && clientDocs.length === 0){
+        toast.error("Please upload atleast one document");
+        return;
+      }
       
       try {
         if(projectId) {
@@ -159,7 +178,7 @@ export default function EditProject({Project,currentUser}:props) {
           if(response.data){
             if(isAdmin && dataUploadContent.length === 0){
                 setStep(6)
-            }
+            } else
             setStep((prevStep) => prevStep + 1)
             toast.success('Progress Saved...')
           }
@@ -187,6 +206,9 @@ export default function EditProject({Project,currentUser}:props) {
       try {
           const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {dataUploadContent});  
           if(response.data){
+            if(!isAdmin && resultContent.length === 0){
+              setStep(6)
+            }
             setStep((prevStep) => prevStep + 1)
             toast.success('Progress Saved...')
           }
@@ -202,7 +224,7 @@ export default function EditProject({Project,currentUser}:props) {
       try {
           const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {resultContent});  
           if(response.data){
-            setStep((prevStep) => prevStep + 1)
+            setStep(8) 
             toast.success('Progress Saved...')
           }
       } catch (error) {
@@ -211,6 +233,7 @@ export default function EditProject({Project,currentUser}:props) {
     }
   };
 
+  console.log(step,"I am stepper")
 
 
   const goToPrevStep = () => setStep((prevStep) => prevStep - 1);
@@ -261,17 +284,20 @@ export default function EditProject({Project,currentUser}:props) {
                   )}
                   {step === 4 && (
                     <ResultDelivery
+                      isAdmin={isAdmin}
                       resultContent={resultContent}
                       setResultContent={setResultContent}
                     />
                   )}
                   {step === 6 && (
                     <AdminWait setStep={() => {setStep(Project.formStep - 1)}}/>
-                    
                   )}
-                  {/* {step === 7 && (
-                    <ClientWait/>
-                  )} */}
+                  {step === 7 && (
+                    <ClientWait setStep={() => {setStep(Project.formStep - 1)}}/>
+                  )}
+                  {step === 8 && (
+                    <ThankYouCard isAdmin={isAdmin}/>
+                  )}
                 </div>
 
                 {step < 6 && <NavBar
@@ -285,7 +311,7 @@ export default function EditProject({Project,currentUser}:props) {
               </>
             ) : (
               <div className={styles.thankYouCardWrapper}>
-                <ThankYouCard />
+                <ThankYouCard isAdmin={isAdmin}/>
               </div>
             )}
           </div>

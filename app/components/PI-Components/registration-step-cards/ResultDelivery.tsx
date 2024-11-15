@@ -3,6 +3,7 @@ import { Card } from '../multi-step/card/Card';
 import styles from './FinishingUpCard.module.scss';
 import { FormInput } from '../form/FormInput';
 import { FormTextArea } from '../textarea/textarea';
+import Link from 'next/link';
 
 interface DataUploadLink {
     url: string;
@@ -12,9 +13,10 @@ interface DataUploadLink {
 interface Props {
     resultContent: DataUploadLink[];
     setResultContent: React.Dispatch<React.SetStateAction<DataUploadLink[]>>;
+    isAdmin: boolean;
 }
 
-const ResultDelivery = ({ resultContent, setResultContent }: Props) => {
+const ResultDelivery = ({ isAdmin,resultContent, setResultContent }: Props) => {
 
     const handleAddUrl = () => {
         setResultContent([...resultContent, { url: '', description: '' }]);
@@ -38,11 +40,13 @@ const ResultDelivery = ({ resultContent, setResultContent }: Props) => {
 
     return (
         <Card>
-            <Card.Title>Data Upload</Card.Title>
+            <Card.Title>Result Upload</Card.Title>
             <Card.Description>
                 Share your data securely through URLs (e.g., Google Drive, Dropbox).
             </Card.Description>
 
+            {isAdmin ? 
+            <>
             <div className={styles.cardContent}>
                 <div className={styles.summary}>
                     <div className="flex flex-col gap-4">
@@ -86,6 +90,37 @@ const ResultDelivery = ({ resultContent, setResultContent }: Props) => {
             >
                 + Add URL
             </button>
+            </> : 
+            <>
+                <div className={styles.cardContent}>
+                <div className={styles.summary}>
+                    <div className="flex flex-col gap-4">
+                        {resultContent.map((item, index) => (
+                            <div key={index} className="flex flex-col gap-2">
+                            <span className='font-bold'>Result {index+1}</span>
+                            <div className='flex gap-1'>
+                                <span>Link: </span>
+                                <Link
+                                    href={item.url.startsWith("http") ? item.url : `https://${item.url}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-500 underline cursor-pointer"
+                                >
+                                {item.url}
+                                </Link>
+                                
+                            </div>
+                            <div className='flex gap-1'>
+                                <span>Description: </span>
+                                <div>{item.description}</div>
+                            </div>
+                            
+                          </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            </>}
         </Card>
     );
 };

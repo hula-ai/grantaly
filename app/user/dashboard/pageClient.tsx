@@ -10,15 +10,15 @@ interface obj {
 
 
 interface Props {
-  AdminStats: obj; // Sample type for the admin stats
+  UserStats: obj; // Sample type for the admin stats
 }
-const AdminDashboard = ({AdminStats}:Props) => {
+const ClientDashboard = ({UserStats}:Props) => {
   // Sample data for the stats
   const stats = [
-    { label: "Total Projects", value: AdminStats?.totalProjects ?? 0, icon: <FaProjectDiagram />,color :"" },
-    { label: "Pending Projects", value: AdminStats?.pendingProjects ?? 0, icon: <FaHourglassHalf />,color :"" },
-    { label: "Completed Projects", value: AdminStats?.completedProjects ?? 0, icon: <FaCheckCircle />,color :"" },
-    { label: "Requires Attention", value: AdminStats?.requiresAttention ?? 0, icon: <FaExclamationTriangle />,color :""},
+    { label: "Total Projects", value: UserStats?.totalProjects ?? 0, icon: <FaProjectDiagram />,color :"" },
+    { label: "Pending Projects", value: UserStats?.pendingProjects ?? 0, icon: <FaHourglassHalf />,color :"" },
+    { label: "Completed Projects", value: UserStats?.completedProjects ?? 0, icon: <FaCheckCircle />,color :"" },
+    { label: "Requires Attention", value: UserStats?.requiresAttention ?? 0, icon: <FaExclamationTriangle />,color :""},
   ];
 
   return (
@@ -55,4 +55,4 @@ const AdminDashboard = ({AdminStats}:Props) => {
   );
 };
 
-export default AdminDashboard;
+export default ClientDashboard;

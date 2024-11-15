@@ -4,10 +4,10 @@ import { useRouter } from 'next/navigation';
 
 
 interface Props {
-    setStep : ()=>void;
+    setStep : number;
 }
 
-const ClientWait: React.FC = ({setStep}:Props) => {
+const ProjectClose: React.FC = ({setStep}:Props) => {
 
     const router = useRouter();
 
@@ -21,7 +21,7 @@ const ClientWait: React.FC = ({setStep}:Props) => {
             <Link href="/admin/dashboard" className="mt-6 inline-block text-lg text-blue-400 hover:underline cursor-pointer">
                 Go back to Dashboard
             </Link>
-            <div onClick={()=>{setStep()}} className="mt-6 inline-block text-lg text-blue-400 hover:underline cursor-pointer">
+            <div onClick={()=>{router.push}} className="mt-6 inline-block text-lg text-blue-400 hover:underline cursor-pointer">
                 {'<<'} Go back to Last Step
             </div>
         </div>
@@ -30,4 +30,4 @@ const ClientWait: React.FC = ({setStep}:Props) => {
   );
 };
 
-export default ClientWait;
+export default ProjectClose;

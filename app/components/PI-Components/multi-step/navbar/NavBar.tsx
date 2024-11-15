@@ -38,19 +38,7 @@ export function NavBar(
           Next Step {'>>'}
         </button>
       )}
-      {/* If at the personal info step, the next button triggers the form submit */}
-      {/* {(currentStep < steps - 1 && isAtPersonalInfoStep) && (
-        <button
-          className={styles.nextStepButton}
-          form={personalInfoFormId}
-          onClick={() => {
-            onNextStepButtonClick();
-          }}
-        >
-          Next Step {'>>'}
-        </button>
-      )} */}
-      {currentStep === steps && (
+      {currentStep === steps-1 && (
         <button className={styles.confirmButton} onClick={() => {onNextStepButtonClick()}}>
           Confirm
         </button>

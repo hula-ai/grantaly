@@ -145,7 +145,14 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
     }
 
     const formStep = NumStepId > project.formStep ? NumStepId : project.formStep
-    const isCompeleted = project.formStep === 5 ? true : false;    
+
+    const role = currentUser?.role === Role.ADMIN ? true : false;
+
+    let isCompeleted = false;
+    if(!role && formStep === 5){
+      isCompeleted = true;
+    }
+        
 
     if (NumStepId === 1) {
       project.projectTitle = projectTitle || project.projectTitle;
@@ -171,6 +178,8 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       project.isCompeleted = isCompeleted;
     } else if(NumStepId === 5) {
       project.resultContent = resultContent;
+      project.formStep = formStep;
+      project.isCompeleted = isCompeleted;
     }
 
     console.log(project,'askndw')
