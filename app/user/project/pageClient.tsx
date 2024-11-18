@@ -6,6 +6,8 @@ import { formatDate } from "@/helper/formateDate";
 import ActionsCell from "@/components/ActionCell/ActionCell";
 import toast from "react-hot-toast";
 import { user } from "@/interface/interface";
+import PreviewModal from "@/components/PreviewModal/PreviewModal";
+import { LIMIT_COUNT } from "@/utils/constant";
 
 interface Project {
   _id: string;
@@ -41,6 +43,15 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<user[]>([]);
 
+  const [isModalOpen, setIsModalOpen] = useState<boolean[]>(Array(LIMIT_COUNT).fill(false));
+  const toggleModal = (idx: number) => {
+    setIsModalOpen((prev) => {
+      const newModalState = [...prev]; // Copy the previous state
+      newModalState[idx] = !newModalState[idx]; // Toggle the modal state at the specific index
+      return newModalState;
+    });
+  };
+
   const columns = [
     
     { Header: "ID", accessor: "_id" },
@@ -58,20 +69,46 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
       Header: "Estimated Timeline",
       Cell: ({ row }: any) => row.original.expectedTimeline,
     },
+    { Header: "Documents",
+      Cell: ({ row,idx }: any) => {
+        const totalDocs = row.original.adminDocs.length + row.original.clientDocs.length;
+        console.log(row.index,'awdjjawd')
+        return (
+          <div>
+            {isModalOpen && <PreviewModal toggleModal={ () => {toggleModal(row.index)}} isModalOpen={isModalOpen[row.index]} clientDocs={row.original.clientDocs} adminDocs={row.original.adminDocs}/>}
+          <div onClick={() => {toggleModal(row.index)}} className="relative group">
+            <span className="cursor-pointer underline">
+              {totalDocs}
+            </span>
+            {/* Tooltip */}
+            <div className="flex absolute hidden group-hover:block -top-6 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+              Click here to view all
+            </div>
+          </div>
+          </div>
+        );
+      }, 
+    },
     {
       Header: "Status",
       Cell: ({ row }: any) => {
         const step = row.original.formStep
         if(step === 2 && row.original.adminDocs)
           return (<span>Pending</span>)
-        if(step === 4 && row.original.adminDocs)
-          return (<span>Pending</span>)
-        if(step < 5)
-          return (<span>Pending</span>)
-        if(step === 5 && row.original.isCompeleted)
+        else if(step === 3 && row.original.adminDocs.length > 0 && row.original.clientDocs.length === 0)
+          return (<span>Please upload your contract</span>)
+        else if(step === 4 && row.original.dataUploadContent )
+          return (<span>Please upload your data</span>)
+        else if(step === 5 && row.original.resultContent && !row.original.isCompeleted )
+          return (<span>Please see the results</span>)
+        else if(step === 5 && row.original.isCompeleted)
           return 'Completed'
-        if(step === 5 && !row.original.isCompeleted)
+        else if(step === 5 && !row.original.isCompeleted)
           return 'Pending'
+        else if(step < 5)
+          return (<span>Pending</span>)
+        else 
+          return ""
       }
     },
     {

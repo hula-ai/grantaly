@@ -1,10 +1,7 @@
+import { File } from "@/interface/interface";
 import React from "react";
 
-interface File {
-  name: string;
-  key: string;
-  url: string; // URL to the file (e.g., https://example.com/document.pdf)
-}
+
 
 interface Props {
   isModalOpen: boolean;
@@ -71,7 +68,8 @@ const ViewContentModal = ({ isModalOpen, doc, closeModal }: Props) => {
             onClick={closeModal}
             className="px-4 py-2 bg-gray-300 text-gray-700 rounded"
           >
-            Close
+            {/* Close */}
+            &#x2715;
           </button>
         </div>
 
