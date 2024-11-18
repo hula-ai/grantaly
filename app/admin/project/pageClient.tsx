@@ -97,7 +97,7 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
           return (<span>Please Upload Contract</span>)
         if(step === 4 && row.original.adminDocs)
           return (<span>Please upload results</span>)
-        if(step < 5)
+        if(step <= 5)
           return (<span>Pending</span>)
         if(step === 5 && row.original.isCompeleted)
           return 'Completed'
