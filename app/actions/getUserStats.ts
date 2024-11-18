@@ -2,6 +2,8 @@ import connectToDatabase from "@/lib/mongoose";
 import getCurrentUser from "./getCurrentUser";
 import Project from "@/models/project";
 
+import { Project as ProjectInterface } from "@/interface/interface";
+
 export async function getUserStats() {
   try {
     // Authenticate the current user
@@ -24,9 +26,15 @@ export async function getUserStats() {
     const pendingProjects = fetchedProjects.filter((project) => !project.isCompeleted).length ?? 0;
     const completedProjects = fetchedProjects.filter((project) => project.isCompeleted).length ?? 0;
     const requiresAttention = fetchedProjects.filter(
-      (project) => project.formStep === 2 || project.formStep === 4
+      (project:ProjectInterface) => {
+        if(project.formStep === 3 && project.adminDocs.length > 0 && project.clientDocs.length === 0)
+          return true
+        if(project.formStep === 4 && project.dataUploadContent.length === 0 )
+          return true
+        if(project.formStep === 5 && project.resultContent && !project.isCompeleted )
+          return true
+      }
     ).length ?? 0;
-
     // Return the statistics
     return {
       totalProjects,

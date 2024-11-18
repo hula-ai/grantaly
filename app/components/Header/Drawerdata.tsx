@@ -3,6 +3,7 @@ import Link from "next/link";
 import { user } from "@/interface/interface";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { Role } from "@/types/enum";
 
 interface NavigationItem {
   name: string;
@@ -10,13 +11,7 @@ interface NavigationItem {
   current: boolean;
 }
 
-const navigation: NavigationItem[] = [
-  { name: "Home", href: "/", current: true },
-  { name: "Services", href: "#services", current: false },
-  { name: "About", href: "#about", current: false },
-  { name: "Project", href: "#project", current: false },
-  { name: "Help", href: "/", current: false },
-];
+
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -27,6 +22,29 @@ interface Props {
 }
 
 const Data = ({ user }: Props) => {
+
+  const isLogin = user;
+  const isAdmin = user?.role === Role.ADMIN
+
+
+  const navigation: NavigationItem[] = isLogin ? [
+    { name: "Home", href: "/", current: true },
+    { name: "Services", href: "#services", current: false },
+    { name: "About", href: "#about", current: false },
+    { name: "Project", href: "#project", current: false },
+    { name: "Help", href: "/", current: false },
+    { name: "Dashboard", href: isAdmin ? "/admin/dashboard" : "/user/dashboard", current: false },
+    { name: "Project", href: isAdmin ? "/admin/project" : "/user/project", current: false },
+  ] : 
+  [ 
+    { name: "Home", href: "/", current: true },
+    { name: "Services", href: "#services", current: false },
+    { name: "About", href: "#about", current: false },
+    { name: "Project", href: "#project", current: false },
+    { name: "Help", href: "/", current: false },
+  ]
+
+
   const router = useRouter();
   return (
     <div className="rounded-md max-w-sm w-full mx-auto">
@@ -50,15 +68,18 @@ const Data = ({ user }: Props) => {
             ))}
             {user ? (
               <>
-              <button
+                {!(user?.role === Role.ADMIN) && <button
                   onClick={() => {
                     router.push("/project-initialization");
                   }}
                   className="bg-lightblue w-full hover:bg-blue hover:text-white text-blue font-medium my-2 py-2 px-4 rounded"
                 >
                   Project Initiate
-                </button>
-              <button onClick={()=>{signOut({ callbackUrl: '/' });}} className="bg-white w-full text-blue border border-lightblue font-medium py-2 px-4 rounded">
+                </button>}
+              <button onClick={()=>{
+                signOut({ callbackUrl: '/' });
+                router.push('/');
+              }} className="bg-white w-full text-blue border border-lightblue font-medium py-2 px-4 rounded">
                 LogOut
               </button>
               </>

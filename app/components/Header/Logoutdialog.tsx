@@ -2,11 +2,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { signOut } from "next-auth/react"; // Import signOut from next-auth
+import { useRouter } from "next/navigation";
 
 const Logout = () => {
 
+  const router = useRouter();
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' }); // Sign out and redirect to the home page or desired URL
+    router.push('/');
   };
 
   return (
