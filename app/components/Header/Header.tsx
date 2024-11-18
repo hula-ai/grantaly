@@ -12,6 +12,7 @@ import { user } from '@/interface/interface';
 import { useRouter } from 'next/navigation';
 import ProjectInitiate from './ProjectInitiate';
 import Logout from './Logoutdialog';
+import { Role } from '@/types/enum';
 
 
 interface NavigationItem {
@@ -74,6 +75,7 @@ const Header = ({user}:Props) => {
                         { 
                             user ? 
                                 <>
+                                    {user?.role !== Role.ADMIN && <ProjectInitiate/>}
                                     <Logout/>
                                 </> : <> <Signdialog /> </>
                         }
