@@ -81,8 +81,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
   }, [sidebarExpanded]);
 
-  const IsRouteDashboard = pathname.includes("/admin/dashboard") ?? pathname.includes("/user/dashboard")
-  const IsRouteProject = pathname.includes("/admin/project") ?? pathname.includes("/user/project")
+  const IsRouteDashboard = pathname.includes("/admin/dashboard") || pathname.includes("/user/dashboard")
+  const IsRouteProject = pathname.includes("/admin/project") || pathname.includes("/user/project")
 
   return (
     pathname && <div style={{ backgroundColor: "#000321",color:'white' }}>
