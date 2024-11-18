@@ -4,7 +4,6 @@ type Props = {
   steps: number
   currentStep: number
   isAtPersonalInfoStep: boolean
-  personalInfoFormId: string
   onBackButtonClick: () => void
   onNextStepButtonClick: () => void
   onConfirmButtonClick: () => void
@@ -15,7 +14,6 @@ export function NavBar(
     steps,
     currentStep,
     isAtPersonalInfoStep,
-    personalInfoFormId,
     onBackButtonClick,
     onNextStepButtonClick,
     onConfirmButtonClick,
