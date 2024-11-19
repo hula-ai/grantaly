@@ -54,12 +54,15 @@ export default function PageClient({currentUser}:Props) {
   // Step3 UseStates
   const [clientDocs, setClientDocs] = useState<File[]>([]);
   const [adminDocs, setAdminDocs] = useState<File[]>([]);
+  const [dataUploadDeadline,setDataUploadDeadline] = useState<string>('');
+  const [resultUploadDeadline,setResultUploadDeadline] = useState<string>('');
+  // if Admin Submits date and Contract
+  const [hasAdminSubmittedContract,setHasAdminSubmittedContract] = useState<boolean>(false);
+
 
   // Step 4 Urls
   const [dataUploadContent,setDataUploadContent] = useState<DataUploadLink[]>([]);
   const [resultContent,setResultContent] = useState<DataUploadLink[]>([])
-
-  const [priceType, setPriceType] = useState('monthly');
   const [addons, setAddons] = useState(new Set());
 
   const goToNextStep = async () => {
@@ -221,7 +224,8 @@ export default function PageClient({currentUser}:Props) {
                     <PlanCard/>
                   )}
                   {step === 2 && (
-                    <DocumentUpload currentUser={currentUser} adminDocs={adminDocs} clientDocs={clientDocs} setAdminDocs={setAdminDocs} setClientDocs={setClientDocs}/>
+
+                    <DocumentUpload hasAdminSubmittedContract={hasAdminSubmittedContract} setResultUploadDeadline={setResultUploadDeadline} setDataUploadDeadline={setDataUploadDeadline} resultUploadDeadline={resultUploadDeadline} dataUploadDeadline={dataUploadDeadline} currentUser={currentUser} adminDocs={adminDocs} clientDocs={clientDocs} setAdminDocs={setAdminDocs} setClientDocs={setClientDocs}/>
                   )}
                   {step === 3 && (
                     <DataUpload

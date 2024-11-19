@@ -54,7 +54,7 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
 
   const columns = [
     
-    { Header: "ID", accessor: "_id" },
+    // { Header: "ID", accessor: "_id" },
     { Header: "Project Title", accessor: "projectTitle" },
     
     {
@@ -69,7 +69,16 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
       Header: "Estimated Timeline",
       Cell: ({ row }: any) => row.original.expectedTimeline,
     },
-    { Header: "Documents",
+    {
+      Header: "Data Upload Deadline",
+      Cell: ({ row }: any) => formatDate(row.original.dataUploadDeadline) ?? 'Not uploaded',
+    },
+    {
+      Header: "Result Upload Deadline",
+      Cell: ({ row }: any) => formatDate(row.original.resultUploadDeadline) ?? 'Not uploaded',
+    },
+    { 
+      Header: "Documents",
       Cell: ({ row,idx }: any) => {
         const totalDocs = row.original.adminDocs.length + row.original.clientDocs.length;
         console.log(row.index,'awdjjawd')

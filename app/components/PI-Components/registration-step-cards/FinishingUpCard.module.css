@@ -1,0 +1,106 @@
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+@media only screen and (min-width: 1024px) {
+  .cardContent {
+    gap: 1rem;
+  }
+}
+
+.summary {
+  --clr-divider: hsla(231, 11%, 63%, 0.2043);
+  background-color: var(--clr-very-light-gray);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.planSummary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  justify-items: left;
+  align-items: center;
+}
+.planSummary .name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--clr-denim);
+}
+.planSummary .changeBtn {
+  margin-top: 0.1875rem;
+  text-decoration: underline;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--clr-gray);
+  cursor: pointer;
+}
+.planSummary .changeBtn:hover, .planSummary .changeBtn:focus {
+  color: var(--clr-purple);
+  outline: none;
+}
+.planSummary .price {
+  grid-column: 2/3;
+  grid-row: 1/3;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+  color: var(--clr-denim);
+}
+@media only screen and (min-width: 1024px) {
+  .planSummary .name {
+    font-size: 1rem;
+  }
+  .planSummary .price {
+    font-size: 1rem;
+  }
+}
+
+.addonList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--clr-divider);
+}
+
+.addon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.addon .name {
+  font-size: 0.875rem;
+  color: var(--clr-gray);
+  line-height: 1.25rem;
+}
+.addon .price {
+  font-size: 0.875rem;
+  color: var(--clr-denim);
+  line-height: 1.25rem;
+}
+
+.total {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+.total .label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--clr-gray);
+}
+.total .price {
+  line-height: 1.25em;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--clr-purple);
+}
+@media only screen and (min-width: 1024px) {
+  .total .price {
+    font-size: 1.25rem;
+  }
+}/*# sourceMappingURL=FinishingUpCard.module.css.map */

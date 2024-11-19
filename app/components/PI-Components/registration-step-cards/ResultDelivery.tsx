@@ -96,7 +96,7 @@ const ResultDelivery = ({ isAdmin,resultContent, setResultContent }: Props) => {
                 <div className={styles.summary}>
                     <div className="flex flex-col gap-4">
                         {resultContent.map((item, index) => (
-                            <div key={index} className="flex flex-col gap-2">
+                            <div key={index} className="rounded-lg shadow-md my-2 p-2 flex flex-col gap-2">
                             <span className='font-bold'>Result {index+1}</span>
                             <div className='flex gap-1'>
                                 <span>Link: </span>

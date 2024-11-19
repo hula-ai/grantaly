@@ -57,6 +57,14 @@ const projectSchema = new mongoose.Schema({
     key: { type: String, required: false },
     url: { type: String, required: false },
   }],
+  dataUploadDeadline: {
+    type: Date,
+    required: false,
+  },
+  resultUploadDeadline: {
+    type: Date,
+    required: false,
+  },
   dataUploadContent: [{
     url: {type: String, required: false},
     description: {type: String, required: false},

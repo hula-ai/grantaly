@@ -54,7 +54,7 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
 
   const columns = [
     
-    { Header: "ID", accessor: "_id" },
+    // { Header: "ID", accessor: "_id" },
     { Header: "Project Title", accessor: "projectTitle" },
     
     {
@@ -68,6 +68,14 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
     {
       Header: "Estimated Timeline",
       Cell: ({ row }: any) => row.original.expectedTimeline,
+    },
+    {
+      Header: "Data Upload Deadline",
+      Cell: ({ row }: any) => formatDate(row.original.dataUploadDeadline) ?? 'Not uploaded',
+    },
+    {
+      Header: "Result Upload Deadline",
+      Cell: ({ row }: any) => formatDate(row.original.resultUploadDeadline) ?? 'Not uploaded',
     },
     { Header: "Documents",
       Cell: ({ row,idx }: any) => {
@@ -97,7 +105,7 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
           return (<span>Please Upload Contract</span>)
         if(step === 4 && row.original.adminDocs)
           return (<span>Please upload results</span>)
-        if(step <= 5)
+        if(step <= 5 && !row.original.isCompeleted)
           return (<span>Pending</span>)
         if(step === 5 && row.original.isCompeleted)
           return 'Completed'

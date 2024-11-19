@@ -93,6 +93,7 @@ const Project3 = [
         country: "Bangladesh",
         paragraph: 'Event madness gathering innoies, & tech enthusiasts in Speced.',
         project : Project1,
+        projectTitle: 'Project Title 1',
 
     },
     {
@@ -100,47 +101,48 @@ const Project3 = [
         country: "United States",
         paragraph: 'Event madness gathering innoies, & tech enthusiasts in Speced.',
         project : Project2,
+        projectTitle: 'Project Title 2',
     },
     {
         imgSrc: "/assets/project-images/image03.jpg",
         country: "Australia",
         paragraph: 'Event madness gathering innoies, & tech enthusiasts in Speced.',
         project : Project3,
-
+        projectTitle: 'Project Title 3',
     },
     {
         imgSrc: "/assets/project-images/image04.jpg",
         country: "China",
         paragraph: 'Event madness gathering innoies, & tech enthusiasts in Speced.',
         project : Project4,
-
+        projectTitle: 'Project Title 4',
     },
     {
         imgSrc: "/assets/project-images/image05.jpg",
         country: "China",
         paragraph: 'Event madness gathering innoies, & tech enthusiasts in Speced.',
         project : Project5,
-
+        projectTitle: 'Project Title 5',
     },
     {
         imgSrc: "/assets/project-images/image06.jpg",
         country: "China",
         paragraph: 'Event madness gathering innoies, & tech enthusiasts in Speced.',
         project : Project6,
-
+        projectTitle: 'Project Title 6',
     },
     {
         imgSrc: "/assets/project-images/image07.jpg",
         country: "China",
         paragraph: 'Event madness gathering innoies, & tech enthusiasts in Speced.',
         project : Project7,
-
+        projectTitle: 'Project Title 7',
     },
     {
         imgSrc: "/assets/project-images/image08.jpg",
         country: "China",
         paragraph: 'Event madness gathering innoies, & tech enthusiasts in Speced.',
         project : Project8,
-
+        projectTitle: 'Project Title 8',
     },
 ]
