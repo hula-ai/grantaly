@@ -29,7 +29,7 @@ const ProjectPage = () => {
     <div className="max-w-screen-xl mx-auto px-4 py-12 mb-40">
       {/* Title Section */}
       <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-primary mb-8">
-        Project: Project Title
+        {project.projectTitle}
       </h1>
 
       {/* Main Content */}

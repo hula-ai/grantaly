@@ -50,6 +50,8 @@ interface ProjectProps {
   dataUploadContent: any[]; // Replace `any` with the specific type if you have it for content
   resultContent: any[]; // Replace `any` with the specific type if you have it for content
   __v: number;
+  dataUploadDeadline: string;
+  resultUploadDeadline: string;
 }
 
 interface props {
@@ -65,7 +67,7 @@ export default function EditProject({Project,currentUser}:props) {
 
   let stepper =0;
   if(isAdmin && Project.formStep === 3) {
-    stepper = 6;
+    stepper = 2;
   }
   else if(isAdmin && Project.formStep === 2) {
     stepper = 2;
@@ -74,9 +76,11 @@ export default function EditProject({Project,currentUser}:props) {
     stepper = 2;
   }
   else if(!isAdmin && Project.formStep === 4) {
-    stepper = 7;
+    stepper = 3;
   } 
   else if(!isAdmin && Project.formStep === 5){
+    stepper = 4;
+  } else if(isAdmin && Project.formStep === 5){
     stepper = 4;
   } else {
     stepper = Project.formStep;
@@ -100,12 +104,18 @@ export default function EditProject({Project,currentUser}:props) {
 
   // Step3 UseStates
   const [clientDocs, setClientDocs] = useState<File[]>(Project?.clientDocs ?? []);
-
-  console.log(Project,'awkdnand')
   const [adminDocs, setAdminDocs] = useState<File[]>(Project?.adminDocs ?? []);
+  const [dataUploadDeadline,setDataUploadDeadline] = useState<string>(Project?.dataUploadDeadline ?? '');
+  const [resultUploadDeadline,setResultUploadDeadline] = useState<string>(Project?.resultUploadDeadline ?? '');
+  // if Admin Submits date and Contract
+  const [hasAdminSubmittedContract,setHasAdminSubmittedContract] = 
+  useState<boolean>(Project?.adminDocs && Project?.dataUploadDeadline && Project?.resultUploadDeadline && (Project?.clientDocs.length === 0 || Project?.dataUploadContent.length === 0) ? true : false);
 
   // Step 4 Urls
   const [dataUploadContent,setDataUploadContent] = useState<DataUploadLink[]>(Project?.dataUploadContent ?? []);
+  const [hasClientSubmittedUploadUrl,setHasClientSubmittedUploadUrl] = useState<boolean>(Project?.dataUploadContent.length ? true : false);
+
+  // Step 5 Urls
   const [resultContent,setResultContent] = useState<DataUploadLink[]>(Project?.resultContent ?? [])
 
 
@@ -159,7 +169,12 @@ export default function EditProject({Project,currentUser}:props) {
     }
 
     if(step === 2){
-      if(adminDocs && adminDocs.length === 0){
+      if(isAdmin && adminDocs && adminDocs.length === 0){
+        toast.error("Please upload your contract");
+        return;
+      }
+
+      if(!isAdmin && adminDocs && adminDocs.length === 0){
         toast.error("You can't progress until admin uploads a contract");
         return;
       }
@@ -171,18 +186,29 @@ export default function EditProject({Project,currentUser}:props) {
         toast.error("Please upload atleast one document");
         return;
       }
+
+      if(!dataUploadDeadline || !resultUploadDeadline){
+        toast.error('Please select your deadlines');
+        return;
+      }
       
       try {
         if(projectId) {
-          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {clientDocs,adminDocs});  
+          const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {clientDocs,adminDocs,dataUploadDeadline,resultUploadDeadline});  
           if(response.data){
             if(isAdmin && dataUploadContent.length === 0){
-                setStep(6)
-            } else
-            setStep((prevStep) => prevStep + 1)
+                setHasAdminSubmittedContract(true)
+            } else {
+              setStep((prevStep) => prevStep + 1)
+            }
+            if(isAdmin && hasAdminSubmittedContract){
             toast.success('Progress Saved...')
+            toast.success('You will continue to next step once user upload the contract and data')
+            } else {
+              toast.success('Progress Saved...')
+            }
           }
-        } 
+        }  
       } catch (error) {
         toast.error('failed to save progress')
       } 
@@ -207,9 +233,14 @@ export default function EditProject({Project,currentUser}:props) {
           const response = await axios.put(`/api/project/${projectId}/step/${step+1}`, {dataUploadContent});  
           if(response.data){
             if(!isAdmin && resultContent.length === 0){
-              setStep(6)
-            }
+              setHasClientSubmittedUploadUrl(true)
+            } else
             setStep((prevStep) => prevStep + 1)
+
+            if(hasClientSubmittedUploadUrl){
+              toast.success('Progress Saved...')
+              toast.success('You will continue to next step once results will uploaded')
+            } else
             toast.success('Progress Saved...')
           }
       } catch (error) {
@@ -274,10 +305,11 @@ export default function EditProject({Project,currentUser}:props) {
                     <PlanCard/>
                   )}
                   {step === 2 && (
-                    <DocumentUpload currentUser={currentUser} adminDocs={adminDocs} clientDocs={clientDocs} setAdminDocs={setAdminDocs} setClientDocs={setClientDocs}/>
+                    <DocumentUpload hasAdminSubmittedContract={hasAdminSubmittedContract} setResultUploadDeadline={setResultUploadDeadline} setDataUploadDeadline={setDataUploadDeadline} resultUploadDeadline={resultUploadDeadline} dataUploadDeadline={dataUploadDeadline} currentUser={currentUser} adminDocs={adminDocs} clientDocs={clientDocs} setAdminDocs={setAdminDocs} setClientDocs={setClientDocs}/>
                   )}
                   {step === 3 && (
                     <DataUpload
+                      hasClientSubmittedUploadUrl={hasClientSubmittedUploadUrl}
                       dataUploadContent={dataUploadContent}
                       setDataUploadContent={setDataUploadContent}
                     />

@@ -41,13 +41,13 @@ const Navbar = ({user}:Props) => {
     const navigation: NavigationItem[] = 
     user ? 
     [
-        { name: loggedIn ? 'home' : 'Dashboard', href: loggedIn ? '/' : admin ? '/admin/dashboard' : '/user/dashboard' , current: true },
+        { name: loggedIn ? 'Home' : 'Dashboard', href: loggedIn ? '/' : admin ? '/admin/dashboard' : '/user/dashboard' , current: true },
         { name: 'Services', href: '#services', current: false },
         { name: 'About', href: '#about', current: false },
         { name: 'Project', href: '#project', current: false },
         { name: 'Contact', href: '#contactus', current: false },
     ] : [
-        { name: 'home', href: '/', current: true },
+        { name: 'Home', href: '/', current: true },
         { name: 'Services', href: '#services', current: false },
         { name: 'About', href: '#about', current: false },
         { name: 'Project', href: '#project', current: false },

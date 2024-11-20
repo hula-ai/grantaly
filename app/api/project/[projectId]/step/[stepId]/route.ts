@@ -112,6 +112,8 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
       adminDocs = [],   
       dataUploadContent = [], 
       resultContent = [],
+      dataUploadDeadline,
+      resultUploadDeadline,
     } = await req.json();
 
     const { projectId, stepId } = params;
@@ -170,6 +172,8 @@ export async function PUT(req: Request, { params }: { params: IParams }) {
     } else if (NumStepId === 3) {
       project.clientDocs = clientDocs;
       project.adminDocs = adminDocs;
+      project.dataUploadDeadline = dataUploadDeadline;
+      project.resultUploadDeadline = resultUploadDeadline;
       project.formStep = formStep;
       project.isCompeleted = isCompeleted;
     } else if (NumStepId === 4) {

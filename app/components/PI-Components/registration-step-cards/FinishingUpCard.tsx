@@ -12,9 +12,10 @@ interface DataUploadLink {
 interface Props {
     dataUploadContent: DataUploadLink[];
     setDataUploadContent: React.Dispatch<React.SetStateAction<DataUploadLink[]>>;
+    hasClientSubmittedUploadUrl: boolean;
 }
 
-const DataUpload = ({ dataUploadContent, setDataUploadContent }: Props) => {
+const DataUpload = ({ hasClientSubmittedUploadUrl,dataUploadContent, setDataUploadContent }: Props) => {
 
     const handleAddUrl = () => {
         setDataUploadContent([...dataUploadContent, { url: '', description: '' }]);

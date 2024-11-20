@@ -26,4 +26,28 @@ const sendDeadlineReminder = (userEmail:string, adminEmail:string, deadlineDetai
   return sendEmail(adminEmail, adminSubject, adminText, adminHtml);
 };
 
-export { sendMeetingNotification, sendDeadlineReminder };
+
+const ContactUsMessage = async (content) => {
+  const subject = 'Contact Us - Grantaly Query';
+  const text = `
+    First Name: ${content.firstName}
+    Last Name: ${content.lastName}
+    Email: ${content.email}
+    Contact: ${content.contact}
+    Message: ${content.message}
+  `;
+  const html = `
+    <p><strong>First Name:</strong> ${content.firstName}</p>
+    <p><strong>Last Name:</strong> ${content.lastName}</p>
+    <p><strong>Email:</strong> ${content.email}</p>
+    <p><strong>Contact:</strong> ${content.contact}</p>
+    <p><strong>Message:</strong></p>
+    <p>${content.message}</p>
+  `;
+
+  // Send notification to the user
+  await sendEmail(content.email, subject, text, html);
+};
+
+
+export { sendMeetingNotification, sendDeadlineReminder,ContactUsMessage };

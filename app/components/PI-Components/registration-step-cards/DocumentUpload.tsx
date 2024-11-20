@@ -8,6 +8,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { File, user } from '@/interface/interface';
 import { useRouter } from 'next/navigation';
 import { Role } from '@/types/enum';
+import { FormInput } from '../form/FormInput';
+import Link from 'next/link';
 
 interface Props {
     clientDocs : File[];
@@ -15,9 +17,14 @@ interface Props {
     setClientDocs: React.Dispatch<React.SetStateAction<File[]>>;  // Function to update clientDocs
     setAdminDocs: React.Dispatch<React.SetStateAction<File[]>>; 
     currentUser: user
+    dataUploadDeadline: string;
+    setDataUploadDeadline : React.Dispatch<React.SetStateAction<string>>;
+    resultUploadDeadline: string;
+    setResultUploadDeadline: React.Dispatch<React.SetStateAction<string>>;
+    hasAdminSubmittedContract: boolean;
 }
 
-const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdminDocs}:Props) => {
+const DocumentUpload = ({hasAdminSubmittedContract,currentUser,clientDocs,adminDocs,setClientDocs,setAdminDocs,dataUploadDeadline,resultUploadDeadline,setDataUploadDeadline,setResultUploadDeadline}:Props) => {
 
   const role = currentUser?.role === Role.ADMIN ? 'admin' : 'user'
   const IsAdminLoggedIn = role === 'admin' ? true : false;
@@ -90,7 +97,7 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
     return (
     <>
         {/* Upload Section */}
-      <div>
+      <div className='shadow-md rounded-lg p-2 my-2'>
       <label
                 style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}
               >
@@ -102,7 +109,6 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
                   onChange={handleFileUpload}
                   style={{
                     display: 'inline',
-                    marginBottom: '20px',
                     cursor: 'pointer',
                   }}
                 />
@@ -111,8 +117,9 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
       </div>
 
       {/* List of Uploaded Documents */}
-      <div>
-        <h3>{activeTab === "client" ? "Client Documents" : "Admin Documents"}</h3>
+      <div className='shadow-md rounded-lg p-2 my-2'>
+        <h3 className='font-bold'>Admin Documents:</h3>
+        {adminDocs.length === 0 && <span className=''>You have not uploaded any document yet:</span>}
         <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
         {adminDocs.map((doc, index) => (
                   <li
@@ -149,6 +156,48 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
                 ))}
         </ul>
       </div>
+
+      <div className='shadow-md rounded-lg p-2 my-2 flex flex-col'>
+        <h3 className='font-bold'>Deadline Dates:</h3>
+        <div className='grid md:grid-cols-1 lg:grid-cols-2 gap-2'>
+            <FormInput
+              label='Select data upload deadline'
+              value={dataUploadDeadline}
+              type='date'
+              min = {new Date().toISOString().split('T')[0]}
+              onChange={(e) => {
+                const newDataUploadDeadline = e;
+                setDataUploadDeadline(newDataUploadDeadline);
+            
+                // Check and update the result upload deadline
+                if (new Date(resultUploadDeadline) <= new Date(newDataUploadDeadline)) {
+                  const nextDay = new Date(newDataUploadDeadline);
+                  nextDay.setDate(nextDay.getDate() + 3); // Move 1 day forward
+                  setResultUploadDeadline(nextDay.toISOString().split('T')[0]);
+                }
+              }}
+            />
+            <FormInput
+              label='Select result upload deadline'
+              value={resultUploadDeadline}
+              type='date'
+              min = {dataUploadDeadline}
+              onChange={e => setResultUploadDeadline(e)}
+            />
+        </div>
+      </div>
+      
+      
+      {hasAdminSubmittedContract && <div>
+        <div className="p-2 my-2 text-start text-black pt-2 bg-gray-800 rounded-lg shadow-md">
+          <h3 className='font-bold'>Note: You've done your part</h3>
+          <p className="">Now, we’re waiting for the client to upload the contract and data. Please be patient.</p>
+          <Link href="/admin/dashboard" className="mb-4 mt-2 inline-block  text-blue-400 hover:underline cursor-pointer">
+                {'<<'}  Redirect to dashboard
+          </Link>
+        </div>
+        
+      </div>}
     </>
     )
   }
@@ -157,39 +206,68 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
     return (
         <>
             {/* Upload Section */}
-          <div>
-            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>
-               Admin Contract:
-            </label>
-          </div>
-    
-          {/* List of Uploaded Documents */}
-          <div>
-            <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
-              {adminDocs.length === 0 && 
-                <div>Looks Like admin has not uploaded any document yet</div>
-              }
-              {adminDocs.map((doc, index) => (
-                <li
-                key={index}
-                style={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}
-              >
-                <span className="w-[200px] inline-block overflow-hidden whitespace-nowrap text-ellipsis">
-                  {doc.name}
-                </span>
-                <button
-                  onClick={() => {
-                    handleView();
-                    setModalDoc(doc);
-                  }}
-                  className="ml-2 px-0.5 py-0.5 cursor-pointer bg-blue-500 text-white rounded"
-                >
-                  👁️
-                </button>
-              </li>
-              ))}
-            </ul>
-          </div>
+            <div className='shadow-md rounded-lg p-2 my-2'>
+        <h3 className='font-bold'>Admin Contract:</h3>
+        <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+        {adminDocs.length === 0 && 
+          <div>Looks Like admin has not uploaded any document yet</div>
+        }
+        {adminDocs.map((doc, index) => (
+                  <li
+                    key={index}
+                    style={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}
+                  >
+                    <span className="w-[200px] inline-block overflow-hidden whitespace-nowrap text-ellipsis">
+                      {doc.name}
+                    </span>
+                    <button
+                      onClick={() => {
+                        handleView();
+                        setModalDoc(doc);
+                      }}
+                      className="ml-2 px-0.5 py-0.5 cursor-pointer bg-blue-500 text-white rounded"
+                    >
+                      👁️
+                    </button>
+                  </li>
+                ))}
+        </ul>
+      </div>
+
+      <div className='shadow-md rounded-lg p-2 my-2 flex flex-col'>
+        <h3 className='font-bold'>Deadline Dates:</h3>
+        {dataUploadDeadline && resultUploadDeadline ? <div className='grid md:grid-cols-1 lg:grid-cols-2 gap-2'>
+            <FormInput
+              label='Data upload deadline'
+              value={dataUploadDeadline}
+              type='date'
+              disabled={true}
+              min = {new Date().toISOString().split('T')[0]}
+              onChange={(e) => {
+                const newDataUploadDeadline = e;
+                setDataUploadDeadline(newDataUploadDeadline);
+            
+                // Check and update the result upload deadline
+                if (new Date(resultUploadDeadline) <= new Date(newDataUploadDeadline)) {
+                  const nextDay = new Date(newDataUploadDeadline);
+                  nextDay.setDate(nextDay.getDate() + 3); // Move 1 day forward
+                  setResultUploadDeadline(nextDay.toISOString().split('T')[0]);
+                }
+              }}
+            />
+            <FormInput
+              label='Result upload deadline'
+              value={resultUploadDeadline}
+              type='date'
+              disabled={true}
+              min = {dataUploadDeadline}
+              onChange={e => setResultUploadDeadline(e)}
+            />
+        
+        </div> : <div>Looks Like admin has not uploaded deadlines yet</div>
+        }
+      </div>
+
         </>
         )
   }
@@ -200,27 +278,27 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
     return (
       <>
         {adminDocs.length === 0 ? (
-          <div>
+          <div className='shadow-md my-2 p-2'>
             <label
-              style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}
+              style={{ display: 'block', marginBottom: '0px', fontWeight: 'bold' }}
             >
               Client Contract:
             </label>
-            <div>{IsAdminLoggedIn ? 'user' : 'you'} can not upload contract until admin uploads a contract</div>
+            <div>{IsAdminLoggedIn ? 'User' : 'You'} can not upload contract until admin uploads a contract</div>
             <div
               className="my-4 cursor-pointer hover:underline hover:text-blue-500"
               onClick={() => 
                 IsAdminLoggedIn ? router.push('/admin/dashboard') : router.push('/user/dashboard')}
             >
-              Redirect to Dashboard
+              {'<<'} Redirect to Dashboard
             </div>
           </div>
         ) : (
           IsAdminLoggedIn && clientDocs.length === 0 ? <span>Please wait until client uploads their contract</span> :
           <div>
-            <div>
+            <div className='shadow-md p-2 my-2 rounded-lg'>
               <label
-                style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}
+                style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}
               >
                 Upload Contract:
               </label>
@@ -230,7 +308,6 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
                   onChange={handleFileUpload}
                   style={{
                     display: 'inline',
-                    marginBottom: '20px',
                     cursor: 'pointer',
                   }}
                 />
@@ -238,9 +315,9 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
               </div>
             </div>
   
-            <div>
-              {clientDocs.length > 0 && <h3>Client Documents</h3>}
-              <ul className="mt-2" style={{ listStyleType: 'none', paddingLeft: 0 }}>
+            <div className='shadow-md p-2 my-2 rounded-lg'>
+              {clientDocs.length > 0 && <h3 className='font-bold'>Client Documents</h3>}
+              <ul className="mt-1" style={{ listStyleType: 'none', paddingLeft: 0 }}>
                 {clientDocs.map((doc, index) => (
                   <li
                     key={index}
@@ -276,7 +353,8 @@ const DocumentUpload = ({currentUser,clientDocs,adminDocs,setClientDocs,setAdmin
                 ))}
               </ul>
             </div>
-            <span className="mt-5">Note: Please upload image or pdf file</span>
+            
+            <span className="pt-4">Note: Please upload image or pdf file</span>
           </div> 
         )}
       </>

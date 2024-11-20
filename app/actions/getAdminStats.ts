@@ -13,7 +13,7 @@ export async function getAdminStats() {
     }
     
     const totalProjects = fetchedProjects.length ?? 0;
-    const pendingProjects = fetchedProjects.filter((project) => !project.isCompleted).length || 0;
+    const pendingProjects = fetchedProjects.filter((project) => !project.isCompeleted).length || 0;
     const completedProjects = fetchedProjects.filter((project) => project.isCompeleted).length || 0;
     const requiresAttention = fetchedProjects.filter((project) => project.formStep === 2 || project.formStep === 4).length || 0;
     

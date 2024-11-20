@@ -66,8 +66,15 @@ const Network = () => {
                                         />
                                     </div>
                                     <hr/>
-                                    <h4 className="text-lg font-medium text-gray-700 mb-2 my-2 overflow-hidden text-ellipsis" style={{ minHeight: '90px' }}>
+                                    {/* <h4 className="text-lg font-medium text-gray-700 mb-2 my-2 overflow-hidden text-ellipsis" style={{ minHeight: '90px' }}>
                                         {item.project[0].length > 50 ? `${item.project[0].slice(0, 50)} ...` : item.project[0]} 
+                                        &nbsp;
+                                        <span onClick={() => {router.push(url)}} className="cursor-pointer text-black hover:text-blue-500 hover:underline">
+                                            See more
+                                        </span>
+                                    </h4> */}
+                                    <h4 className="flex flex-col text-lg font-medium text-gray-700 mb-2 my-2  text-ellipsis" style={{ minHeight: '90px' }}>
+                                        Title: {item.projectTitle.length > 50 ? `${item.projectTitle.slice(0, 50)} ...` : item.projectTitle} 
                                         &nbsp;
                                         <span onClick={() => {router.push(url)}} className="cursor-pointer text-black hover:text-blue-500 hover:underline">
                                             See more

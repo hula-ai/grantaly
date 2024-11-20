@@ -34,6 +34,7 @@ const DataTable = ({
         page: pageIndex >= 0 ? pageIndex : null,
       };
       const response = await axios.get(`${APIEndPoint}`, { params });
+      console.log(response.data,'adwadas');
       const { data: fetchedData, totalCount } = response.data;
       if (handleState) handleState(fetchedData);
       setData(fetchedData);
@@ -52,9 +53,14 @@ const DataTable = ({
     fetchData(0);
   }, [refresh]);
 
+
   useEffect(() => {
     if (filterId) {
-      setData((prev) => prev.filter((item: any) => item._id !== filterId));
+      setData((prev) =>
+        prev.filter((item: any) => {
+          return item._id != filterId;
+        })
+      );
     }
   }, [filterId]);
 

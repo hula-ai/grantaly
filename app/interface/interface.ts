@@ -81,3 +81,12 @@ export interface DataUploadLink {
     url: string;
     description: string;
 }
+
+export interface IPortfolio {
+  projectTitle: string;
+  projectTagLine: string;
+  content: string[];
+  image: string;
+  createdAt?: Date; // Optional as timestamps are managed by Mongoose
+  updatedAt?: Date; // Optional as timestamps are managed by Mongoose
+}
