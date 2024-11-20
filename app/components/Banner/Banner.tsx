@@ -52,6 +52,7 @@ const Banner = () => {
             autoPlay
             muted
             loop
+            playsInline
           >
             <source src="/videos/media1.mp4" type="video/mp4" />
             Your browser does not support the video tag.
