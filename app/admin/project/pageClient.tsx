@@ -36,6 +36,7 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
   
   const [APIEndPoint, setAPIEndPoint] = useState("/api/project");
   const [deleteId, setDeleteId] = useState("");
+
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedPrivacy, setSelectedPrivacy] = useState("");
   const [refresh, setRefresh] = useState(false);
@@ -71,11 +72,11 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ isAdmin }) => {
     },
     {
       Header: "Data Upload Deadline",
-      Cell: ({ row }: any) => formatDate(row.original.dataUploadDeadline) ?? 'Not uploaded',
+      Cell: ({ row }: any) => row.original.dataUploadDeadline ? formatDate(row.original.dataUploadDeadline) : 'Not uploaded',
     },
     {
       Header: "Result Upload Deadline",
-      Cell: ({ row }: any) => formatDate(row.original.resultUploadDeadline) ?? 'Not uploaded',
+      Cell: ({ row }: any) => row.original.resultUploadDeadline ? formatDate(row.original.resultUploadDeadline) : 'Not uploaded',
     },
     { Header: "Documents",
       Cell: ({ row,idx }: any) => {

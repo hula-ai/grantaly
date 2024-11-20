@@ -1,13 +1,11 @@
 import React from 'react'
-import EditProject from './pageClient'
 import getCurrentUser from '@/actions/getCurrentUser';
 import { getProjectById } from '@/actions/getProjectById';
-import ProjectInitiate from '@/components/Navbar/ProjectInitiate';
 import GuestRedirect from '@/components/GuestRedirect/GuestRedirect';
+import EditPortfolioPage from './pageClient';
+import { getPortfolioById } from '@/actions/getPortfolioById';
 
 export const dynamic = "force-dynamic"
-
-
 
 interface IParams {
   id: string;
@@ -16,14 +14,14 @@ const page = async ({ params }: { params: IParams }) => {
 
   const {id} = params
   const currentUser = await getCurrentUser();
-  const Project = await getProjectById({projectId:id});
+  const Portfolio = await getPortfolioById({portfolioId:id});
 
-  if(!Project)
+  if(!Portfolio)
     return <GuestRedirect/>;
   
 
   return (
-    <EditProject currentUser={currentUser} Project={Project}/>
+    <EditPortfolioPage Portfolio={Portfolio}/>
   )
 }
 

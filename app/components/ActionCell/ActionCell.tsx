@@ -37,12 +37,12 @@ const ActionsCell = ({
       toast.success("Successfully deleted");
       setLoading(false);
 
-      if (deleteData?.success) {
+
         if (setDeleteId && deleteId) {
           setDeleteId(deleteId);
         }
         setIsOpen(false);
-      }
+      
     } catch (error) {
       setLoading(false);
       toast.error("Something went wrong");

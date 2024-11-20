@@ -2,6 +2,7 @@ import connectToDatabase from "@/lib/mongoose";
 import { NextResponse } from "next/server";
 import ContactUs from "@/models/contactus";
 import { contactUsSchema } from "@/Validation/Server/validator";
+import { ContactUsMessage } from "@/lib/notification";
 
 
 export async function POST(req) {
@@ -25,6 +26,9 @@ export async function POST(req) {
       contact,
       message,
     });
+
+    
+    await ContactUsMessage({firstName,lastName,email,contact,message,})
 
     await newContact.save();
 

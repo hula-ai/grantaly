@@ -1,6 +1,6 @@
 // scripts/userSeeder.js
 import mongoose from 'mongoose';
-import User from '@/models/newuser';
+import User from '@/models/user';
 
 
 // MongoDB connection URI from your .env file

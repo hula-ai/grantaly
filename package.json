@@ -25,6 +25,8 @@
     "eslint": "8.40.0",
     "eslint-config-next": "14.2.14",
     "formidable": "^3.5.2",
+    "google-auth-library": "^9.15.0",
+    "googleapis": "^144.0.0",
     "joi": "^17.13.3",
     "js-cookie": "^3.0.5",
     "mongodb": "^6.10.0",
@@ -45,6 +47,7 @@
     "slick-carousel": "^1.8.1",
     "swiper": "^11.1.14",
     "tailwindcss": "3.4.13",
+    "ts-node": "^10.9.2",
     "typescript": "5.6.2"
   },
   "devDependencies": {
