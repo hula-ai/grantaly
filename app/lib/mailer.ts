@@ -3,14 +3,14 @@ import nodemailer from 'nodemailer';
 const transporter = nodemailer.createTransport({
   service: 'gmail', // or use your email provider's service
   auth: {
-    user: process.env.EMAIL_USER, // Your email address
-    pass: process.env.EMAIL_PASS, // Your email password or an app password
+    user: process.env.CLIENT_EMAIL, // Your email address
+    pass: process.env.CLIENT_PASS, // Your email password or an app password
   },
 });
 
 const sendEmail = (to, subject, text, html) => {
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.CLIENT_EMAIL,
     to,
     subject,
     text,
