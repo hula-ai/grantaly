@@ -10,7 +10,7 @@ import { formatDate } from "@/helper/formateDate";
 import connectToDatabase from "@/lib/mongoose";
 
 export async function POST(req: Request) {
-  const adminEmail = "kahnbilal2011@gmail.com";
+  const adminEmail = process.env.CLIENT_EMAIL;
   const today = new Date();
   const threeDaysLater = new Date(today);
   threeDaysLater.setDate(today.getDate() + 3);
@@ -27,12 +27,16 @@ export async function POST(req: Request) {
       isCompeleted: false,
     });
 
+    console.log(projects.length,'aldkwamd 1')
+
     if (projects.length === 0) {
       return NextResponse.json(
         { message: "No projects with upcoming deadlines found." },
         { status: 200 }
       );
     }
+
+    console.log(projects.length,'aldkwamd 2')
 
     const results = [];
 
@@ -68,6 +72,7 @@ export async function POST(req: Request) {
       }
     }
 
+    console.log(results,'aldkwamd 3')
     return NextResponse.json(
       { message: "Notifications processed.", results },
       { status: 200 }

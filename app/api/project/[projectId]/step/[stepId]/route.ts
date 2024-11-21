@@ -81,8 +81,6 @@ export async function POST(req: Request, { params }: { params: IParams }) {
       formStep: NumStepId,
     });
 
-    console.log(newProject,'akwdnkd')
-
     const savedProject = await newProject.save();
 
     return NextResponse.json(
