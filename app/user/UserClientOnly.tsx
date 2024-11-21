@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { user as UserType } from "@/interface/interface";
 import Header from "@/components/Header/Header";
-import Sidebar from "@/components/AdminSideBar/AdminSideBar";
+import UserSidebar from "@/components/UserSideBar/UserSideBar";
 
 interface ClientOnlyProps {
   children: React.ReactNode;
@@ -47,7 +47,7 @@ const UserClientOnly: React.FC<ClientOnlyProps> = ({ children }) => {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <UserSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       
       {/* Content Area */}
       <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">

@@ -12,6 +12,18 @@ const Banner = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    fetchEvents();
+  };
+
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch('/api/meetings');
+      if (!res.ok) {
+        throw new Error('Failed to fetch events');
+      }
+    } catch (error) {
+      console.log(error,'DB not updated')
+    } 
   };
 
   return (

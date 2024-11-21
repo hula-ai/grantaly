@@ -7,8 +7,8 @@ import WarningModal from "../WarningModal/WarningModal";
 import toast from "react-hot-toast";
 
 interface Props {
-  viewLink: string;
-  editLink: string;
+  viewLink?: string;
+  editLink?: string;
   deleteId?: string;
   deleteEndPoint?: string;
   disableEdit?: boolean;
@@ -72,7 +72,7 @@ const ActionsCell = ({
       />
 
       <div className="flex items-center justify-center gap-2 ml-[-20px] border border-transparent">
-        {!disableEdit && (
+        {!disableEdit && editLink && (
           <button onClick={() => router.push(editLink)} className="p-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
