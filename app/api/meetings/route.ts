@@ -11,9 +11,9 @@ export const dynamic = "force-dynamic";
 // Function to get a new access token using the refresh token
 async function getAccessToken() {
   const oauth2Client = new google.auth.OAuth2(
-    process.env.CLIENT_GOOGLE_CLIENT_ID,
-    process.env.CLIENT_GOOGLE_CLIENT_SECRET,
-    'http://localhost:3000'
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.NEXTAUTH_URL,
   );
 
   
