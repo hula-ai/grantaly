@@ -46,7 +46,7 @@ const ContactUsMessage = async (content) => {
   `;
 
   // Send notification to the user
-  await sendEmail(content.email, subject, text, html);
+  await sendEmail("contact.grantaly@gmail.com", subject, text, html);
 };
 
 

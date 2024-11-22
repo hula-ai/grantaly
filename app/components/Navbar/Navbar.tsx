@@ -42,16 +42,16 @@ const Navbar = ({user}:Props) => {
     user ? 
     [
         { name: loggedIn ? 'Home' : 'Dashboard', href: loggedIn ? '/' : admin ? '/admin/dashboard' : '/user/dashboard' , current: true },
-        { name: 'Services', href: '#services', current: false },
-        { name: 'About', href: '#about', current: false },
-        { name: 'Project', href: '#project', current: false },
-        { name: 'Contact', href: '#contactus', current: false },
+        { name: 'Services', href: '/#services', current: false },
+        { name: 'About', href: '/#about', current: false },
+        { name: 'Project', href: '/#project', current: false },
+        { name: 'Contact', href: '/#contactus', current: false },
     ] : [
         { name: 'Home', href: '/', current: true },
-        { name: 'Services', href: '#services', current: false },
-        { name: 'About', href: '#about', current: false },
-        { name: 'Project', href: '#project', current: false },
-        { name: 'Contact', href: '#contactus', current: false },
+        { name: 'Services', href: '/#services', current: false },
+        { name: 'About', href: '/#about', current: false },
+        { name: 'Project', href: '/#project', current: false },
+        { name: 'Contact', href: '/#contactus', current: false },
     ]
 
     const [isOpen, setIsOpen] = React.useState(false);

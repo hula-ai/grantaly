@@ -42,7 +42,7 @@ export const ContactUsValidation = Joi.object({
     "string.email": "Please enter a valid email address.",
     "string.empty": "Email is required.",
   }),
-  phone: Joi.string().pattern(/^[0-9]+$/).min(10).required().messages({
+  contact: Joi.string().pattern(/^[0-9]+$/).min(10).required().messages({
     "string.empty": "Phone number is required.",
     "string.pattern.base": "Phone number must contain only digits.",
     "string.min": "Phone number must be at least 10 digits.",
