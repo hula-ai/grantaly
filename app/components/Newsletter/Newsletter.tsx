@@ -9,7 +9,7 @@ const Newsletter = () => {
         firstName: "",
         lastName: "",
         email: "",
-        phone: "",
+        contact: "",
         message: ""
     }); 
 
@@ -40,7 +40,7 @@ const Newsletter = () => {
             
             if (response.ok) {
                 toast.success("Your Response has been submitted!");
-                setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+                setFormData({ firstName: "", lastName: "", email: "", contact: "", message: "" });
             } else {
                 toast.error("Failed to send message");
             }
@@ -117,11 +117,11 @@ const Newsletter = () => {
 
                                     <input
                                         type="text"
-                                        name="phone"
-                                        value={formData.phone}
+                                        name="contact"
+                                        value={formData.contact}
                                         onChange={handleChange}
                                         className="py-4 text-sm w-full text-black bg-white rounded-lg pl-4"
-                                        placeholder="Enter your phone number"
+                                        placeholder="Enter your contact number"
                                         autoComplete="off"
                                         disabled={disabled}
                                     />
