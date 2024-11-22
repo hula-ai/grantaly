@@ -55,6 +55,15 @@ const BookMeetingButton = () => {
         >
           Book a meeting
         </button>
+
+        <div className='shadow-md p-2 my-2 rounded-lg'>
+              <label
+              className="font-semibold"
+                style={{ display: 'block',textAlign:'center', marginBottom: '5px', fontWeight: '' }}
+              >
+                Note: Please enter the same email which you have used to login so you can see the meeting details on the user dashboard
+              </label>
+            </div>    
       </div>
     </>
   );

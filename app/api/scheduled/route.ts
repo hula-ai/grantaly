@@ -30,20 +30,22 @@ export async function GET(req: NextRequest) {
     // Connect to the database
     await connectToDatabase();
 
-    // Build query for projects
-    const query = isAdmin ? {} : { };
+    // Build query for meetings
+    const query = isAdmin
+      ? {} // If admin, return all records
+      : { "description.email": currentUser.email }; // Filter for non-admin users
 
-    // Fetch projects with pagination
-    const projects = await Meeting.find(query)
+    // Fetch meetings with pagination
+    const meetings = await Meeting.find(query)
       .sort({ createdAt: -1 })
       .skip(page * limit) // Skip documents based on page
       .limit(limit); // Limit the number of documents
 
-    // Calculate the total count of projects (for pagination)
+    // Calculate the total count of meetings (for pagination)
     const totalCount = await Meeting.countDocuments(query);
 
-    // Respond with both the projects data and the total count
-    return NextResponse.json({ data: projects, totalCount }, { status: 200 });
+    // Respond with both the meetings data and the total count
+    return NextResponse.json({ data: meetings, totalCount }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Something went wrong", error: error.message },
