@@ -101,8 +101,9 @@ const ScheduledMeetings: React.FC<ProjectTableProps> = () => {
   return (
     <div>
       <div className="max-w-7xl mx-auto">
-        <div className="flex pt-5 items-center justify-between">
-          <h2 className="text-lg font-bold py-2 text-black">Scheduled Meetings</h2>
+        <div className="flex flex-col gap-1 pt-5 pb-2">
+          <h2 className="text-lg font-bold text-black">Scheduled Meetings</h2>
+          <h2 className="text-sm text-black">Note: You can view your meetings from today up to 1 month ahead</h2>
         </div>
         <DataTable
           columns={columns}
