@@ -13,7 +13,6 @@ async function getAccessToken() {
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    process.env.NEXTAUTH_URL,
   );
 
   
@@ -32,16 +31,19 @@ const getCalendarEvents = async (accessToken) => {
   const oauth2Client = new google.auth.OAuth2();
   oauth2Client.setCredentials({ access_token: accessToken });
 
-  const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+  const calendar = google.calendar({ version: 'v3', auth: oauth2Client }); // Make sure `auth` is initialized
+
+  const timeMin = new Date().toISOString(); // Current time
+  const timeMax = new Date();
+  timeMax.setMonth(timeMax.getMonth() + 1); // Add 1 months from today
 
   const events = await calendar.events.list({
-    calendarId: 'primary', // Fetch events from the primary calendar
-    timeMin: new Date().toISOString(), // Events from now onwards
-    maxResults: 10, // Limit the number of results
-    singleEvents: true,
-    orderBy: 'startTime', // Sort by start time
+      calendarId: 'primary', // Primary calendar
+      timeMin: timeMin, // Events starting from now
+      timeMax: timeMax.toISOString(), // Events ending within the next 3 months
+      singleEvents: true, // Break recurring events into instances
+      orderBy: 'startTime', // Sort events by start time
   });
-
   return events.data.items; // List of event objects
 };
 
@@ -94,7 +96,7 @@ export async function GET() {
     // Fetch calendar events
     const events = await getCalendarEvents(accessToken);
 
-    console.log(events,'adjnwdn')
+    console.log(events,'my events')
 
     // Extracting the event name and scheduled date
     const eventDetails = events.map(event => ({
