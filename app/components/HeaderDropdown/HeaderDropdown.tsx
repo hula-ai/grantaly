@@ -1,5 +1,5 @@
 "use client";
-import { Role } from "@/utils/constant";
+import { Role } from "@/types/type";
 // import { ChevronDownIcon } from "@chakra-ui/icons";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -36,7 +36,7 @@ const HeaderDropdown = () => {
         aria-labelledby="menu-button"
       >
         <div className="py-5 px-2">
-          {(token?.user.role == Role.admin || token?.user.role == Role.superAdmin) && (
+          {(token?.user.role == Role.ADMIN || token?.user.role == Role.ADMIN) && (
             <Link href={"/admin/dashboard"}>
               <a>
                 <div

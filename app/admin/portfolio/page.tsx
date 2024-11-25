@@ -17,7 +17,8 @@ const Page = async () => {
   }
 
   return (
-    <AdminPortfolio/>
+    // <AdminPortfolio/>
+    null
   )
 }
 

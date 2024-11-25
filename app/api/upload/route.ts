@@ -9,9 +9,7 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
 });
 
-
-
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<Response> {
   try {
     // Parse the form data
     const formData = await req.formData();
@@ -24,12 +22,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No files received." }, { status: 400 });
     }
 
+    // Check if the received file is a valid File object
+    if (!(file instanceof File)) {
+      return NextResponse.json({ error: "Uploaded data is not a valid file." }, { status: 400 });
+    }
+
     // Extract the file buffer and metadata (file name, MIME type)
     const fileBuffer = Buffer.from(await file.arrayBuffer());
-    const fileName = file.name;
-    const fileType = file.type;
+    const fileName = file.name; // File name (e.g., 'document.pdf')
+    const fileType = file.type; // MIME type (e.g., 'application/pdf')
 
-    // Validate file metadata
+    // Validate file metadata using a validation schema (if you have one)
     const { error } = uploadSchema.validate({ fileName, fileType });
     if (error) {
       return NextResponse.json({ error: error.details[0].message }, { status: 400 });
@@ -37,30 +40,24 @@ export async function POST(req: Request) {
 
     // Prepare S3 upload parameters
     const s3Params = {
-      Bucket: process.env.AWS_BUCKET,
-      Key: `grantaly/${Date.now()}_${fileName}`,  // Use a unique key for the file
-      Body: fileBuffer,  // File buffer
-      ContentType: fileType,  // MIME type
+      Bucket: process.env.AWS_BUCKET!, // Ensure this is set correctly in your environment
+      Key: `grantaly/${Date.now()}_${fileName}`, // Use a unique key for the file
+      Body: fileBuffer, // File buffer
+      ContentType: fileType, // MIME type
     };
 
-    // Wrap the S3 upload in a Promise to resolve and return the response correctly
-    return new Promise((resolve, reject) => {
-      s3.upload(s3Params, (uploadErr, data) => {
+    // Perform the S3 upload
+    const uploadResult = await s3.upload(s3Params).promise();
 
-        if (uploadErr) {
-          console.error('Error uploading to S3:', uploadErr);
-          resolve(NextResponse.json({ error: 'S3 upload error' }, { status: 500 }));
-        }
-
-        // Return the uploaded file's URL and S3 key
-        resolve(NextResponse.json({
-          url: data.Location,
-          key: s3Params.Key,
-          name: fileName,  // Include the file name in the response
-        }, { status: 200 }));
-      });
-    });
-
+    // Return the uploaded file's URL and S3 key
+    return NextResponse.json(
+      {
+        url: uploadResult.Location,
+        key: s3Params.Key,
+        name: fileName, // Include the file name in the response
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error('Unexpected error:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });

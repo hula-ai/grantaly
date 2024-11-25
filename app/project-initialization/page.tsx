@@ -1,25 +1,22 @@
-import React from 'react'
-import PageClient from './pageClient'
-import getCurrentUser from '@/actions/getCurrentUser'
+import React from 'react';
+import PageClient from './pageClient';
+import getCurrentUser from '@/actions/getCurrentUser';
 import { Role } from '@/types/enum';
 import AdminRedirect from '@/components/AdminRedirect/AdminRedirect';
 import GuestRedirect from '@/components/GuestRedirect/GuestRedirect';
 
-export const Page = async () => {
-
+const Page = async () => {
   const currentUser = await getCurrentUser();
 
-  if(!currentUser) {
-    return <GuestRedirect/>
-  }
-  
-  if(currentUser?.role === Role.ADMIN){
-    <AdminRedirect/>
+  if (!currentUser) {
+    return <GuestRedirect />;
   }
 
-  return (
-    <PageClient currentUser={currentUser}/>
-  )
-}
+  if (currentUser?.role === Role.ADMIN) {
+    return <AdminRedirect />;
+  }
 
-export default Page
+  return <PageClient currentUser={currentUser} />;
+};
+
+export default Page;
