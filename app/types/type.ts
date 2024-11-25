@@ -238,7 +238,6 @@ export interface DashboardCount {
 export enum Role {
   USER = "user",
   ADMIN = "admin",
-  SUPERADMIN = "superadmin",
 }
 
 // enums/Status.ts

@@ -1,5 +1,27 @@
 import connectToDatabase from "@/lib/mongoose";
 import Project from "@/models/project";
+import { Types } from "mongoose";
+
+// Define the type for the project
+interface IProject {
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
+  startDate?: Date;
+  endDate?: Date;
+  projectTitle: string;
+  abstract: string;
+  fundingAgency: string;
+  expectedTimeline: string;
+  isCompeleted: boolean;
+  formStep: number;
+  isBooked: boolean;
+  clientDocs: Array<{ name: string; key: string; url: string }>;
+  adminDocs: Array<{ name: string; key: string; url: string }>;
+  dataUploadDeadline?: Date;
+  resultUploadDeadline?: Date;
+  dataUploadContent: Array<{ url: string; description: string }>;
+  resultContent: Array<{ url: string; description: string }>;
+}
 
 interface IParams {
   projectId: string;
@@ -14,13 +36,13 @@ export async function getProjectById(params: IParams) {
       return null;
     }
 
-    // Fetch a single project document by its ID
-    const fetchedProject = await Project.findById(projectId).lean().exec();
+    // Fetch a single project document by its ID and ensure it's typed correctly
+    const fetchedProject = await Project.findById(projectId).lean<IProject>().exec();
     if (!fetchedProject) {
       return null; // Return null if the project is not found
     }
 
-    console.log(fetchedProject,'asdkjds')
+    console.log(fetchedProject, 'asdkjds');
 
     // Ensure the fetched project is JSON-serializable
     const serializedProject = {

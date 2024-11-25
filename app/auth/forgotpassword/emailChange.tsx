@@ -34,7 +34,7 @@ const EmailChange = ({email,setEmail,stepUp, stepDown}:Props) => {
         if (response.status === 200) {
           toast.success('Reset link sent successfully!');
           stepUp();
-          router.push(response.data)
+          // router.push(response.data.resetLink)
         } else {
           toast.error('Something went wrong, please try again.');
         }

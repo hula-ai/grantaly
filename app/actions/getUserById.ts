@@ -1,5 +1,5 @@
 import connectToDatabase from "@/lib/mongoose";
-import User from "@/models/newuser";
+import User from "@/models/user";
 
 
 interface IParams {
