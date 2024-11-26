@@ -35,7 +35,8 @@ const Data = ({ user }: Props) => {
     { name: "Help", href: "/", current: false },
     { name: "Dashboard", href: isAdmin ? "/admin/dashboard" : "/user/dashboard", current: false },
     { name: "Project", href: isAdmin ? "/admin/project" : "/user/project", current: false },
-  ] : 
+    { name: "Schedule", href: isAdmin ? "/admin/schedule" : "/user/schedule", current: false },
+  ] :   
   [ 
     { name: "Home", href: "/", current: true },
     { name: "Services", href: "#services", current: false },

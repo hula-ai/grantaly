@@ -190,7 +190,7 @@ const DocumentUpload = ({hasAdminSubmittedContract,currentUser,clientDocs,adminD
       
       {hasAdminSubmittedContract && <div>
         <div className="p-2 my-2 text-start text-black pt-2 bg-gray-800 rounded-lg shadow-md">
-          <h3 className='font-bold'>Note: You've done your part</h3>
+          <h3 className='font-bold'>Note: You&apos;ve done your part</h3>
           <p className="">Now, we’re waiting for the client to upload the contract and data. Please be patient.</p>
           <Link href="/admin/dashboard" className="mb-4 mt-2 inline-block  text-blue-400 hover:underline cursor-pointer">
                 {'<<'}  Redirect to dashboard
