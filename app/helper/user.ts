@@ -1,5 +1,5 @@
 
-import User from "@/models/newuser";
+import User from "@/models/user";
 
 interface IParams {
   id: string | undefined | null;

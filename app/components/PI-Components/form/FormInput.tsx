@@ -13,7 +13,7 @@ type Props =
   }
   & Pick<
     ComponentProps<'input'>,
-    'placeholder' | 'type' | 'autoFocus' | 'required'
+    'placeholder' | 'type' | 'autoFocus' | 'required' | 'min' | 'disabled'
   >
 
 export const FormInput = forwardRef<HTMLInputElement, Props>(

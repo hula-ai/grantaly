@@ -79,7 +79,7 @@ export default function PersonalInfoCard(
           event.preventDefault()
           // If there are no errors
           if (!(projectTitle.length === 0 || abstract.length === 0 || fundingAgency.length === 0 || startDate.length === 0 || endDate.length === 0 || expectedTimeline.length === 0)) {
-            onSubmit({ projectTitle, abstract, fundingAgency, startDate, endDate, expectedTimeline })
+            // onSubmit({ projectTitle, abstract, fundingAgency, startDate, endDate, expectedTimeline })
             return
           }
 
@@ -123,10 +123,8 @@ export default function PersonalInfoCard(
           error={hasSubmitted && projectTitle.length === 0 ? 'This field is required' : undefined}
         />
         <FormTextArea
-          ref={abstractInputRef}
           label='Abstract'
           value={abstract}
-          type='text'
           placeholder='Enter abstract'
           onChange={abstract => setAbstract(abstract)}
           error={hasSubmitted && abstract.length === 0 ? 'This field is required' : undefined}
