@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk';
 import { NextResponse } from 'next/server';
 import { uploadSchema } from '@/Validation/Server/validator';
+import { File } from 'buffer';
 
 // AWS S3 configuration
 const s3 = new AWS.S3({
