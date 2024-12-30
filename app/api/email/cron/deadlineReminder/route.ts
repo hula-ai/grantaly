@@ -1,7 +1,6 @@
 // pages/api/sendDeadlineReminder.js
 
 export const dynamic = "force-dynamic";
-import getCurrentUser from "@/actions/getCurrentUser";
 import { sendDeadlineReminder } from "@/lib/notification";
 import Project from "@/models/project";
 import User from "@/models/user";
