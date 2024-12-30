@@ -90,3 +90,19 @@ export interface IPortfolio {
   createdAt?: Date; // Optional as timestamps are managed by Mongoose
   updatedAt?: Date; // Optional as timestamps are managed by Mongoose
 }
+
+export interface IMeeting {
+  name: string;          // Name of the meeting
+  startDate: Date;     // Start date as a string (e.g., ISO format)
+  endDate: Date;       // End date as a string (e.g., ISO format)
+  link: string;          // Link to the meeting
+  description?: IDescription;  // Optional description with various fields
+}
+
+interface IDescription {
+  bookedBy?: string;        // The person who booked the meeting (optional)
+  email?: string;           // The email address (optional)
+  projectTitle?: string;    // The title of the project (optional)
+  aiNeeds?: string;         // The description of AI needs (optional)
+}
+
