@@ -1,4 +1,5 @@
 
+// This is seeder Files for portfolio and we will be use if that feature implemented
 const Project1 = [
     "At our company, we’re developing cutting-edge AI models, particularly in areas that directly impact healthcare. One of our standout projects is a state-of-the-art AI solution designed to analyze 3D medical images, specifically head and neck CT scans, with unparalleled speed and precision. This innovative project not only reflects our technical expertise but also underscores our dedication to solving real-world challenges in medical imaging.",
     "Here’s what makes our approach unique and impactful:",

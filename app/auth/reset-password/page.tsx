@@ -102,7 +102,7 @@ const SigninPage = () => {
                 aria-hidden="true"
               />
             </span>
-            Reset Passowrd
+            Reset Password
           </button>
         </div>
       </div>

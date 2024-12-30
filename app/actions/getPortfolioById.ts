@@ -35,7 +35,6 @@ export async function getPortfolioById(params: IParams) {
       return null; // Return null if the project is not found
     }
 
-    console.log(fetchedPortfolio, 'asdkjds');
 
     // Ensure the fetched project is JSON-serializable
     const serializedProject = {

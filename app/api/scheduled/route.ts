@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
 
     // Fetch meetings with pagination
     const meetings = await Meeting.find(query)
-      .sort({ createdAt: -1 })
+      .sort({ startDate: 1 })
       .skip(page * limit) // Skip documents based on page
       .limit(limit); // Limit the number of documents
 

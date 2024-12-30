@@ -1,7 +1,7 @@
 // scripts/portfolioseeder.ts
 import mongoose from 'mongoose';
 import Portfolio from '@/models/portfolio';
-import { PortfolioData } from '@/constants/temp';
+import { PortfolioData } from '@/constants/ProjectConstantsSeeder';
 import { NextResponse } from 'next/server';
 
 
@@ -14,23 +14,25 @@ const seedPortfolio = async () => {
     console.log('Connected to MongoDB');
 
     const collections = await Portfolio.find();
-    if(collections.length === 0)
+    if(collections.length === 0){
       await Portfolio.insertMany(PortfolioData);
-    console.log('portfolio seeded successfully');
-
-    mongoose.connection.close();
+      return { success: true, message: 'Portfolio seeded successfully' };
+    } 
+    else {
+      return { success: true, message: 'Portfolio already seeded' };
+    }
   } catch (error) {
     console.error('Error seeding users:', error);
+  } finally {
+    mongoose.connection.close();
   }
 };
-
-
 
 export const POST = async (req: Request, res: Response) => {
 
     try {
-        await seedPortfolio();    
-        return NextResponse.json({data:'Seeded'});
+        const result = await seedPortfolio();    
+        return NextResponse.json(result);
     } catch (error) {
         return NextResponse.error()
     }
