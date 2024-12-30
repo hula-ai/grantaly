@@ -71,7 +71,7 @@ export async function POST(req: Request) {
       }
     }
 
-    console.log(results,'aldkwamd 3')
+    console.log(results)
     return NextResponse.json(
       { message: "Notifications processed.", results },
       { status: 200 }
