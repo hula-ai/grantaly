@@ -1,7 +1,6 @@
 // pages/api/sendDeadlineReminder.js
 
 export const dynamic = "force-dynamic";
-import getCurrentUser from "@/actions/getCurrentUser";
 import { sendDeadlineReminder } from "@/lib/notification";
 import Project from "@/models/project";
 import User from "@/models/user";
@@ -72,7 +71,7 @@ export async function POST(req: Request) {
       }
     }
 
-    console.log(results,'aldkwamd 3')
+    console.log(results)
     return NextResponse.json(
       { message: "Notifications processed.", results },
       { status: 200 }

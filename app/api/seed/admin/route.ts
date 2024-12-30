@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt'); // Add bcrypt for password hashing
-const User = require('../models/user'); // Ensure the User model is correctly imported
-const { Role } = require('../types/enum'); // Destructure Role from the enum
+import { NextApiRequest, NextApiResponse } from 'next';
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import User from '@/models/user'; // Adjust the import according to your project structure
+import { Role } from '@/types/enum'; // Adjust the import
+import { NextResponse } from 'next/server';
 
-// MongoDB connection URI from your .env file
 const MONGODB_URI = process.env.MONGODB_URI;
 
 const user = {
@@ -25,7 +26,7 @@ const seedAdmin = async () => {
     const isAdminExist = await User.findOne({ email: user.email });
     if (isAdminExist) {
       console.log('Admin already seeded successfully');
-      return;
+      return { success: true, message: 'Admin already exists' };
     }
 
     // Hash the password and create user objects
@@ -43,12 +44,20 @@ const seedAdmin = async () => {
     await User.create(hashedAdmin); // `create()` is used to insert a single document
     console.log('Admin user seeded successfully');
 
-    // Close MongoDB connection
-    mongoose.connection.close();
+    return { success: true, message: 'Admin user seeded successfully' };
   } catch (error) {
     console.error('Error seeding users:', error);
+    return { success: false, message: 'Error seeding users' };
+  } finally {
     mongoose.connection.close();
   }
 };
 
-seedAdmin();
+export const POST = async (req: Request, res: Response) => {
+    try {
+        const result = await seedAdmin();
+        return NextResponse.json(result);
+      } catch (error) {
+        return NextResponse.json({message: 'Internal server error'},{status: 500});
+      }
+}

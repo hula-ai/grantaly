@@ -1,7 +1,7 @@
 // scripts/portfolioseeder.ts
 import mongoose from 'mongoose';
 import Portfolio from '@/models/portfolio';
-import { PortfolioData } from '@/constants/temp';
+import { PortfolioData } from '@/constants/ProjectConstantsSeeder';
 
 
 // MongoDB connection URI from your .env file

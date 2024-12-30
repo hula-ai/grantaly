@@ -42,7 +42,6 @@ export async function getProjectById(params: IParams) {
       return null; // Return null if the project is not found
     }
 
-    console.log(fetchedProject, 'asdkjds');
 
     // Ensure the fetched project is JSON-serializable
     const serializedProject = {
